@@ -9,7 +9,7 @@ namespace Wjire.Excel
     /// <summary>
     /// ExcelHandler工厂
     /// </summary>
-    public static class ExcelHandlerFactory
+    internal static class ExcelHandlerFactory
     {
 
         private static readonly Dictionary<ExcelVersion, IExcelHandler> HandlerContainer =
@@ -21,10 +21,10 @@ namespace Wjire.Excel
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        public static IExcelHandler CreateHandler(ExcelVersion version)
+        internal static IExcelHandler CreateHandler(ExcelVersion version)
         {
             if (HandlerContainer.TryGetValue(version, out IExcelHandler handler))
-            {
+            { 
                 return handler;
             }
 
