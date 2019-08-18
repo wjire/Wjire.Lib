@@ -21,7 +21,7 @@ namespace Wjire.Common.Extension
                 throw new ArgumentNullException("需转换的集合为空");
             }
 
-            Type type = entities[0].GetType();
+            Type type = typeof(T);
             System.Reflection.PropertyInfo[] properties = type.GetProperties();
             DataTable dataTable = new DataTable();
             foreach (System.Reflection.PropertyInfo propertyInfo in properties)
