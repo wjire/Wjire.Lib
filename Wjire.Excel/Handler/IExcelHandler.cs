@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Wjire.Excel.Interface
 {
-    public interface IExcelHandler
+    internal interface IExcelHandler
     {
 
         MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, HashSet<string> exportFields);

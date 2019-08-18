@@ -8,7 +8,7 @@ using Wjire.Excel.Interface;
 namespace Wjire.Excel
 {
 
-    public class Excel2003Handler : IExcelHandler
+    internal class Excel2003Handler : IExcelHandler
     {
 
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, HashSet<string> exportFields)

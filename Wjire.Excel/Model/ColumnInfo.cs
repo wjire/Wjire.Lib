@@ -6,7 +6,7 @@ namespace Wjire.Excel
     /// <summary>
     /// 列信息
     /// </summary>
-    public class ColumnInfo
+    internal class ColumnInfo
     {
         internal PropertyInfo PropertyInfo { get; set; }
 
