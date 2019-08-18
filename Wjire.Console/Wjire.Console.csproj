@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="EPPlus" Version="4.5.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
+    <ProjectReference Include="..\Wjire.Dapper\Wjire.Dapper.csproj" />
+    <ProjectReference Include="..\Wjire.Db\Wjire.Db.csproj" />
+    <ProjectReference Include="..\Wjire.Excel\Wjire.Excel.csproj" />
+    <ProjectReference Include="..\Wjire.Model\Wjire.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
