@@ -48,8 +48,7 @@ namespace Wjire.Excel
             HSSFWorkbook workbook = null;
             try
             {
-                Type type = typeof(T);
-                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName);
+                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T), exportFieldsWithName);
                 return NewMethod(sources, cols, out workbook);
             }
             finally
