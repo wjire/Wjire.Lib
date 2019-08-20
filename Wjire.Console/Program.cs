@@ -50,7 +50,7 @@ namespace Wjire.Console
             //byte[] bytes = EpPlusHelper.ExportByEPPlus(dt);
             //byte[] bytes = EpPlusHelper.ExportByCollection(datas);
             //byte[] bytes = ExcelHelper.CreateBytes(datas);
-            ExcelHelper.CreateFile(datas,path,version: Excel.Model.ExcelVersion.Excel2007);
+            ExcelHelper.CreateFile(datas,path);
 
 
             sw.Stop();

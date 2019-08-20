@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using Wjire.Excel.Interface;
 
 namespace Wjire.Excel
 {
@@ -11,43 +10,30 @@ namespace Wjire.Excel
     internal class Excel2003Handler : IExcelHandler
     {
 
-        public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, HashSet<string> exportFields)
+
+        public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
         {
             HSSFWorkbook workbook = null;
             try
             {
-                Type type = typeof(T);
-                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFields);
+                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T));
+                return NewMethod(sources, cols, out workbook);
+            }
+            finally
+            {
+                workbook?.Close();
+            }
+        }
+        
+    
 
-                workbook = new HSSFWorkbook();
-                int sheetIndex = 1;
-                var sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
-
-                int rowIndex = 1;
-                foreach (T source in sources)
-                {
-                    //03版 excel 一个 _sheet 最多 65535 行
-                    if (rowIndex == 65535)
-                    {
-                        sheetIndex++;
-                        sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
-                        rowIndex = 1;
-                    }
-                    
-                    IRow dataRow = sheet.CreateRow(rowIndex);
-                    for (int i = 0; i < cols.Length; i++)
-                    {
-                        ICell cell = dataRow.CreateCell(i);
-                        object value = cols[i].PropertyInfo.GetValue(source, null);
-                        SetCellValue(value, cell);
-                    }
-                    
-                    rowIndex++;
-                }
-
-                MemoryStream ms = new MemoryStream();
-                workbook.Write(ms);
-                return ms;
+        public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ICollection<string> exportFields)
+        {
+            HSSFWorkbook workbook = null;
+            try
+            {
+                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T), exportFields);
+                return NewMethod(sources, cols, out workbook);
             }
             finally
             {
@@ -55,7 +41,36 @@ namespace Wjire.Excel
             }
         }
 
-        public byte[] CreateBytes<T>(IEnumerable<T> sources, HashSet<string> exportFields)
+
+
+        public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName)
+        {
+            HSSFWorkbook workbook = null;
+            try
+            {
+                Type type = typeof(T);
+                ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName);
+                return NewMethod(sources, cols, out workbook);
+            }
+            finally
+            {
+                workbook?.Close();
+            }
+        }
+
+
+
+
+        public byte[] CreateBytes<T>(IEnumerable<T> sources)
+        {
+            using (MemoryStream ms = CreateMemoryStream(sources))
+            {
+                return ms.ToArray();
+            }
+        }
+
+
+        public byte[] CreateBytes<T>(IEnumerable<T> sources, ICollection<string> exportFields)
         {
             using (MemoryStream ms = CreateMemoryStream(sources, exportFields))
             {
@@ -63,7 +78,27 @@ namespace Wjire.Excel
             }
         }
 
-        public void CreateFile<T>(IEnumerable<T> sources, HashSet<string> exportFields, string path)
+
+        public byte[] CreateBytes<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName)
+        {
+            using (MemoryStream ms = CreateMemoryStream(sources, exportFieldsWithName))
+            {
+                return ms.ToArray();
+            }
+        }
+
+
+        public void CreateFile<T>(IEnumerable<T> sources, string path)
+        {
+            byte[] bytes = CreateBytes(sources);
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                fs.Write(bytes, 0, bytes.Length);
+            }
+        }
+
+
+        public void CreateFile<T>(IEnumerable<T> sources, ICollection<string> exportFields, string path)
         {
             byte[] bytes = CreateBytes(sources, exportFields);
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
@@ -72,6 +107,14 @@ namespace Wjire.Excel
             }
         }
 
+        public void CreateFile<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName, string path)
+        {
+            byte[] bytes = CreateBytes(sources, exportFieldsWithName);
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                fs.Write(bytes, 0, bytes.Length);
+            }
+        }
 
 
 
@@ -94,7 +137,7 @@ namespace Wjire.Excel
             }
             return sheet;
         }
-        
+
 
         /// <summary>
         /// 设置单元格值
@@ -130,6 +173,41 @@ namespace Wjire.Excel
                     cell.SetCellValue(string.Empty);
                     break;
             }
+        }
+
+
+
+        private MemoryStream NewMethod<T>(IEnumerable<T> sources, ColumnInfo[] cols, out HSSFWorkbook workbook)
+        {
+            workbook = new HSSFWorkbook();
+            int sheetIndex = 1;
+            ISheet sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
+
+            int rowIndex = 1;
+            foreach (T source in sources)
+            {
+                //03版 excel 一个 _sheet 最多 65535 行
+                if (rowIndex == 65535)
+                {
+                    sheetIndex++;
+                    sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
+                    rowIndex = 1;
+                }
+
+                IRow dataRow = sheet.CreateRow(rowIndex);
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    ICell cell = dataRow.CreateCell(i);
+                    object value = cols[i].PropertyInfo.GetValue(source, null);
+                    SetCellValue(value, cell);
+                }
+
+                rowIndex++;
+            }
+
+            MemoryStream ms = new MemoryStream();
+            workbook.Write(ms);
+            return ms;
         }
     }
 }

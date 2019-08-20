@@ -11,7 +11,7 @@
 	ExcelHelper.CreateFile(datas);
 
 
-只有加了 [DisplayName] 特性的属性才会导出
+只有加了 [DisplayName] 特性的属性才有可能导出
 
         /// <summary>
         /// 主键
@@ -20,3 +20,4 @@
         public long ID { get; set; }
 
 
+具体调用方式详见 ExcelHelper 类

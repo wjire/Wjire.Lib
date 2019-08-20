@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Wjire.Excel.Interface;
-using Wjire.Excel.Model;
 
 namespace Wjire.Excel
 {
@@ -12,10 +9,6 @@ namespace Wjire.Excel
     internal static class ExcelHandlerFactory
     {
 
-        private static readonly Dictionary<ExcelVersion, IExcelHandler> HandlerContainer =
-            new Dictionary<ExcelVersion, IExcelHandler>();
-
-
         /// <summary>
         /// 创建ExcelHandler
         /// </summary>
@@ -23,25 +16,15 @@ namespace Wjire.Excel
         /// <returns></returns>
         internal static IExcelHandler CreateHandler(ExcelVersion version)
         {
-            if (HandlerContainer.TryGetValue(version, out IExcelHandler handler))
-            { 
-                return handler;
-            }
-
             switch (version)
             {
                 case ExcelVersion.Excel2007:
-                    handler = new Excel2007Handler();
-                    break;
+                    return new Excel2007Handler();
                 case ExcelVersion.Excel2003:
-                    handler = new Excel2003Handler();
-                    break;
+                    return new Excel2003Handler();
                 default:
                     throw new ArgumentException("the excel version is invalid");
             }
-
-            HandlerContainer.Add(version, handler);
-            return handler;
         }
     }
 }

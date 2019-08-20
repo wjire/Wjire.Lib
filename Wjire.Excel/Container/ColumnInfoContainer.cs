@@ -14,8 +14,7 @@ namespace Wjire.Excel
     internal static class ColumnInfoContainer
     {
 
-        private static readonly Dictionary<Type, ColumnInfo[]> Container = new Dictionary<Type, ColumnInfo[]>();
-
+        private static readonly Dictionary<Type, ColumnInfo[]> ColContainer = new Dictionary<Type, ColumnInfo[]>();
 
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace Wjire.Excel
         /// <param name="sourceType"></param>
         /// <param name="exportFields"></param>
         /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, HashSet<string> exportFields)
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, ICollection<string> exportFields)
         {
             ColumnInfo[] cols = GetColumnInfos(sourceType);
             if (exportFields?.Count > 0)
@@ -35,15 +34,33 @@ namespace Wjire.Excel
         }
 
 
+        /// <summary>
+        /// 获取需要导出的列信息
+        /// </summary>
+        /// <param name="sourceType"></param>
+        /// <param name="exportFields"></param>
+        /// <returns></returns>
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFields)
+        {
+            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFields.Keys);
+            ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
+            {
+                PropertyInfo = s.PropertyInfo,
+                DisplayName = exportFields[s.PropertyInfo.Name]
+            }).ToArray();
+            return newCols;
+        }
+
+
 
         /// <summary>
         /// 获取数据源列信息
         /// </summary>
         /// <param name="sourceType">数据源类类型</param>
         /// <returns></returns>
-        private static ColumnInfo[] GetColumnInfos(Type sourceType)
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType)
         {
-            if (Container.TryGetValue(sourceType, out ColumnInfo[] infos))
+            if (ColContainer.TryGetValue(sourceType, out ColumnInfo[] infos))
             {
                 return infos;
             }
@@ -56,7 +73,7 @@ namespace Wjire.Excel
                     PropertyInfo = propertyInfo,
                     DisplayName = propertyInfo.GetCustomAttribute<DisplayNameAttribute>().DisplayName
                 }).ToArray();
-            Container.Add(sourceType, infos);
+            ColContainer.Add(sourceType, infos);
             return infos;
         }
     }

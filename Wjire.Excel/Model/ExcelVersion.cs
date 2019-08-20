@@ -1,4 +1,4 @@
-﻿namespace Wjire.Excel.Model
+﻿namespace Wjire.Excel
 {
     public enum ExcelVersion : byte
     {
