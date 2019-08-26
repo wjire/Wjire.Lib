@@ -38,15 +38,15 @@ namespace Wjire.Excel
         /// 获取需要导出的列信息
         /// </summary>
         /// <param name="sourceType"></param>
-        /// <param name="exportFields"></param>
+        /// <param name="exportFieldsWithName"></param>
         /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFields)
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFieldsWithName)
         {
-            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFields.Keys);
+            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFieldsWithName.Keys);
             ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
             {
                 PropertyInfo = s.PropertyInfo,
-                DisplayName = exportFields[s.PropertyInfo.Name]
+                DisplayName = exportFieldsWithName[s.PropertyInfo.Name]
             }).ToArray();
             return newCols;
         }
