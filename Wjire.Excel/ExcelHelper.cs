@@ -113,6 +113,7 @@ namespace Wjire.Excel
         public static void CreateFile<T>(IEnumerable<T> sources, string path, ExcelVersion version = ExcelVersion.Excel2007)
         {
             CheckSources(sources);
+            CheckPath(path);
             ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, path);
         }
 
@@ -130,6 +131,7 @@ namespace Wjire.Excel
         public static void CreateFile<T>(IEnumerable<T> sources, string path, ICollection<string> exportFields, ExcelVersion version = ExcelVersion.Excel2007)
         {
             CheckSources(sources);
+            CheckPath(path);
             CheckExportFields(exportFields);
             ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, exportFields, path);
         }
@@ -148,6 +150,7 @@ namespace Wjire.Excel
         public static void CreateFile<T>(IEnumerable<T> sources, string path, Dictionary<string, string> exportFieldsWithName, ExcelVersion version = ExcelVersion.Excel2007)
         {
             CheckSources(sources);
+            CheckPath(path);
             CheckExportFieldsWithName(exportFieldsWithName);
             ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, exportFieldsWithName, path);
         }
@@ -175,6 +178,15 @@ namespace Wjire.Excel
             if (exportFieldsWithName == null || exportFieldsWithName.Count == 0)
             {
                 throw new ArgumentNullException("the exportFieldsWithName is null");
+            }
+        }
+
+
+        private static void CheckPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentNullException("the path is null");
             }
         }
     }
