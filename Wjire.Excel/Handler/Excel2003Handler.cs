@@ -17,7 +17,7 @@ namespace Wjire.Excel
             try
             {
                 ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T));
-                return NewMethod(sources, cols, out workbook);
+                return CreateMemoryStream(sources, cols, out workbook);
             }
             finally
             {
@@ -33,7 +33,7 @@ namespace Wjire.Excel
             try
             {
                 ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T), exportFields);
-                return NewMethod(sources, cols, out workbook);
+                return CreateMemoryStream(sources, cols, out workbook);
             }
             finally
             {
@@ -49,7 +49,7 @@ namespace Wjire.Excel
             try
             {
                 ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(typeof(T), exportFieldsWithName);
-                return NewMethod(sources, cols, out workbook);
+                return CreateMemoryStream(sources, cols, out workbook);
             }
             finally
             {
@@ -176,7 +176,15 @@ namespace Wjire.Excel
 
 
 
-        private MemoryStream NewMethod<T>(IEnumerable<T> sources, ColumnInfo[] cols, out HSSFWorkbook workbook)
+        /// <summary>
+        /// 生成流
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sources"></param>
+        /// <param name="cols"></param>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        private MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ColumnInfo[] cols, out HSSFWorkbook workbook)
         {
             workbook = new HSSFWorkbook();
             int sheetIndex = 1;
