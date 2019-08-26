@@ -117,6 +117,51 @@ namespace Wjire.Excel
 
 
 
+
+        /// <summary>
+        /// 生成流
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sources"></param>
+        /// <param name="cols"></param>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        private MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ColumnInfo[] cols, out HSSFWorkbook workbook)
+        {
+            workbook = new HSSFWorkbook();
+            int sheetIndex = 1;
+            ISheet sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
+
+            int rowIndex = 1;
+            foreach (T source in sources)
+            {
+                //03版 excel 一个 sheet 最多 65535 行
+                if (rowIndex == 65535)
+                {
+                    sheetIndex++;
+                    sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
+                    rowIndex = 1;
+                }
+
+                IRow dataRow = sheet.CreateRow(rowIndex);
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    ICell cell = dataRow.CreateCell(i);
+                    object value = cols[i].PropertyInfo.GetValue(source, null);
+                    SetCellValue(value, cell);
+                }
+
+                rowIndex++;
+            }
+
+            MemoryStream ms = new MemoryStream();
+            workbook.Write(ms);
+            return ms;
+        }
+
+
+
+
         /// <summary>
         /// 创建Sheet及列头
         /// </summary>
@@ -172,49 +217,6 @@ namespace Wjire.Excel
                     cell.SetCellValue(string.Empty);
                     break;
             }
-        }
-
-
-
-        /// <summary>
-        /// 生成流
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sources"></param>
-        /// <param name="cols"></param>
-        /// <param name="workbook"></param>
-        /// <returns></returns>
-        private MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ColumnInfo[] cols, out HSSFWorkbook workbook)
-        {
-            workbook = new HSSFWorkbook();
-            int sheetIndex = 1;
-            ISheet sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
-
-            int rowIndex = 1;
-            foreach (T source in sources)
-            {
-                //03版 excel 一个 _sheet 最多 65535 行
-                if (rowIndex == 65535)
-                {
-                    sheetIndex++;
-                    sheet = CreateSheetWithHeader(workbook, cols, sheetIndex);
-                    rowIndex = 1;
-                }
-
-                IRow dataRow = sheet.CreateRow(rowIndex);
-                for (int i = 0; i < cols.Length; i++)
-                {
-                    ICell cell = dataRow.CreateCell(i);
-                    object value = cols[i].PropertyInfo.GetValue(source, null);
-                    SetCellValue(value, cell);
-                }
-
-                rowIndex++;
-            }
-
-            MemoryStream ms = new MemoryStream();
-            workbook.Write(ms);
-            return ms;
         }
     }
 }
