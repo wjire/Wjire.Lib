@@ -18,42 +18,6 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// 获取需要导出的列信息
-        /// </summary>
-        /// <param name="sourceType"></param>
-        /// <param name="exportFields"></param>
-        /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, ICollection<string> exportFields)
-        {
-            ColumnInfo[] cols = GetColumnInfos(sourceType);
-            if (exportFields?.Count > 0)
-            {
-                cols = cols.Where(w => exportFields.Contains(w.PropertyInfo.Name)).ToArray();
-            }
-            return cols;
-        }
-
-
-        /// <summary>
-        /// 获取需要导出的列信息
-        /// </summary>
-        /// <param name="sourceType"></param>
-        /// <param name="exportFieldsWithName"></param>
-        /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFieldsWithName)
-        {
-            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFieldsWithName.Keys);
-            ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
-            {
-                PropertyInfo = s.PropertyInfo,
-                DisplayName = exportFieldsWithName[s.PropertyInfo.Name]
-            }).ToArray();
-            return newCols;
-        }
-
-
-
-        /// <summary>
         /// 获取数据源列信息
         /// </summary>
         /// <param name="sourceType">数据源类类型</param>
@@ -76,5 +40,41 @@ namespace Wjire.Excel
             ColContainer.Add(sourceType, infos);
             return infos;
         }
+
+
+        /// <summary>
+        /// 获取需要导出的列信息
+        /// </summary>
+        /// <param name="sourceType"></param>
+        /// <param name="exportFieldsWithName"></param>
+        /// <returns></returns>
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFieldsWithName)
+        {
+            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFieldsWithName.Keys);
+            ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
+            {
+                PropertyInfo = s.PropertyInfo,
+                DisplayName = exportFieldsWithName[s.PropertyInfo.Name]
+            }).ToArray();
+            return newCols;
+        }
+
+
+        /// <summary>
+        /// 获取需要导出的列信息
+        /// </summary>
+        /// <param name="sourceType"></param>
+        /// <param name="exportFields"></param>
+        /// <returns></returns>
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, ICollection<string> exportFields)
+        {
+            ColumnInfo[] cols = GetColumnInfos(sourceType);
+            if (exportFields?.Count > 0)
+            {
+                cols = cols.Where(w => exportFields.Contains(w.PropertyInfo.Name)).ToArray();
+            }
+            return cols;
+        }
+
     }
 }
