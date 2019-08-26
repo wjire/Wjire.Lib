@@ -95,7 +95,7 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// 导出ExcelPackage
+        /// 创建ExcelPackage
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sources"></param>
@@ -111,7 +111,7 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// 导出ExcelPackage
+        /// 创建ExcelPackage
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sources"></param>
@@ -129,7 +129,7 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// 导出ExcelPackage
+        /// 创建ExcelPackage
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sources"></param>
