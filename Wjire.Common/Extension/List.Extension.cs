@@ -41,5 +41,11 @@ namespace Wjire.Common.Extension
             }
             return dataTable;
         }
+
+
+        public static bool IsEmpty<T>(this List<T> source)
+        {
+            return source == null || source.Count == 0;
+        }
     }
 }
