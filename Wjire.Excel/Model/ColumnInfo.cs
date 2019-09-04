@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Wjire.Excel.Model;
 
 namespace Wjire.Excel
 {
@@ -12,7 +11,5 @@ namespace Wjire.Excel
         internal PropertyInfo PropertyInfo { get; set; }
 
         internal string DisplayName { get; set; }
-
-        internal CellSettingAttribute CellSetting { get; set; }
     }
 }

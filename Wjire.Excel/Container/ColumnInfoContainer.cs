@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using Wjire.Excel.Model;
 
 
 namespace Wjire.Excel
@@ -37,7 +36,6 @@ namespace Wjire.Excel
                 {
                     PropertyInfo = propertyInfo,
                     DisplayName = propertyInfo.GetCustomAttribute<DisplayNameAttribute>().DisplayName,
-                    CellSetting = (propertyInfo.GetCustomAttribute<CellSettingAttribute>()),
                 }).ToArray();
             ColContainer.Add(sourceType, infos);
             return infos;
@@ -57,7 +55,6 @@ namespace Wjire.Excel
             {
                 PropertyInfo = s.PropertyInfo,
                 DisplayName = exportFieldsWithName[s.PropertyInfo.Name],
-                CellSetting = s.CellSetting
             }).ToArray();
             return newCols;
         }

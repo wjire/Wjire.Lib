@@ -141,7 +141,6 @@ namespace Wjire.Excel
             (ExcelPackage, ExcelWorksheet) ee = GetExcelWorksheet(path);
             DataTable dt = CreateDataTable(sources, exportFieldsWithName);
             ee.Item2.Cells["A1"].LoadFromDataTable(dt, true);
-            ee.Item2.Cells[1, 1].Hyperlink = new ExcelHyperLink("http:\\www.baidu.com", UriKind.Relative);
             return ee.Item1;
         }
 
