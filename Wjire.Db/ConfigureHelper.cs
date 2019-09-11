@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Wjire.Db
+﻿namespace Wjire.Db
 {
     internal static class ConfigureHelper
     {
