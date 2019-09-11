@@ -34,7 +34,7 @@ namespace Wjire.Db
                 while (reader.Read())
                 {
                     T t = new T();
-                    foreach (DataRow dr in dt.Rows)
+                    foreach (DataRow dr in dt.Rows)//这里的循环次数 == 查询的字段数量,而不是 Model 的字段数量,所以不用担心只查询一个字段,而用实体接收会有性能问题.并且实体的字段信息也是有缓存的,只有第一次才会反射获取.
                     {
                         // 当前列名&属性名
                         string columnName = dr[0].ToString();
@@ -132,7 +132,7 @@ namespace Wjire.Db
         /// <returns>T</returns>
         public static T ToModel<T>(this IDataReader reader) where T : class, new()
         {
-            T t = new T();
+            T t = default(T);
             try
             {
                 DataTable dt = reader.GetSchemaTable();
@@ -140,21 +140,24 @@ namespace Wjire.Db
                 {
                     return t;
                 }
-                Type type = typeof(T);
-                while (reader.Read())
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        // 当前列名&属性名
-                        string columnName = dr[0].ToString();
-                        PropertyInfo pro = TypeContainer.GetProperty(type, columnName);
 
-                        if (pro == null)
-                        {
-                            continue;
-                        }
-                        pro.SetValue(t, ConvertHelper(reader[columnName], pro.PropertyType), null);
+                if (reader.Read() == false)
+                {
+                    return t;
+                }
+                t = new T();
+                Type type = typeof(T);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // 当前列名&属性名
+                    string columnName = dr[0].ToString();
+                    PropertyInfo pro = TypeContainer.GetProperty(type, columnName);
+
+                    if (pro == null)
+                    {
+                        continue;
                     }
+                    pro.SetValue(t, ConvertHelper(reader[columnName], pro.PropertyType), null);
                 }
             }
 
@@ -178,11 +181,12 @@ namespace Wjire.Db
         /// <returns>T</returns>
         public static T ToModel<T>(this DataTable dt) where T : class, new()
         {
-            T t = new T();
+            T t = default(T);
             if (dt.Rows.Count <= 0)
             {
                 return t;
             }
+            t = new T();
             Type type = typeof(T);
             foreach (DataColumn column in dt.Columns)
             {

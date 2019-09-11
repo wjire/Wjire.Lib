@@ -15,6 +15,12 @@ namespace Wjire.Db
 
 
         /// <summary>
+        /// 事务
+        /// </summary>
+        public IDbTransaction Transaction { get; }
+
+
+        /// <summary>
         /// IDbCommand
         /// </summary>
         public IDbCommand Command { get; private set; }

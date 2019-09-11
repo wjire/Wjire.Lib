@@ -10,6 +10,8 @@ namespace Wjire.Db
     {
         IDbConnection Connection { get; }
 
+        IDbTransaction Transaction { get; }
+
         IDbCommand Command { get; }
 
         void Commit();

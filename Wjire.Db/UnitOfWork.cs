@@ -7,18 +7,17 @@ namespace Wjire.Db
     /// </summary>	
     public class UnitOfWork : IUnitOfWork
     {
-
-        /// <summary>
-        /// IDbTransaction
-        /// </summary>
-        private readonly IDbTransaction _transaction;
-
-
+        
         /// <summary>
         /// IDbConnection
         /// </summary>
         public IDbConnection Connection { get; }
 
+
+        /// <summary>
+        /// 事务
+        /// </summary>
+        public IDbTransaction Transaction { get; }
 
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace Wjire.Db
         {
             Connection = ConnectionFactory.GetConnection(name);
             Command = Connection.CreateCommand();
-            _transaction = isolationLevel.HasValue ? Connection.BeginTransaction(isolationLevel.Value) : Connection.BeginTransaction();
+            Transaction = isolationLevel.HasValue ? Connection.BeginTransaction(isolationLevel.Value) : Connection.BeginTransaction();
         }
 
 
@@ -47,7 +46,7 @@ namespace Wjire.Db
         /// </summary>
         public void Commit()
         {
-            _transaction.Commit();
+            Transaction.Commit();
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Wjire.Db
         /// </summary>
         public void Rollback()
         {
-            _transaction.Rollback();
+            Transaction.Rollback();
         }
 
 
@@ -64,7 +63,7 @@ namespace Wjire.Db
         /// </summary>
         public void Dispose()
         {
-            _transaction?.Dispose();
+            Transaction?.Dispose();
 
             Command?.Dispose();
 

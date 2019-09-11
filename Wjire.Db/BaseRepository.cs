@@ -1,19 +1,22 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Wjire.Db
 {
     /// <summary>
-    /// 底层基础处理仓储
+    /// 底层基础处理仓储主类
     /// </summary>
-    public abstract partial class BaseRepository : IDisposable
+    public abstract class BaseRepository : IDisposable
     {
 
         /// <summary>
         /// IDbConnection
         /// </summary>
-        private readonly IDbConnection _connection;
+        protected readonly IDbConnection Connection;
+
+        protected readonly IDbTransaction Transaction;
 
 
         /// <summary>
@@ -29,17 +32,17 @@ namespace Wjire.Db
         /// <param name="name">链接名称</param>
         protected BaseRepository(string name)
         {
-            if (_connection == null)
+            if (Connection == null)
             {
-                _connection = ConnectionFactory.GetConnection(name);
+                Connection = ConnectionFactory.GetConnection(name);
             }
 
-            if (_connection.State != ConnectionState.Open)
+            if (Connection.State != ConnectionState.Open)
             {
-                _connection.Open();
+                Connection.Open();
             }
 
-            _cmd = _connection.CreateCommand();
+            _cmd = Connection.CreateCommand();
         }
 
 
@@ -53,7 +56,8 @@ namespace Wjire.Db
         {
             if (unit != null)
             {
-                _connection = unit.Connection;
+                Connection = unit.Connection;
+                Transaction = unit.Transaction;
                 _cmd = unit.Command;
             }
         }
@@ -214,488 +218,6 @@ namespace Wjire.Db
 
         #endregion
 
-        #region  ExecuteReader
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandType type, CommandBehavior behavior, int timeout)
-        {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-
-            _cmd.CommandText = sql;
-            _cmd.CommandType = type;
-            _cmd.CommandTimeout = timeout;
-            IDataReader result = _cmd.ExecuteReader(behavior);
-            return result;
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandType type, CommandBehavior behavior)
-        {
-            return ExecuteReader(sql, type, behavior, 0);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandType type, int timeout)
-        {
-            return ExecuteReader(sql, type, CommandBehavior.Default, timeout);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandType type)
-        {
-            return ExecuteReader(sql, type, CommandBehavior.Default, 0);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandBehavior behavior, int timeout)
-        {
-            return ExecuteReader(sql, CommandType.Text, behavior, timeout);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, CommandBehavior behavior)
-        {
-            return ExecuteReader(sql, CommandType.Text, behavior, 0);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql, int timeout)
-        {
-            return ExecuteReader(sql, CommandType.Text, CommandBehavior.Default, timeout);
-        }
-
-        /// <summary>
-        /// The execute reader.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDataReader"/>.
-        /// </returns>
-        protected IDataReader ExecuteReader(string sql)
-        {
-            return ExecuteReader(sql, CommandType.Text, CommandBehavior.Default, 0);
-        }
-
-        #endregion
-
-        #region ExecuteTable
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandType type, CommandBehavior behavior, int timeout)
-        {
-            using (IDataReader dr = ExecuteReader(sql, type, behavior, timeout))
-            {
-                DataTable dt = new DataTable();
-                dt.Load(dr);
-                return dt;
-            }
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandType type, CommandBehavior behavior)
-        {
-            return ExecuteTable(sql, type, behavior, 0);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandType type, int timeout)
-        {
-            return ExecuteTable(sql, type, CommandBehavior.Default, timeout);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandType type)
-        {
-            return ExecuteTable(sql, type, CommandBehavior.Default, 0);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandBehavior behavior, int timeout)
-        {
-            return ExecuteTable(sql, CommandType.Text, behavior, timeout);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="behavior">
-        /// The behavior.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, CommandBehavior behavior)
-        {
-            return ExecuteTable(sql, CommandType.Text, behavior, 0);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql, int timeout)
-        {
-            return ExecuteTable(sql, CommandType.Text, CommandBehavior.Default, timeout);
-        }
-
-        /// <summary>
-        /// The execute table.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataTable"/>.
-        /// </returns>
-        protected DataTable ExecuteTable(string sql)
-        {
-            return ExecuteTable(sql, CommandType.Text, CommandBehavior.Default, 0);
-        }
-
-        #endregion
-
-        #region ExecuteDataSet
-
-        /// <summary>
-        /// The execute data set.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="tableName">
-        /// The table name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataSet"/>.
-        /// </returns>
-        protected DataSet ExecuteDataSet(string sql, params string[] tableName)
-        {
-            return ExecuteDataSet(sql, CommandType.Text, tableName);
-        }
-
-        /// <summary>
-        /// The execute data set.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="tableName">
-        /// The table name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataSet"/>.
-        /// </returns>
-        protected DataSet ExecuteDataSet(string sql, CommandType type, params string[] tableName)
-        {
-            using (IDataReader dr = ExecuteReader(sql, type, CommandBehavior.Default, 0))
-            {
-                DataSet ds = new DataSet();
-                ds.Load(dr, LoadOption.Upsert, tableName);
-                return ds;
-            }
-        }
-
-        #endregion
-
-        #region ExecuteScalar
-
-        /// <summary>
-        /// ExecuteScalar
-        /// </summary>
-        /// <param name="sql">sql</param>
-        /// <param name="type">type</param>
-        /// <param name="timeout">timeout</param>
-        /// <returns>result</returns>
-        protected object ExecuteScalar(string sql, CommandType type, int timeout)
-        {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-            
-            _cmd.CommandText = sql;
-            _cmd.CommandType = type;
-            _cmd.CommandTimeout = timeout;
-            object result = _cmd.ExecuteScalar();
-
-            return result == DBNull.Value ? null : result;
-        }
-
-        /// <summary>
-        /// ExecuteScalar
-        /// </summary>
-        /// <param name="sql">sql</param>
-        /// <returns>result</returns>
-        protected object ExecuteScalar(string sql)
-        {
-            return ExecuteScalar(sql, CommandType.Text, 0);
-        }
-
-        #endregion
-
-        #region ExecuteNonQuery
-
-        /// <summary>
-        /// The execute non query.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        protected int ExecuteNonQuery(string sql, CommandType type, int timeout)
-        {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-
-            _cmd.CommandText = sql;
-            _cmd.CommandType = type;
-            _cmd.CommandTimeout = timeout;
-            int result = _cmd.ExecuteNonQuery();
-
-            return result;
-        }
-
-        /// <summary>
-        /// The execute non query.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        protected int ExecuteNonQuery(string sql, CommandType type)
-        {
-            return ExecuteNonQuery(sql, type, 0);
-        }
-
-        /// <summary>
-        /// The execute non query.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        protected int ExecuteNonQuery(string sql, int timeout)
-        {
-            return ExecuteNonQuery(sql, CommandType.Text, timeout);
-        }
-
-        /// <summary>
-        /// The execute non query.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        protected int ExecuteNonQuery(string sql)
-        {
-            return ExecuteNonQuery(sql, CommandType.Text, 0);
-        }
-
-        #endregion
-
         #region CreateParameter
 
         /// <summary>
@@ -842,6 +364,138 @@ namespace Wjire.Db
         }
 
         #endregion
+        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected IDataReader ExecuteReader(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+            {
+                throw new ArgumentNullException(nameof(sql));
+            }
+
+            _cmd.CommandText = sql;
+            _cmd.CommandType = type;
+            _cmd.CommandTimeout = timeout;
+            IDataReader result = _cmd.ExecuteReader(behavior);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected DataTable ExecuteTable(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0)
+        {
+            using (IDataReader dr = ExecuteReader(sql, type, behavior, timeout))
+            {
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+                return dt;
+            }
+        }
+
+
+        /// <summary>
+        /// The execute data set.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="tableName">
+        /// The table name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DataSet"/>.
+        /// </returns>
+        protected DataSet ExecuteDataSet(string sql, CommandType type = CommandType.Text, params string[] tableName)
+        {
+            using (IDataReader dr = ExecuteReader(sql, type))
+            {
+                DataSet ds = new DataSet();
+                ds.Load(dr, LoadOption.Upsert, tableName);
+                return ds;
+            }
+        }
+
+
+        /// <summary>
+        /// ExecuteScalar
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <param name="type">type</param>
+        /// <param name="timeout">timeout</param>
+        /// <returns>result</returns>
+        protected object ExecuteScalar(string sql, CommandType type = CommandType.Text, int timeout = 0)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+            {
+                throw new ArgumentNullException(nameof(sql));
+            }
+
+            _cmd.CommandText = sql;
+            _cmd.CommandType = type;
+            _cmd.CommandTimeout = timeout;
+            object result = _cmd.ExecuteScalar();
+
+            return result == DBNull.Value ? null : result;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected int ExecuteNonQuery(string sql, CommandType type = CommandType.Text, int timeout = 0)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+            {
+                throw new ArgumentNullException(nameof(sql));
+            }
+
+            _cmd.CommandText = sql;
+            _cmd.CommandType = type;
+            _cmd.CommandTimeout = timeout;
+            int result = _cmd.ExecuteNonQuery();
+
+            return result;
+        }
+
+
+
+        #region 便捷操作
+
+        public List<T> GetList<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
+        {
+            return ExecuteReader(sql, type, behavior, timeout).ToList<T>();
+        }
+
+
+        public T GetModel<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
+        {
+            return ExecuteReader(sql, type, behavior, timeout).ToModel<T>();
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// 释放资源
@@ -850,13 +504,13 @@ namespace Wjire.Db
         {
             _cmd?.Dispose();
 
-            if (_connection == null)
+            if (Connection == null)
             {
                 return;
             }
 
-            _connection.Close();
-            _connection.Dispose();
+            Connection.Close();
+            Connection.Dispose();
         }
     }
 }
