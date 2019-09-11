@@ -16,6 +16,10 @@ namespace Wjire.Db
         /// </summary>
         protected readonly IDbConnection Connection;
 
+
+        /// <summary>
+        /// Transaction
+        /// </summary>
         protected readonly IDbTransaction Transaction;
 
 
@@ -54,320 +58,122 @@ namespace Wjire.Db
         /// <param name="unit">工作单元</param>
         protected BaseRepository(IUnitOfWork unit)
         {
-            if (unit != null)
+            if (unit == null)
             {
-                Connection = unit.Connection;
-                Transaction = unit.Transaction;
-                _cmd = unit.Command;
+                return;
             }
+
+            Connection = unit.Connection;
+            Transaction = unit.Transaction;
+            _cmd = unit.Command;
         }
 
 
-        #region Parameter
+        #region AddParameter
 
-        /// <summary>
-        /// The add parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name)
+
+        public BaseRepository AddParameter(Func<bool> func, string name, object value, ParameterDirection direction = ParameterDirection.Input, int size = 0, byte scale = 0)
         {
-            IDbDataParameter param = CreateParameter(name);
-            _cmd.Parameters.Add(param);
-            return param;
+            return func() ? AddParameter(name, value, direction, size, scale) : this;
         }
 
+
+
+
         /// <summary>
-        /// The add parameter.
+        /// AddParameter
         /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name, object value)
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public BaseRepository AddParameter(string name, object value, ParameterDirection direction = ParameterDirection.Input, int size = 0, byte scale = 0)
         {
-            IDbDataParameter param = CreateParameter(name, value);
+            IDbDataParameter param = CreateParameter(name, value, direction, size, scale);
             _cmd.Parameters.Add(param);
-            return param;
+            return this;
         }
 
-        /// <summary>
-        /// The add parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name, object value, DbType type)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type);
-            _cmd.Parameters.Add(param);
-            return param;
-        }
 
         /// <summary>
-        /// The add parameter.
+        /// AddParameter
         /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name, object value, DbType type, ParameterDirection direction)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type, direction);
-            _cmd.Parameters.Add(param);
-            return param;
-        }
-
-        /// <summary>
-        /// The add parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <param name="size">
-        /// The size.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name, object value, DbType type, ParameterDirection direction,
-            int size)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type, direction, size);
-            _cmd.Parameters.Add(param);
-            return param;
-        }
-
-        /// <summary>
-        /// The add parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <param name="size">
-        /// The size.
-        /// </param>
-        /// <param name="scale">
-        /// The scale.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        protected IDbDataParameter AddParameter(string name, object value, DbType type, ParameterDirection direction,
-            int size, byte scale)
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public BaseRepository AddParameter(string name, object value, DbType type, ParameterDirection direction = ParameterDirection.Input,
+            int size = 0, byte scale = 0)
         {
             IDbDataParameter param = CreateParameter(name, value, type, direction, size, scale);
             _cmd.Parameters.Add(param);
-            return param;
+            return this;
         }
+
 
         /// <summary>
         /// 清除参数
         /// </summary>
-        protected void ClearParameters()
+        public BaseRepository ClearParameters()
         {
             _cmd.Parameters.Clear();
+            return this;
         }
 
         #endregion
 
         #region CreateParameter
 
+
         /// <summary>
-        /// The create parameter.
+        /// CreateParameter
         /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name)
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        private IDbDataParameter CreateParameter(string name, object value, ParameterDirection direction, int size, byte scale)
         {
             IDbDataParameter param = _cmd.CreateParameter();
             param.ParameterName = name;
-            return param;
-        }
-
-        /// <summary>
-        /// The create parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name, object value)
-        {
-            IDbDataParameter param = CreateParameter(name);
             param.Value = value ?? DBNull.Value;
-            return param;
-        }
-
-        /// <summary>
-        /// The create parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name, object value, DbType type)
-        {
-            IDbDataParameter param = CreateParameter(name, value);
-            param.DbType = type;
-            return param;
-        }
-
-        /// <summary>
-        /// The create parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name, object value, DbType type, ParameterDirection direction)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type);
             param.Direction = direction;
-            return param;
-        }
-
-        /// <summary>
-        /// The create parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <param name="size">
-        /// The size.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name, object value, DbType type, ParameterDirection direction,
-            int size)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type, direction);
             param.Size = size;
-            return param;
-        }
-
-        /// <summary>
-        /// The create parameter.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="direction">
-        /// The direction.
-        /// </param>
-        /// <param name="size">
-        /// The size.
-        /// </param>
-        /// <param name="scale">
-        /// The scale.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDbDataParameter"/>.
-        /// </returns>
-        private IDbDataParameter CreateParameter(string name, object value, DbType type, ParameterDirection direction,
-            int size, byte scale)
-        {
-            IDbDataParameter param = CreateParameter(name, value, type, direction, size);
             param.Scale = scale;
             return param;
         }
 
-        #endregion
-        
 
         /// <summary>
-        /// 
+        /// CreateParameter
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        private IDbDataParameter CreateParameter(string name, object value, DbType type, ParameterDirection direction, int size, byte scale)
+        {
+            IDbDataParameter param = CreateParameter(name, value, direction, size, scale);
+            param.DbType = type;
+            return param;
+        }
+
+
+        #endregion
+
+
+        /// <summary>
+        /// ExecuteReader
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="type"></param>
@@ -389,7 +195,7 @@ namespace Wjire.Db
         }
 
         /// <summary>
-        /// 
+        /// ExecuteTable
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="type"></param>
@@ -408,20 +214,12 @@ namespace Wjire.Db
 
 
         /// <summary>
-        /// The execute data set.
+        /// ExecuteDataSet
         /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="tableName">
-        /// The table name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DataSet"/>.
-        /// </returns>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         protected DataSet ExecuteDataSet(string sql, CommandType type = CommandType.Text, params string[] tableName)
         {
             using (IDataReader dr = ExecuteReader(sql, type))
@@ -457,7 +255,7 @@ namespace Wjire.Db
 
 
         /// <summary>
-        /// 
+        /// ExecuteNonQuery
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="type"></param>
@@ -482,12 +280,31 @@ namespace Wjire.Db
 
         #region 便捷操作
 
+
+        /// <summary>
+        /// 查询多条记录
+        /// </summary>w
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns>非 Null</returns>
         public List<T> GetList<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
         {
             return ExecuteReader(sql, type, behavior, timeout).ToList<T>();
         }
 
 
+        /// <summary>
+        /// 查询单条记录
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns>Model or Null</returns>
         public T GetModel<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
         {
             return ExecuteReader(sql, type, behavior, timeout).ToModel<T>();

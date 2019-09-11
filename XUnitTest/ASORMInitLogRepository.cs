@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Wjire.Dapper;
 using Wjire.Db;
 
@@ -28,13 +27,14 @@ namespace XUnitTest
         }
 
 
-        public ASORMInitLog GetModel(int id)
+        public ASORMInitLog GetModel(int id, string name)
         {
             ClearParameters();
-            StringBuilder whereBuilder = new StringBuilder();
-            whereBuilder.Append(" WHERE ID = @id ");
-            AddParameter("id", id);
-            string sql = $"SELECT * FROM ASORMInitLog {whereBuilder}";
+            AddParameter("1", 1);
+
+            ClearParameters().AddParameter(() => id > 0, "id", id)
+                .AddParameter(() => string.IsNullOrWhiteSpace(name) == false, "name", "name");
+            string sql = "SELECT * FROM ASORMInitLog WHERE 1=1 AND ID = @id ";
             return GetModel<ASORMInitLog>(sql);
         }
     }

@@ -18,12 +18,12 @@ namespace XUnitTest
         public void ConnectionTest()
         {
             ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
-            System.Collections.Generic.List<ASORMInitLog> result = repo.GetList();
-            ASORMInitLog model = repo.GetModel(2);
-            int res = repo.Add(new ASORMInitLog { AppID = 3 }, "ASORMInitLog");
-            Assert.True(result.Count > 0);
-            Assert.True(model.ID == 2);
-            Assert.True(res == 1);
+            //System.Collections.Generic.List<ASORMInitLog> result = repo.GetList();
+            ASORMInitLog model = repo.GetModel(3,"");
+            //int res = repo.Add(new ASORMInitLog { AppID = 3 }, "ASORMInitLog");
+            //Assert.True(result.Count > 0);
+            Assert.True(model.ID == 3);
+            //Assert.True(res == 1);
         }
     }
 }
