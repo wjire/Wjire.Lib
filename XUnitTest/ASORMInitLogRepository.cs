@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Wjire.Db;
+using Wjire.Db.Extension;
 
 namespace XUnitTest
 {
@@ -7,7 +10,7 @@ namespace XUnitTest
     /// <summary>
     /// 
     /// </summary>
-    public class ASORMInitLogRepository : BaseRepository
+    public class ASORMInitLogRepository : BaseRepository<ASORMInitLog>
     {
         public ASORMInitLogRepository(string name) : base(name)
         {
@@ -21,20 +24,21 @@ namespace XUnitTest
         public List<ASORMInitLog> GetList()
         {
             ClearParameters();
-            string sql = "SELECT * FROM ASORMInitLog";
-            return ExecuteReader(sql).ToList<ASORMInitLog>();
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" SELECT * FROM ASORMInitLog WHERE CreatedAt > @date ");
+            return GetList<ASORMInitLog>(sb.ToString(), new { date = DateTime.Now.AddHours(-6) });
         }
 
 
-        public ASORMInitLog GetModel(int id, string name)
+        public ASORMInitLog GetModel(int id, string appName)
         {
             ClearParameters();
-            AddParameter("1", 1);
-
-            ClearParameters().AddParameter(() => id > 0, "id", id)
-                .AddParameter(() => string.IsNullOrWhiteSpace(name) == false, "name", "name");
-            string sql = "SELECT * FROM ASORMInitLog WHERE 1=1 AND ID = @id ";
-            return GetModel<ASORMInitLog>(sql);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" SELECT * FROM ASORMInitLog WHERE 1=1 ");
+            sb.Append(" AND ID=@id ".If(id > 0));
+            sb.Append(" AND AppName like @appName".If(string.IsNullOrWhiteSpace(appName) == false));
+            sb.Append(" AND CreatedAt > @date");
+            return GetSingle<ASORMInitLog>(sb.ToString(), new { id, appName = "%" + appName + "%", date = DateTime.Now.AddHours(-6), money = 1.1M });
         }
     }
 }

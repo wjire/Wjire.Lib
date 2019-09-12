@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Wjire.Db;
 using Xunit;
 
@@ -18,12 +19,22 @@ namespace XUnitTest
         public void ConnectionTest()
         {
             ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
-            //System.Collections.Generic.List<ASORMInitLog> result = repo.GetList();
-            ASORMInitLog model = repo.GetModel(3,"");
+            List<ASORMInitLog> result = repo.GetList();
+            //ASORMInitLog model = repo.GetSingle(0,"es");
             //int res = repo.Add(new ASORMInitLog { AppID = 3 }, "ASORMInitLog");
             //Assert.True(result.Count > 0);
-            Assert.True(model.ID == 3);
+            //Assert.True(model.AppName == "test");
             //Assert.True(res == 1);
+        }
+
+
+        [Fact]
+        public void AddTest()
+        {
+            ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
+            ASORMInitLog entity = new ASORMInitLog { AppID = 13 };
+            var res = repo.Add(entity);
+            Assert.True(res == 1);
         }
     }
 }

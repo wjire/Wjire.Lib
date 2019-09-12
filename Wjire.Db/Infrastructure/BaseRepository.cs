@@ -2,20 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
+using Wjire.Db.Container;
+using Wjire.Db.Infrastructure;
 
 namespace Wjire.Db
 {
     /// <summary>
-    /// 底层基础处理仓储主类
+    /// 底层基础处理仓储
     /// </summary>
-    public abstract class BaseRepository : IDisposable
+    public abstract partial class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
     {
+
+        protected static string TableName = typeof(TEntity).Name;
+
 
         /// <summary>
         /// IDbConnection
         /// </summary>
         protected readonly IDbConnection Connection;
-        
+
 
         /// <summary>
         /// IDbCommand
@@ -63,14 +69,6 @@ namespace Wjire.Db
         #region AddParameter
 
 
-        public BaseRepository AddParameter(Func<bool> func, string name, object value, ParameterDirection direction = ParameterDirection.Input, int size = 0, byte scale = 0)
-        {
-            return func() ? AddParameter(name, value, direction, size, scale) : this;
-        }
-
-
-
-
         /// <summary>
         /// AddParameter
         /// </summary>
@@ -80,11 +78,10 @@ namespace Wjire.Db
         /// <param name="size"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public BaseRepository AddParameter(string name, object value, ParameterDirection direction = ParameterDirection.Input, int size = 0, byte scale = 0)
+        protected void AddParameter(string name, object value, ParameterDirection direction = ParameterDirection.Input, int size = 0, byte scale = 0)
         {
             IDbDataParameter param = CreateParameter(name, value, direction, size, scale);
             _cmd.Parameters.Add(param);
-            return this;
         }
 
 
@@ -98,27 +95,12 @@ namespace Wjire.Db
         /// <param name="size"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public BaseRepository AddParameter(string name, object value, DbType type, ParameterDirection direction = ParameterDirection.Input,
+        protected void AddParameter(string name, object value, DbType type, ParameterDirection direction = ParameterDirection.Input,
             int size = 0, byte scale = 0)
         {
             IDbDataParameter param = CreateParameter(name, value, type, direction, size, scale);
             _cmd.Parameters.Add(param);
-            return this;
         }
-
-
-        /// <summary>
-        /// 清除参数
-        /// </summary>
-        public BaseRepository ClearParameters()
-        {
-            _cmd.Parameters.Clear();
-            return this;
-        }
-
-        #endregion
-
-        #region CreateParameter
 
 
         /// <summary>
@@ -134,7 +116,7 @@ namespace Wjire.Db
         {
             IDbDataParameter param = _cmd.CreateParameter();
             param.ParameterName = name;
-            param.Value = value ?? DBNull.Value;
+            param.Value = value ?? string.Empty;
             param.Direction = direction;
             param.Size = size;
             param.Scale = scale;
@@ -159,6 +141,14 @@ namespace Wjire.Db
             return param;
         }
 
+
+        /// <summary>
+        /// 清除参数
+        /// </summary>
+        protected void ClearParameters()
+        {
+            _cmd.Parameters.Clear();
+        }
 
         #endregion
 
@@ -272,6 +262,82 @@ namespace Wjire.Db
         #region 便捷操作
 
 
+        #region 查询单条
+
+        /// <summary>
+        /// 查询单条记录
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns>Model or Null</returns>
+        protected T GetSingle<T>(string sql) where T : class, new()
+        {
+            return ExecuteReader(sql).ToModel<T>();
+        }
+
+
+        /// <summary>
+        /// 查询单条记录
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param">参数</param>
+        /// <returns>Model or Null</returns>
+        protected T GetSingle<T>(string sql, object param) where T : class, new()
+        {
+            AddParameter(param);
+            return ExecuteReader(sql).ToModel<T>();
+        }
+
+
+        /// <summary>
+        /// 查询单条记录
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns>Model or Null</returns>
+        protected TEntity GetSingle(string sql)
+        {
+            return ExecuteReader(sql).ToModel<TEntity>();
+        }
+
+
+        /// <summary>
+        /// 查询单条记录
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="param">参数</param>
+        /// <returns>Model or Null</returns>
+        protected TEntity GetSingle(string sql, object param)
+        {
+            AddParameter(param);
+            return ExecuteReader(sql).ToModel<TEntity>();
+        }
+
+
+        public TEntity GetFields(string whereOrOtherSql, object param, string fields = "*")
+        {
+            StringBuilder sqlBuilder = new StringBuilder(64);
+            sqlBuilder.Append($" SELECT {fields} FROM {TableName} {whereOrOtherSql}");
+            AddParameter(param);
+            return ExecuteReader(sqlBuilder.ToString()).ToModel<TEntity>();
+        }
+
+
+        public TEntity GetFields(string fields = "*", string whereOrOtherSql = null)
+        {
+            StringBuilder sqlBuilder = StringBuilderPool.Get();
+            sqlBuilder.Append($" SELECT {fields} FROM {TableName} {whereOrOtherSql}");
+            string sql = sqlBuilder.ToString();
+            StringBuilderPool.Return(sqlBuilder);
+            return ExecuteReader(sql).ToModel<TEntity>();
+        }
+
+
+        #endregion
+
+
+        #region 查询多条
+
         /// <summary>
         /// 查询多条记录
         /// </summary>w
@@ -281,29 +347,136 @@ namespace Wjire.Db
         /// <param name="behavior"></param>
         /// <param name="timeout"></param>
         /// <returns>非 Null</returns>
-        public List<T> GetList<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
+        protected List<T> GetList<T>(string sql) where T : class, new()
         {
-            return ExecuteReader(sql, type, behavior, timeout).ToList<T>();
+            return ExecuteReader(sql).ToList<T>();
         }
 
 
         /// <summary>
-        /// 查询单条记录
-        /// </summary>
+        /// 查询多条记录
+        /// </summary>w
         /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param">参数</param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns>非 Null</returns>
+        protected List<T> GetList<T>(string sql, object param) where T : class, new()
+        {
+            AddParameter(param);
+            return ExecuteReader(sql).ToList<T>();
+        }
+
+
+        /// <summary>
+        /// 查询多条记录
+        /// </summary>w
         /// <param name="sql"></param>
         /// <param name="type"></param>
         /// <param name="behavior"></param>
         /// <param name="timeout"></param>
-        /// <returns>Model or Null</returns>
-        public T GetModel<T>(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0) where T : class, new()
+        /// <returns>非 Null</returns>
+        protected List<TEntity> GetList(string sql)
         {
-            return ExecuteReader(sql, type, behavior, timeout).ToModel<T>();
+            return ExecuteReader(sql).ToList<TEntity>();
+        }
+
+
+        /// <summary>
+        /// 查询多条记录
+        /// </summary>w
+        /// <param name="sql"></param>
+        /// <param name="param">参数</param>
+        /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
+        /// <returns>非 Null</returns>
+        protected List<TEntity> GetList(string sql, object param)
+        {
+            AddParameter(param);
+            return ExecuteReader(sql).ToList<TEntity>();
         }
 
         #endregion
 
 
+        #region 新增
+
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public int Add(TEntity entity)
+        {
+            AddParameter(entity);
+            string sql = SqlHelper.GetAddSql(entity);
+            return ExecuteNonQuery(sql);
+        }
+
+        #endregion
+
+
+        #region 修改
+
+        public void Update()
+        {
+            
+        }
+
+        #endregion
+
+
+
+        /// <summary>
+        /// 添加参数
+        /// </summary>
+        /// <param name="param">参数</param>
+        private void AddParameter(object param)
+        {
+            System.Reflection.PropertyInfo[] propertyInfos = TypeContainer.GetPropertyInfos(param.GetType());
+            foreach (System.Reflection.PropertyInfo propertyInfo in propertyInfos)
+            {
+                AddParameter(propertyInfo.Name, propertyInfo.GetValue(param));
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
+        protected string GetWhereIn<T>(IList<T> paramList) where T : struct
+        {
+            if (paramList == null || paramList.Count == 0)
+            {
+                throw new ArgumentNullException(nameof(paramList));
+            }
+            return paramList.Count == 1 ? $" = {paramList[0]} " : $" IN ({string.Join(",", paramList)}) ";
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
+        protected string GetWhereIn(IList<string> paramList)
+        {
+            if (paramList == null || paramList.Count == 0)
+            {
+                throw new ArgumentNullException(nameof(paramList));
+            }
+            return paramList.Count == 1 ? $" = '{paramList[0]}' " : $" IN ('{string.Join("','", paramList)}') ";
+        }
+
+
+        #endregion
+        
 
         /// <summary>
         /// 释放资源

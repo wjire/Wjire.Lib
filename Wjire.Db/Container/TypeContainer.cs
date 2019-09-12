@@ -6,20 +6,45 @@ using System.Reflection;
 
 namespace Wjire.Db.Container
 {
+
+
     internal class TypeContainer
     {
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> Container = new ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>>();
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> EntityContainer = new ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>>();
+
+
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> ParameterContainer =
+            new ConcurrentDictionary<Type, PropertyInfo[]>();
 
 
 
-        internal static PropertyInfo GetProperty(Type type, string name)
+        /// <summary>
+        /// 获取实体属性信息
+        /// </summary>
+        /// <param name="entityType"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal static PropertyInfo GetProperty(Type entityType, string name)
         {
-            Dictionary<string, PropertyInfo> dic = Container.GetOrAdd(type, t =>
+            Dictionary<string, PropertyInfo> dic = EntityContainer.GetOrAdd(entityType, t =>
             {
-                PropertyInfo[] propertyInfos = type.GetProperties().Where(w => w.CanWrite == true).ToArray();
+                PropertyInfo[] propertyInfos = entityType.GetProperties().Where(w => w.CanWrite == true).ToArray();
                 return propertyInfos.ToDictionary(item => item.Name);
             });
             dic.TryGetValue(name, out PropertyInfo result);
+            return result;
+        }
+
+
+
+        /// <summary>
+        /// 获取参数属性信息
+        /// </summary>
+        /// <param name="parameterType"></param>
+        /// <returns></returns>
+        internal static PropertyInfo[] GetPropertyInfos(Type parameterType)
+        {
+            PropertyInfo[] result = ParameterContainer.GetOrAdd(parameterType, t => parameterType.GetProperties());
             return result;
         }
     }
