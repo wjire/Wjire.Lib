@@ -15,13 +15,7 @@ namespace Wjire.Db
         /// IDbConnection
         /// </summary>
         protected readonly IDbConnection Connection;
-
-
-        /// <summary>
-        /// Transaction
-        /// </summary>
-        protected readonly IDbTransaction Transaction;
-
+        
 
         /// <summary>
         /// IDbCommand
@@ -62,9 +56,6 @@ namespace Wjire.Db
             {
                 return;
             }
-
-            Connection = unit.Connection;
-            Transaction = unit.Transaction;
             _cmd = unit.Command;
         }
 

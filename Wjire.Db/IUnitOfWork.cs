@@ -8,9 +8,6 @@ namespace Wjire.Db
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
-        IDbConnection Connection { get; }
-
-        IDbTransaction Transaction { get; }
 
         IDbCommand Command { get; }
 

@@ -7,17 +7,17 @@ namespace Wjire.Db
     /// </summary>	
     public class UnitOfWork : IUnitOfWork
     {
-        
+
         /// <summary>
         /// IDbConnection
         /// </summary>
-        public IDbConnection Connection { get; }
+        private readonly IDbConnection _connection;
 
 
         /// <summary>
         /// 事务
         /// </summary>
-        public IDbTransaction Transaction { get; }
+        private readonly IDbTransaction _transaction;
 
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Wjire.Db
         /// <param name="isolationLevel">事务级别</param>
         public UnitOfWork(string name, IsolationLevel? isolationLevel = null)
         {
-            Connection = ConnectionFactory.GetConnection(name);
-            Command = Connection.CreateCommand();
-            Transaction = isolationLevel.HasValue ? Connection.BeginTransaction(isolationLevel.Value) : Connection.BeginTransaction();
+            _connection = ConnectionFactory.GetConnection(name);
+            Command = _connection.CreateCommand();
+            _transaction = isolationLevel.HasValue ? _connection.BeginTransaction(isolationLevel.Value) : _connection.BeginTransaction();
         }
 
 
@@ -46,7 +46,7 @@ namespace Wjire.Db
         /// </summary>
         public void Commit()
         {
-            Transaction.Commit();
+            _transaction.Commit();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Wjire.Db
         /// </summary>
         public void Rollback()
         {
-            Transaction.Rollback();
+            _transaction.Rollback();
         }
 
 
@@ -63,17 +63,17 @@ namespace Wjire.Db
         /// </summary>
         public void Dispose()
         {
-            Transaction?.Dispose();
+            _transaction?.Dispose();
 
             Command?.Dispose();
 
-            if (Connection == null)
+            if (_connection == null)
             {
                 return;
             }
 
-            Connection.Close();
-            Connection.Dispose();
+            _connection.Close();
+            _connection.Dispose();
         }
     }
 }

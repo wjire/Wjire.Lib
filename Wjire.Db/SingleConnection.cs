@@ -11,13 +11,7 @@ namespace Wjire.Db
         /// <summary>
         /// IDbConnection
         /// </summary>
-        public IDbConnection Connection { get; }
-
-
-        /// <summary>
-        /// 事务
-        /// </summary>
-        public IDbTransaction Transaction { get; }
+        private readonly IDbConnection _connection;
 
 
         /// <summary>
@@ -33,8 +27,8 @@ namespace Wjire.Db
         /// <param name="name">链接名称</param>
         public SingleConnection(string name)
         {
-            Connection = ConnectionFactory.GetConnection(name);
-            Command = Connection.CreateCommand();
+            _connection = ConnectionFactory.GetConnection(name);
+            Command = _connection.CreateCommand();
         }
         
 
@@ -60,13 +54,13 @@ namespace Wjire.Db
         {
             Command?.Dispose();
 
-            if (Connection == null)
+            if (_connection == null)
             {
                 return;
             }
 
-            Connection.Close();
-            Connection.Dispose();
+            _connection.Close();
+            _connection.Dispose();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Wjire.Dapper;
 using Wjire.Db;
 
 namespace XUnitTest
@@ -8,7 +7,7 @@ namespace XUnitTest
     /// <summary>
     /// 
     /// </summary>
-    public class ASORMInitLogRepository : DapperBaseRepository
+    public class ASORMInitLogRepository : BaseRepository
     {
         public ASORMInitLogRepository(string name) : base(name)
         {
