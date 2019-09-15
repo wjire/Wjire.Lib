@@ -26,15 +26,5 @@ namespace XUnitTest
             //Assert.True(model.AppName == "test");
             //Assert.True(res == 1);
         }
-
-
-        [Fact]
-        public void AddTest()
-        {
-            ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
-            ASORMInitLog entity = new ASORMInitLog { AppID = 13 };
-            var res = repo.Add(entity);
-            Assert.True(res == 1);
-        }
     }
 }

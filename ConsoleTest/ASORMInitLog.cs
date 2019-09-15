@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace XUnitTest
+namespace ConsoleTest
 {
     /// <summary>
     /// ASORMInitLog

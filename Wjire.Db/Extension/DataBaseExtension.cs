@@ -18,7 +18,7 @@ namespace Wjire.Db
         /// </summary>
         /// <typeparam name="T">T</typeparam>
         /// <param name="reader">reader</param>
-        /// <returns>T</returns>
+        /// <returns>非Null</returns>
         public static List<T> ToList<T>(this IDataReader reader) where T : class, new()
         {
             List<T> result = new List<T>();
@@ -67,7 +67,7 @@ namespace Wjire.Db
         /// </summary>
         /// <typeparam name="T">T</typeparam>
         /// <param name="dt">dt</param>
-        /// <returns>T</returns>
+        /// <returns>非Null</returns>
         public static List<T> ToList<T>(this DataTable dt) where T : class, new()
         {
             List<T> result = new List<T>();
@@ -104,7 +104,7 @@ namespace Wjire.Db
         /// </summary>
         /// <typeparam name="T">T</typeparam>
         /// <param name="ds">ds</param>
-        /// <returns>T</returns>
+        /// <returns>非Null</returns>
         public static List<T> ToList<T>(this DataSet ds) where T : class, new()
         {
             return ds.Tables[0].ToList<T>();
@@ -117,7 +117,7 @@ namespace Wjire.Db
         /// <typeparam name="T">T</typeparam>
         /// <param name="ds">ds</param>
         /// <param name="dataTableIndex">dataTableIndex</param>
-        /// <returns>T</returns>
+        /// <returns>非Null</returns>
         public static List<T> ToList<T>(this DataSet ds, int dataTableIndex) where T : class, new()
         {
             return ds.Tables[dataTableIndex].ToList<T>();
@@ -129,7 +129,7 @@ namespace Wjire.Db
         /// </summary>
         /// <typeparam name="T">T</typeparam>
         /// <param name="reader">reader</param>
-        /// <returns>T</returns>
+        /// <returns>Instance Or Null</returns>
         public static T ToModel<T>(this IDataReader reader) where T : class, new()
         {
             T t = default(T);
@@ -178,7 +178,7 @@ namespace Wjire.Db
         /// </summary>
         /// <typeparam name="T">T</typeparam>
         /// <param name="dt">dt</param>
-        /// <returns>T</returns>
+        /// <returns>Instance Or Null</returns>
         public static T ToModel<T>(this DataTable dt) where T : class, new()
         {
             T t = default(T);
@@ -209,7 +209,7 @@ namespace Wjire.Db
         /// <typeparam name="T">T</typeparam>
         /// <param name="ds">ds</param>
         /// <param name="dataTableIndex">dataTableIndex</param>
-        /// <returns>T</returns>
+        /// <returns>Instance Or Null</returns>
         public static T ToModel<T>(this DataSet ds, int dataTableIndex = 0) where T : class, new()
         {
             return ds.Tables[0].ToModel<T>();

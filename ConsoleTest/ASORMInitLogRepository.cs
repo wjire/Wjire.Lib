@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Wjire.Db;
 using Wjire.Db.Extension;
 
-namespace XUnitTest
+namespace ConsoleTest
 {
 
     /// <summary>
@@ -28,7 +28,18 @@ namespace XUnitTest
             return GetList(sql);
             //return ExecuteReader(sql).ToList<ASORMInitLog>();
         }
-        
+
+
+        public int UpdateTest(ASORMInitLog log)
+        {
+            ClearParameters();
+            string sql = $"UPDATE {TableName} SET appname=@appname where id=@id and appid=@appid";
+            AddParameter("appname", log.AppName);
+            AddParameter("id", log.ID);
+            AddParameter("appid", log.AppID);
+            return ExecuteNonQuery(sql);
+        }
+
 
         public ASORMInitLog GetModel(int id, string appName)
         {

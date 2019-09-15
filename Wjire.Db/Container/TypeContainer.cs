@@ -12,11 +12,14 @@ namespace Wjire.Db.Container
     {
         private static readonly ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> EntityContainer = new ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>>();
 
-
         private static readonly ConcurrentDictionary<Type, PropertyInfo[]> ParameterContainer =
             new ConcurrentDictionary<Type, PropertyInfo[]>();
 
+        internal static readonly ConcurrentDictionary<Type, string> AddSqlContainer = new ConcurrentDictionary<Type, string>();
 
+        internal static readonly ConcurrentDictionary<Type, string> UpdateSqlContainer = new ConcurrentDictionary<Type, string>();
+
+        internal static readonly ConcurrentDictionary<Type, string> SelectSqlContainer = new ConcurrentDictionary<Type, string>();
 
         /// <summary>
         /// 获取实体属性信息

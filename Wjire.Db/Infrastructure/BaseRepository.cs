@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using Wjire.Db.Container;
-using Wjire.Db.Infrastructure;
 
 namespace Wjire.Db
 {
@@ -163,16 +164,10 @@ namespace Wjire.Db
         /// <returns></returns>
         protected IDataReader ExecuteReader(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0)
         {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
             _cmd.CommandTimeout = timeout;
-            IDataReader result = _cmd.ExecuteReader(behavior);
-            return result;
+            return _cmd.ExecuteReader(behavior);
         }
 
         /// <summary>
@@ -221,16 +216,10 @@ namespace Wjire.Db
         /// <returns>result</returns>
         protected object ExecuteScalar(string sql, CommandType type = CommandType.Text, int timeout = 0)
         {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
             _cmd.CommandTimeout = timeout;
             object result = _cmd.ExecuteScalar();
-
             return result == DBNull.Value ? null : result;
         }
 
@@ -244,17 +233,10 @@ namespace Wjire.Db
         /// <returns></returns>
         protected int ExecuteNonQuery(string sql, CommandType type = CommandType.Text, int timeout = 0)
         {
-            if (string.IsNullOrWhiteSpace(sql))
-            {
-                throw new ArgumentNullException(nameof(sql));
-            }
-
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
             _cmd.CommandTimeout = timeout;
-            int result = _cmd.ExecuteNonQuery();
-
-            return result;
+            return _cmd.ExecuteNonQuery();
         }
 
 
@@ -310,25 +292,6 @@ namespace Wjire.Db
         protected TEntity GetSingle(string sql, object param)
         {
             AddParameter(param);
-            return ExecuteReader(sql).ToModel<TEntity>();
-        }
-
-
-        public TEntity GetFields(string whereOrOtherSql, object param, string fields = "*")
-        {
-            StringBuilder sqlBuilder = new StringBuilder(64);
-            sqlBuilder.Append($" SELECT {fields} FROM {TableName} {whereOrOtherSql}");
-            AddParameter(param);
-            return ExecuteReader(sqlBuilder.ToString()).ToModel<TEntity>();
-        }
-
-
-        public TEntity GetFields(string fields = "*", string whereOrOtherSql = null)
-        {
-            StringBuilder sqlBuilder = StringBuilderPool.Get();
-            sqlBuilder.Append($" SELECT {fields} FROM {TableName} {whereOrOtherSql}");
-            string sql = sqlBuilder.ToString();
-            StringBuilderPool.Return(sqlBuilder);
             return ExecuteReader(sql).ToModel<TEntity>();
         }
 
@@ -399,49 +362,9 @@ namespace Wjire.Db
             return ExecuteReader(sql).ToList<TEntity>();
         }
 
+        
         #endregion
-
-
-        #region 新增
-
-        /// <summary>
-        /// 新增
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public int Add(TEntity entity)
-        {
-            AddParameter(entity);
-            string sql = SqlHelper.GetAddSql(entity);
-            return ExecuteNonQuery(sql);
-        }
-
-        #endregion
-
-
-        #region 修改
-
-        public void Update()
-        {
-            
-        }
-
-        #endregion
-
-
-
-        /// <summary>
-        /// 添加参数
-        /// </summary>
-        /// <param name="param">参数</param>
-        private void AddParameter(object param)
-        {
-            System.Reflection.PropertyInfo[] propertyInfos = TypeContainer.GetPropertyInfos(param.GetType());
-            foreach (System.Reflection.PropertyInfo propertyInfo in propertyInfos)
-            {
-                AddParameter(propertyInfo.Name, propertyInfo.GetValue(param));
-            }
-        }
+        
 
 
         /// <summary>
@@ -476,7 +399,22 @@ namespace Wjire.Db
 
 
         #endregion
-        
+
+
+
+        /// <summary>
+        /// 添加参数
+        /// </summary>
+        /// <param name="param">参数</param>
+        private void AddParameter(object param)
+        {
+            PropertyInfo[] propertyInfos = TypeContainer.GetPropertyInfos(param.GetType());
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                AddParameter(propertyInfo.Name, propertyInfo.GetValue(param));
+            }
+        }
+
 
         /// <summary>
         /// 释放资源
