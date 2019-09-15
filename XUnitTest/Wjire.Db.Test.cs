@@ -26,5 +26,16 @@ namespace XUnitTest
             //Assert.True(model.AppName == "test");
             //Assert.True(res == 1);
         }
+
+
+
+        [Fact]
+        public void AddTest()
+        {
+            ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
+            ASORMInitLog log = new ASORMInitLog() { AppName = "2306" };
+            int i = repo.Add(log);
+            Assert.True(i > 0);
+        }
     }
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Wjire.Db.Container;
@@ -362,9 +361,27 @@ namespace Wjire.Db
             return ExecuteReader(sql).ToList<TEntity>();
         }
 
-        
+
         #endregion
-        
+
+
+        #region 新增
+
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>返回受影响的行数</returns>
+        public int Add(object entity)
+        {
+            ClearParameters();
+            AddParameter(entity);
+            string sql = GetAddSql(entity);
+            return ExecuteNonQuery(sql);
+        }
+
+        #endregion
+
 
 
         /// <summary>
@@ -413,6 +430,42 @@ namespace Wjire.Db
             {
                 AddParameter(propertyInfo.Name, propertyInfo.GetValue(param));
             }
+        }
+
+
+        /// <summary>
+        /// 获取数据库插入数据时的sql语句
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private string GetAddSql(object obj)
+        {
+            Type type = obj.GetType();
+            string sql = TypeContainer.AddSqlContainer.GetOrAdd(type, t =>
+            {
+                //查询表主键
+                string queryKey =
+                    $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{TableName}'";
+                string key = ExecuteScalar(queryKey).ToString();
+                StringBuilder sqlBuilder = new StringBuilder(128);
+                sqlBuilder.Append($" INSERT INTO {TableName} ");
+
+                StringBuilder addBuilder = new StringBuilder(64);
+                foreach (PropertyInfo property in type.GetProperties())
+                {
+                    //忽略主键
+                    if (property.Name == key)
+                    {
+                        continue;
+                    }
+                    addBuilder.Append($"@{property.Name},");
+                }
+                string paramString = addBuilder.Remove(addBuilder.Length - 1, 1).ToString();
+                string fieldString = paramString.Replace('@', ' ');
+                sqlBuilder.Append($"({fieldString}) VALUES ({paramString});");
+                return sqlBuilder.ToString();
+            });
+            return sql;
         }
 
 

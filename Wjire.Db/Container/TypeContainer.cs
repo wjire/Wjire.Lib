@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Wjire.Db.Container
 {
@@ -16,10 +17,6 @@ namespace Wjire.Db.Container
             new ConcurrentDictionary<Type, PropertyInfo[]>();
 
         internal static readonly ConcurrentDictionary<Type, string> AddSqlContainer = new ConcurrentDictionary<Type, string>();
-
-        internal static readonly ConcurrentDictionary<Type, string> UpdateSqlContainer = new ConcurrentDictionary<Type, string>();
-
-        internal static readonly ConcurrentDictionary<Type, string> SelectSqlContainer = new ConcurrentDictionary<Type, string>();
 
         /// <summary>
         /// 获取实体属性信息
@@ -50,5 +47,9 @@ namespace Wjire.Db.Container
             PropertyInfo[] result = ParameterContainer.GetOrAdd(parameterType, t => parameterType.GetProperties());
             return result;
         }
+
+
+
+       
     }
 }
