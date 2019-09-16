@@ -33,7 +33,7 @@ namespace XUnitTest
         public void AddTest()
         {
             ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
-            ASORMInitLog log = new ASORMInitLog() { AppName = "2306" };
+            ASORMInitLog log = new ASORMInitLog() { AppName = "2234234234" };
             int i = repo.Add(log);
             Assert.True(i > 0);
         }

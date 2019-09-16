@@ -305,9 +305,6 @@ namespace Wjire.Db
         /// </summary>w
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="type"></param>
-        /// <param name="behavior"></param>
-        /// <param name="timeout"></param>
         /// <returns>非 Null</returns>
         protected List<T> GetList<T>(string sql) where T : class, new()
         {
@@ -321,9 +318,6 @@ namespace Wjire.Db
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param">参数</param>
-        /// <param name="type"></param>
-        /// <param name="behavior"></param>
-        /// <param name="timeout"></param>
         /// <returns>非 Null</returns>
         protected List<T> GetList<T>(string sql, object param) where T : class, new()
         {
@@ -336,9 +330,6 @@ namespace Wjire.Db
         /// 查询多条记录
         /// </summary>w
         /// <param name="sql"></param>
-        /// <param name="type"></param>
-        /// <param name="behavior"></param>
-        /// <param name="timeout"></param>
         /// <returns>非 Null</returns>
         protected List<TEntity> GetList(string sql)
         {
@@ -351,9 +342,6 @@ namespace Wjire.Db
         /// </summary>w
         /// <param name="sql"></param>
         /// <param name="param">参数</param>
-        /// <param name="type"></param>
-        /// <param name="behavior"></param>
-        /// <param name="timeout"></param>
         /// <returns>非 Null</returns>
         protected List<TEntity> GetList(string sql, object param)
         {
@@ -382,6 +370,34 @@ namespace Wjire.Db
 
         #endregion
 
+
+        #region 分页查询
+
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataSql">获取所有数据sql</param>
+        /// <param name="countSql">获取总条数sql</param>
+        /// <param name="pageIndex">第几页</param>
+        /// <param name="pageSize">每页容量</param>
+        /// <param name="rowsCount">总条数</param>
+        /// <returns></returns>
+        protected List<T> QueryPager<T>(StringBuilder dataSql, string countSql, int pageIndex, int pageSize, out int rowsCount) where T : class, new()
+        {
+            rowsCount = Convert.ToInt32(ExecuteScalar(countSql));
+            if (rowsCount == 0)
+            {
+                return new List<T>();
+            }
+            int num = pageIndex - 1 * pageSize;
+            dataSql.Append($" OFFSET {num} ROWS FETCH NEXT {pageSize} ROWS ONLY ");
+            List<T> result = ExecuteReader(dataSql.ToString()).ToList<T>();
+            return result;
+        }
+
+        #endregion
 
 
         /// <summary>
