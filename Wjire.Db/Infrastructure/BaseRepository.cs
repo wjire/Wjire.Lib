@@ -375,7 +375,7 @@ namespace Wjire.Db
 
 
         /// <summary>
-        /// 分页查询
+        /// 单表分页查询
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dataSql">获取所有数据sql</param>
@@ -396,6 +396,20 @@ namespace Wjire.Db
             List<T> result = ExecuteReader(dataSql.ToString()).ToList<T>();
             return result;
         }
+
+
+
+        /// <summary>
+        /// 多表分页查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected List<T> QueryPagerFromTables<T>(List<string> tableNames)
+        {
+            return null;
+        }
+
+
 
         #endregion
 
