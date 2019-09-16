@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
     <ProjectReference Include="..\Wjire.Dapper\Wjire.Dapper.csproj" />
     <ProjectReference Include="..\Wjire.Db\Wjire.Db.csproj" />
   </ItemGroup>

@@ -5,6 +5,9 @@ using System.Data;
 namespace Wjire.Common.Extension
 {
 
+    /// <summary>
+    /// List 扩展方法
+    /// </summary>
     public static partial class ObjectExtension
     {
 

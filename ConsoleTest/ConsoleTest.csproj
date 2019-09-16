@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
     <ProjectReference Include="..\Wjire.Db\Wjire.Db.csproj" />
   </ItemGroup>
 

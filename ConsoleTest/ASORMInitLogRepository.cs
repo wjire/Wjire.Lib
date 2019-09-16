@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wjire.Common.Extension;
 using Wjire.Db;
-using Wjire.Db.Extension;
 
 namespace ConsoleTest
 {

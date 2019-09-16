@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wjire.Common.Extension;
 using Wjire.Db;
-using Wjire.Db.Extension;
 
 namespace XUnitTest
 {
@@ -28,7 +28,7 @@ namespace XUnitTest
             return GetList(sql);
             //return ExecuteReader(sql).ToList<ASORMInitLog>();
         }
-        
+
 
         public ASORMInitLog GetModel(int id, string appName)
         {

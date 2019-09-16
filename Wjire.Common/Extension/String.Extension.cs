@@ -1,10 +1,10 @@
-﻿namespace Wjire.Db.Extension
+﻿namespace Wjire.Common.Extension
 {
 
     /// <summary>
     /// string 扩展方法
     /// </summary>
-    public static class StringExtension
+    public static partial class ObjectExtension
     {
         public static string If(this string str, bool condition)
         {
