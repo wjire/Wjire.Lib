@@ -391,24 +391,11 @@ namespace Wjire.Db
             {
                 return new List<T>();
             }
-            int num = pageIndex - 1 * pageSize;
-            dataSql.Append($" OFFSET {num} ROWS FETCH NEXT {pageSize} ROWS ONLY ");
+            int pageSkip = pageIndex - 1 * pageSize;
+            dataSql.Append($" OFFSET {pageSkip} ROWS FETCH NEXT {pageSize} ROWS ONLY ");
             List<T> result = ExecuteReader(dataSql.ToString()).ToList<T>();
             return result;
         }
-
-
-
-        /// <summary>
-        /// 多表分页查询
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        protected List<T> QueryPagerFromTables<T>(List<string> tableNames)
-        {
-            return null;
-        }
-
 
 
         #endregion
@@ -429,7 +416,6 @@ namespace Wjire.Db
             return paramList.Count == 1 ? $" = {paramList[0]} " : $" IN ({string.Join(",", paramList)}) ";
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -443,6 +429,7 @@ namespace Wjire.Db
             }
             return paramList.Count == 1 ? $" = '{paramList[0]}' " : $" IN ('{string.Join("','", paramList)}') ";
         }
+
 
 
         #endregion
