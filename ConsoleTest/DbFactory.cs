@@ -10,7 +10,7 @@ namespace ConsoleTest
     public static class DbFactory
     {
         private static readonly string MagicTaskRecordRead = "MagicTaskRecordRead";
-        private static readonly string MagicTaskRecordWrite = "MagicTaskRecordRead";
+        private static readonly string MagicTaskRecordWrite = "MagicTaskRecordWrite";
 
         #region 工作单元
 
@@ -34,6 +34,7 @@ namespace ConsoleTest
 
         #endregion
 
+        
         #region IASORMInitLogRepository
 
         /// <summary>
@@ -72,7 +73,8 @@ namespace ConsoleTest
         public static IASORMInitLogRepository CreateIASORMInitLogRepositoryWrite(IUnitOfWork unit)
         {
             return new ASORMInitLogRepository(unit);
-        } 
+        }
+
 
         #endregion
     }
