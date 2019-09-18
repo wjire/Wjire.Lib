@@ -1,4 +1,5 @@
-﻿using Wjire.Db;
+﻿using wjire;
+using Wjire.Db;
 
 namespace ConsoleTest
 {

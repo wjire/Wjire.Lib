@@ -1,9 +1,12 @@
-﻿using Wjire.Db.Infrastructure;
+using Wjire.Db.Infrastructure;
 
-namespace ConsoleTest
+namespace wjire
 {
-    public interface IASORMInitLogRepository : IRepository<ASORMInitLog>
-    {
-        
-    }
+	/// <summary>
+	/// IASORMInitLogRepository
+	/// </summary>
+	public interface IASORMInitLogRepository : IRepository<ASORMInitLog>
+	{
+
+	}
 }

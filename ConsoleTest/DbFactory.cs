@@ -1,4 +1,5 @@
-﻿using Wjire.Db;
+﻿using wjire;
+using Wjire.Db;
 
 namespace ConsoleTest
 {
@@ -19,7 +20,7 @@ namespace ConsoleTest
         /// <returns></returns>
         public static IUnitOfWork CreateTransaction()
         {
-            return new UnitOfWork(MagicTaskRecordRead);
+            return new UnitOfWork(MagicTaskRecordWrite);
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace ConsoleTest
         /// <returns></returns>
         public static IUnitOfWork CreateSingle()
         {
-            return new SingleConnection(MagicTaskRecordWrite);
+            return new SingleConnection(MagicTaskRecordRead);
         }
 
         #endregion

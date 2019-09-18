@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace ConsoleTest
+namespace wjire
 {
     /// <summary>
     /// ASORMInitLog
@@ -23,7 +23,7 @@ namespace ConsoleTest
         /// <summary>
         /// 初始化时间
         /// </summary>
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
 
 
         /// <summary>
@@ -104,5 +104,4 @@ namespace ConsoleTest
         public int ScreenActivation { get; set; }
 
     }
-
 }
