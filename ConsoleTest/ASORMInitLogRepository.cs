@@ -5,7 +5,7 @@ namespace ConsoleTest
 {
 
     /// <summary>
-    /// 
+    /// ASORMInitLogRepository
     /// </summary>
     public class ASORMInitLogRepository : BaseRepository<ASORMInitLog>, IASORMInitLogRepository
     {
@@ -17,10 +17,14 @@ namespace ConsoleTest
         {
         }
 
+        #region 便捷操作
 
         public int Add(ASORMInitLog log)
         {
-            return Insert(log);
+            ClearParameters();
+            AddParameter(log);
+            string sql = GetInsertSql(log);
+            return ExecuteNonQuery(sql);
         }
 
         public ASORMInitLog Query(string sql)
@@ -70,5 +74,7 @@ namespace ConsoleTest
             AddParameter(param);
             return ExecuteReader(sql).ToList<T>();
         }
+
+        #endregion
     }
 }

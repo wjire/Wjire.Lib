@@ -2,6 +2,10 @@
 
 namespace ConsoleTest
 {
+
+    /// <summary>
+    /// 数据库链接工厂
+    /// </summary>
     public static class DbFactory
     {
         private static readonly string MagicTaskRecordRead = "MagicTaskRecordRead";

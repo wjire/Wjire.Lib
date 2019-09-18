@@ -241,136 +241,8 @@ namespace Wjire.Db
 
 
         #region 便捷操作
-
-
-        #region 查询单条
-
-        /// <summary>
-        /// 查询单条记录
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <returns>Model or Null</returns>
-        protected T GetSingle<T>(string sql) where T : class, new()
-        {
-            return ExecuteReader(sql).ToModel<T>();
-        }
-
-
-        /// <summary>
-        /// 查询单条记录
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="param">参数</param>
-        /// <returns>Model or Null</returns>
-        protected T GetSingle<T>(string sql, object param) where T : class, new()
-        {
-            AddParameter(param);
-            return ExecuteReader(sql).ToModel<T>();
-        }
-
-
-        /// <summary>
-        /// 查询单条记录
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns>Model or Null</returns>
-        protected TEntity GetSingle(string sql)
-        {
-            return ExecuteReader(sql).ToModel<TEntity>();
-        }
-
-
-        /// <summary>
-        /// 查询单条记录
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="param">参数</param>
-        /// <returns>Model or Null</returns>
-        protected TEntity GetSingle(string sql, object param)
-        {
-            AddParameter(param);
-            return ExecuteReader(sql).ToModel<TEntity>();
-        }
-
-
-        #endregion
-
-
-        #region 查询多条
-
-        /// <summary>
-        /// 查询多条记录
-        /// </summary>w
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <returns>非 Null</returns>
-        protected List<T> GetList<T>(string sql) where T : class, new()
-        {
-            return ExecuteReader(sql).ToList<T>();
-        }
-
-
-        /// <summary>
-        /// 查询多条记录
-        /// </summary>w
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="param">参数</param>
-        /// <returns>非 Null</returns>
-        protected List<T> GetList<T>(string sql, object param) where T : class, new()
-        {
-            AddParameter(param);
-            return ExecuteReader(sql).ToList<T>();
-        }
-
-
-        /// <summary>
-        /// 查询多条记录
-        /// </summary>w
-        /// <param name="sql"></param>
-        /// <returns>非 Null</returns>
-        protected List<TEntity> GetList(string sql)
-        {
-            return ExecuteReader(sql).ToList<TEntity>();
-        }
-
-
-        /// <summary>
-        /// 查询多条记录
-        /// </summary>w
-        /// <param name="sql"></param>
-        /// <param name="param">参数</param>
-        /// <returns>非 Null</returns>
-        protected List<TEntity> GetList(string sql, object param)
-        {
-            AddParameter(param);
-            return ExecuteReader(sql).ToList<TEntity>();
-        }
-
-
-        #endregion
-
-
-        #region 新增
-
-        /// <summary>
-        /// 新增
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns>返回受影响的行数</returns>
-        protected int Insert(object entity)
-        {
-            ClearParameters();
-            AddParameter(entity);
-            string sql = GetInsertSql(entity);
-            return ExecuteNonQuery(sql);
-        }
-
-        #endregion
-
-
+        
+        
         #region 分页查询
 
 
@@ -431,7 +303,6 @@ namespace Wjire.Db
         }
 
 
-
         #endregion
 
 
@@ -454,7 +325,7 @@ namespace Wjire.Db
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private string GetInsertSql(object obj)
+        protected string GetInsertSql(object obj)
         {
             Type type = obj.GetType();
             string sql = TypeContainer.AddSqlContainer.GetOrAdd(type, t =>
