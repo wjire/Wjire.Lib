@@ -9,10 +9,10 @@ namespace ConsoleTest
     /// </summary>
     public static class DbFactory
     {
+        #region 数据库 MagicTaskRecord 
+
         private static readonly string MagicTaskRecordRead = "MagicTaskRecordRead";
         private static readonly string MagicTaskRecordWrite = "MagicTaskRecordWrite";
-
-        #region 工作单元
 
         /// <summary>
         /// 创建事务
