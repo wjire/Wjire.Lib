@@ -360,11 +360,11 @@ namespace Wjire.Db
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>返回受影响的行数</returns>
-        public int Add(object entity)
+        protected int Insert(object entity)
         {
             ClearParameters();
             AddParameter(entity);
-            string sql = GetAddSql(entity);
+            string sql = GetInsertSql(entity);
             return ExecuteNonQuery(sql);
         }
 
@@ -440,7 +440,7 @@ namespace Wjire.Db
         /// 添加参数
         /// </summary>
         /// <param name="param">参数</param>
-        private void AddParameter(object param)
+        protected void AddParameter(object param)
         {
             PropertyInfo[] propertyInfos = TypeContainer.GetPropertyInfos(param.GetType());
             foreach (PropertyInfo propertyInfo in propertyInfos)
@@ -449,13 +449,12 @@ namespace Wjire.Db
             }
         }
 
-
         /// <summary>
         /// 获取数据库插入数据时的sql语句
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private string GetAddSql(object obj)
+        private string GetInsertSql(object obj)
         {
             Type type = obj.GetType();
             string sql = TypeContainer.AddSqlContainer.GetOrAdd(type, t =>

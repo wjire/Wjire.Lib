@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Wjire.Common.Extension;
+﻿using System.Collections.Generic;
 using Wjire.Db;
 
 namespace ConsoleTest
@@ -9,7 +7,7 @@ namespace ConsoleTest
     /// <summary>
     /// 
     /// </summary>
-    public class ASORMInitLogRepository : BaseRepository<ASORMInitLog>
+    public class ASORMInitLogRepository : BaseRepository<ASORMInitLog>, IASORMInitLogRepository
     {
         public ASORMInitLogRepository(string name) : base(name)
         {
@@ -20,35 +18,57 @@ namespace ConsoleTest
         }
 
 
-        public List<ASORMInitLog> GetList()
+        public int Add(ASORMInitLog log)
         {
-            ClearParameters();
-            string sql = " SELECT * FROM ASORMInitLog WHERE CreatedAt > @date ";
-            AddParameter("date", DateTime.Now.AddDays(-1));
-            return GetList(sql);
-            //return ExecuteReader(sql).ToList<ASORMInitLog>();
+            return Insert(log);
         }
 
-
-        public int UpdateTest(ASORMInitLog log)
+        public ASORMInitLog Query(string sql)
         {
-            ClearParameters();
-            string sql = $"UPDATE {TableName} SET appname=@appname where id=@id and appid=@appid";
-            AddParameter("appname", log.AppName);
-            AddParameter("id", log.ID);
-            AddParameter("appid", log.AppID);
-            return ExecuteNonQuery(sql);
+            return ExecuteReader(sql).ToModel<ASORMInitLog>();
         }
 
-
-        public ASORMInitLog GetModel(int id, string appName)
+        public ASORMInitLog Query(string sql, object param)
         {
             ClearParameters();
-            string sql = $" SELECT * FROM {TableName} WHERE 1=1 " +
-                      $"{" AND ID=@ID ".If(id > 0)} " +
-                      $"{" AND AppName like @appName".If(string.IsNullOrWhiteSpace(appName) == false)}" +
-                      $"{" AND CreatedAt > @date".If(true)}";
-            return GetSingle<ASORMInitLog>(sql, new { id, appName = "%" + appName + "%", date = DateTime.Now.AddHours(-6), money = 1.1M });
+            AddParameter(param);
+            return ExecuteReader(sql).ToModel<ASORMInitLog>();
+        }
+
+        public List<ASORMInitLog> QueryList(string sql)
+        {
+            return ExecuteReader(sql).ToList<ASORMInitLog>();
+        }
+
+        public List<ASORMInitLog> QueryList(string sql, object param)
+        {
+            ClearParameters();
+            AddParameter(param);
+            return ExecuteReader(sql).ToList<ASORMInitLog>();
+        }
+
+        public T Query<T>(string sql) where T : class, new()
+        {
+            return ExecuteReader(sql).ToModel<T>();
+        }
+
+        public T Query<T>(string sql, object param) where T : class, new()
+        {
+            ClearParameters();
+            AddParameter(param);
+            return ExecuteReader(sql).ToModel<T>();
+        }
+
+        public List<T> QueryList<T>(string sql) where T : class, new()
+        {
+            return ExecuteReader(sql).ToList<T>();
+        }
+
+        public List<T> QueryList<T>(string sql, object param) where T : class, new()
+        {
+            ClearParameters();
+            AddParameter(param);
+            return ExecuteReader(sql).ToList<T>();
         }
     }
 }

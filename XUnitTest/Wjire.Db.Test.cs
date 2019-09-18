@@ -21,21 +21,10 @@ namespace XUnitTest
             ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
             List<ASORMInitLog> result = repo.GetList();
             //ASORMInitLog model = repo.GetSingle(0,"es");
-            //int res = repo.Add(new ASORMInitLog { AppID = 3 }, "ASORMInitLog");
+            //int res = repo.Insert(new ASORMInitLog { AppID = 3 }, "ASORMInitLog");
             //Assert.True(result.Count > 0);
             //Assert.True(model.AppName == "test");
             //Assert.True(res == 1);
-        }
-
-
-
-        [Fact]
-        public void AddTest()
-        {
-            ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead");
-            ASORMInitLog log = new ASORMInitLog() { AppName = "2234234234" };
-            int i = repo.Add(log);
-            Assert.True(i > 0);
         }
     }
 }

@@ -7,17 +7,18 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            int count = 100000;
+            int count = 1;
 
-            using (ASORMInitLogRepository repo = new ASORMInitLogRepository("MagicTaskRecordRead"))
+            using (IASORMInitLogRepository repo = DbFactory.CreateIASORMInitLogRepositoryWrite())
             {
                 {
-                    ASORMInitLog log = new ASORMInitLog { AppID = 2, ID = 3, AppName = "wjire" };
+                    ASORMInitLog log = new ASORMInitLog { AppID = 12, AppName = "wjire_test" };
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
                     for (int i = 0; i < count; i++)
                     {
-                        repo.UpdateTest(log);
+                        ASORMInitLog model = repo.Query("select * from ASORMInitLog where id=@id", new { id = 9});
+                        Console.WriteLine(model.AppName);
                     }
 
                     sw.Stop();
