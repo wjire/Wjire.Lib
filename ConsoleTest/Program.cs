@@ -18,7 +18,7 @@ namespace ConsoleTest
                     sw.Start();
                     for (int i = 0; i < count; i++)
                     {
-                        List<ASORMInitLog> list = repo.GetAll(new List<int>{2,3,4});
+                        List<ASORMInitLog> list = repo.GetList("select * from ASORMInitLog");
                         foreach (ASORMInitLog item in list)
                         {
                             Console.WriteLine(item.AppName);

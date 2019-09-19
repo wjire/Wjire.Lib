@@ -240,26 +240,25 @@ namespace Wjire.Db
 
 
 
-        #region 便捷操作
+        #region 便捷操作,public 可对外
 
 
-        protected TEntity GetSingle(string sql)
+        public TEntity GetSingle(string sql)
         {
             return ExecuteReader(sql).ToModel<TEntity>();
         }
 
-        protected T GetSingle<T>(string sql) where T : class, new()
+        public T GetSingle<T>(string sql) where T : class, new()
         {
             return ExecuteReader(sql).ToModel<T>();
         }
-
-
-        protected List<TEntity> GetList(string sql)
+        
+        public List<TEntity> GetList(string sql)
         {
             return ExecuteReader(sql).ToList<TEntity>();
         }
 
-        protected List<T> GetList<T>(string sql) where T : class, new()
+        public List<T> GetList<T>(string sql) where T : class, new()
         {
             return ExecuteReader(sql).ToList<T>();
         }

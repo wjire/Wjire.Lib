@@ -22,30 +22,7 @@ namespace wjire
             string sql = GetInsertSql(entity);
             return ExecuteNonQuery(sql);
         }
-
-        public ASORMInitLog Query(string sql)
-        {
-            return GetSingle(sql);
-        }
         
-
-        public List<ASORMInitLog> QueryList(string sql)
-        {
-            return GetList(sql);
-        }
-        
-
-        public T Query<T>(string sql) where T : class, new()
-        {
-            return GetSingle<T>(sql);
-        }
-        
-
-        public List<T> QueryList<T>(string sql) where T : class, new()
-        {
-            return GetList<T>(sql);
-        }
-
 
         public List<ASORMInitLog> GetAll(List<int> param)
         {
