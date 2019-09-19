@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using wjire;
 
 namespace ConsoleTest
@@ -10,7 +10,6 @@ namespace ConsoleTest
         private static void Main(string[] args)
         {
             int count = 1;
-
             using (IASORMInitLogRepository repo = DbFactory.CreateIASORMInitLogRepositoryWrite())
             {
                 {
@@ -19,7 +18,11 @@ namespace ConsoleTest
                     sw.Start();
                     for (int i = 0; i < count; i++)
                     {
-                        repo.Add(log);
+                        List<ASORMInitLog> list = repo.GetAll(new List<int>{2,3,4});
+                        foreach (ASORMInitLog item in list)
+                        {
+                            Console.WriteLine(item.AppName);
+                        }
                     }
 
                     sw.Stop();

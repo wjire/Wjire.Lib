@@ -241,8 +241,31 @@ namespace Wjire.Db
 
 
         #region 便捷操作
-        
-        
+
+
+        protected TEntity GetSingle(string sql)
+        {
+            return ExecuteReader(sql).ToModel<TEntity>();
+        }
+
+        protected T GetSingle<T>(string sql) where T : class, new()
+        {
+            return ExecuteReader(sql).ToModel<T>();
+        }
+
+
+        protected List<TEntity> GetList(string sql)
+        {
+            return ExecuteReader(sql).ToList<TEntity>();
+        }
+
+        protected List<T> GetList<T>(string sql) where T : class, new()
+        {
+            return ExecuteReader(sql).ToList<T>();
+        }
+
+
+
         #region 分页查询
 
 
@@ -285,7 +308,7 @@ namespace Wjire.Db
             {
                 throw new ArgumentNullException(nameof(paramList));
             }
-            return paramList.Count == 1 ? $" = {paramList[0]} " : $" IN ({string.Join(",", paramList)}) ";
+            return $" ({string.Join(",", paramList)}) ";
         }
 
         /// <summary>
@@ -299,7 +322,7 @@ namespace Wjire.Db
             {
                 throw new ArgumentNullException(nameof(paramList));
             }
-            return paramList.Count == 1 ? $" = '{paramList[0]}' " : $" IN ('{string.Join("','", paramList)}') ";
+            return $" ('{string.Join("','", paramList)}') ";
         }
 
 
