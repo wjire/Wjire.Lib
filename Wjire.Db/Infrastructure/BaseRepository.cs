@@ -303,10 +303,6 @@ namespace Wjire.Db
         /// <returns></returns>
         protected string GetWhereIn<T>(IList<T> paramList) where T : struct
         {
-            if (paramList == null || paramList.Count == 0)
-            {
-                throw new ArgumentNullException(nameof(paramList));
-            }
             return $" ({string.Join(",", paramList)}) ";
         }
 
@@ -317,10 +313,6 @@ namespace Wjire.Db
         /// <returns></returns>
         protected string GetWhereIn(IList<string> paramList)
         {
-            if (paramList == null || paramList.Count == 0)
-            {
-                throw new ArgumentNullException(nameof(paramList));
-            }
             return $" ('{string.Join("','", paramList)}') ";
         }
 
