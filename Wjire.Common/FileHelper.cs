@@ -38,7 +38,7 @@ namespace Wjire.Common
         /// <param name="path">文件路径</param>
         /// <param name="buffers">字节</param>
         /// <param name="isCover">是否覆盖,默认覆盖</param>
-        public static void WriteByte(string path, byte[] buffers, bool isCover = true)
+        public static void WriteBytes(string path, byte[] buffers, bool isCover = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
