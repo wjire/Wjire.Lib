@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
 using System.Text;
@@ -344,22 +345,17 @@ namespace Wjire.Db
             Type type = obj.GetType();
             string sql = TypeContainer.AddSqlContainer.GetOrAdd(type, t =>
             {
-                //查询表主键
-                string queryKey =
-                    $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{TableName}'";
-                string key = ExecuteScalar(queryKey).ToString();
                 StringBuilder sqlBuilder = new StringBuilder(128);
                 sqlBuilder.Append($" INSERT INTO {TableName} ");
-
                 StringBuilder addBuilder = new StringBuilder(64);
                 foreach (PropertyInfo property in type.GetProperties())
                 {
                     //忽略主键
-                    if (property.Name == key)
+                    var keyAttribute = property.GetCustomAttribute<KeyAttribute>();
+                    if (keyAttribute == null)
                     {
-                        continue;
+                        addBuilder.Append($"@{property.Name},");
                     }
-                    addBuilder.Append($"@{property.Name},");
                 }
                 string paramString = addBuilder.Remove(addBuilder.Length - 1, 1).ToString();
                 string fieldString = paramString.Replace('@', ' ');

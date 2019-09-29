@@ -8,7 +8,7 @@ namespace Wjire.CodeBuilder.FileService
 {
 
     /// <summary>
-    /// 实体创建,单独的逻辑
+    /// 实体创建,单独的逻辑,不继承任何类
     /// </summary>
     public class Cs_ModelFactory
     {
@@ -39,6 +39,7 @@ namespace Wjire.CodeBuilder.FileService
             foreach (TableInfo item in items)
             {
                 string columnDescription = item.ColumnDescription;
+                string keyString = null;
                 string typeName = ChangeToCSharpType(item.ColumnType);
                 string name = item.ColumnName;
                 name = name.Substring(0, 1).ToUpper() + name.Substring(1);
@@ -46,12 +47,17 @@ namespace Wjire.CodeBuilder.FileService
                 if (string.IsNullOrWhiteSpace(columnDescription) && item.IsKey == "1")
                 {
                     columnDescription = "主键";
+                    keyString = "[Key]";
                 }
 
                 fieldBuilder.AppendLine();
                 fieldBuilder.AppendLine(2, "/// <summary>");
                 fieldBuilder.AppendLine(2, $"/// {columnDescription}");
                 fieldBuilder.AppendLine(2, "/// </summary>");
+                if (string.IsNullOrWhiteSpace(keyString) == false)
+                {
+                    fieldBuilder.AppendLine(2, keyString);
+                }
                 fieldBuilder.AppendLine(2, "public " + typeName + isNullable + " " + name + " { " + "get; set;" + " }");
                 fieldBuilder.AppendLine();
             }
