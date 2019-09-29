@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Wjire.Db.Infrastructure;
+using Wjire.Db;
 
 namespace wjire
 {

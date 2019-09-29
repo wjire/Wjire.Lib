@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 
 namespace Wjire.Db
 {
@@ -19,8 +16,8 @@ namespace Wjire.Db
 
         static ConnectionStringHelper()
         {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var builder = new ConfigurationBuilder().SetBasePath(baseDirectory);
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(baseDirectory);
             string path = Path.Combine(baseDirectory, "appsettings.Development.json");
             IConfigurationRoot config;
             if (File.Exists(path))

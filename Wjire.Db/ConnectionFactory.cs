@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 
 namespace Wjire.Db
 {
@@ -24,8 +24,8 @@ namespace Wjire.Db
             {
                 throw new ArgumentNullException(nameof(name));
             }
-            
-            var settings = ConnectionStringHelper.GetConnectionStringSettings(name);
+
+            ConnectionStringSettings settings = ConnectionStringHelper.GetConnectionStringSettings(name);
             IDbConnection connection = CreateConnection(settings);
             if (connection == null)
             {
@@ -39,7 +39,7 @@ namespace Wjire.Db
 
             return connection;
         }
-        
+
 
         private static IDbConnection CreateConnection(ConnectionStringSettings settings)
         {

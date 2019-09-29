@@ -351,7 +351,7 @@ namespace Wjire.Db
                 foreach (PropertyInfo property in type.GetProperties())
                 {
                     //忽略主键
-                    var keyAttribute = property.GetCustomAttribute<KeyAttribute>();
+                    KeyAttribute keyAttribute = property.GetCustomAttribute<KeyAttribute>();
                     if (keyAttribute == null)
                     {
                         addBuilder.Append($"@{property.Name},");
