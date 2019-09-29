@@ -9,7 +9,7 @@ namespace Wjire.Excel
 
         MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ICollection<string> exportFields);
 
-        MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, Dictionary<string,string> exportFieldsWithName);
+        MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName);
 
         byte[] CreateBytes<T>(IEnumerable<T> sources);
 

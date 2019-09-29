@@ -15,21 +15,27 @@
         }
 
         public static RequestDelegate FooMiddleware(RequestDelegate next)
-            => async context =>
-            {
-                await context.Response.WriteAsync("Foo=>");
-                await next(context);
-            };
+        {
+            return async context =>
+                        {
+                            await context.Response.WriteAsync("Foo=>");
+                            await next(context);
+                        };
+        }
 
         public static RequestDelegate BarMiddleware(RequestDelegate next)
-            => async context =>
-            {
-                await context.Response.WriteAsync("Bar=>");
+        {
+            return async context =>
+                        {
+                            await context.Response.WriteAsync("Bar=>");
 
-                await next(context);
-            };
+                            await next(context);
+                        };
+        }
 
         public static RequestDelegate BazMiddleware(RequestDelegate next)
-            => context => context.Response.WriteAsync("Baz");
+        {
+            return context => context.Response.WriteAsync("Baz");
+        }
     }
 }

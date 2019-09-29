@@ -42,7 +42,7 @@ namespace Wjire.Db
 
             return connection;
         }
-        
+
 
         private static IDbConnection CreateConnection(string connectionString)
         {

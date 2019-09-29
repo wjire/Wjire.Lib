@@ -34,7 +34,7 @@ namespace ConsoleTest
 
         #endregion
 
-        
+
         #region IASORMInitLogRepository
 
         /// <summary>

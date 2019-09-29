@@ -30,7 +30,7 @@ namespace Wjire.Db
             _connection = ConnectionFactory.GetConnection(name);
             Command = _connection.CreateCommand();
         }
-        
+
 
 
         /// <summary>

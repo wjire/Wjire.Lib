@@ -22,7 +22,7 @@ namespace wjire
             string sql = GetInsertSql(entity);
             return ExecuteNonQuery(sql);
         }
-        
+
 
         public List<ASORMInitLog> GetAll(List<int> param)
         {

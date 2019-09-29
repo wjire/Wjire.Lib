@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Wjire.ASP.NET.Core
+﻿namespace Wjire.ASP.NET.Core
 {
     public interface IServer
     {

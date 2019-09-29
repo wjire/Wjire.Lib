@@ -6,7 +6,9 @@ namespace Wjire.ASP.NET.Core
     public static partial class Extensions
     {
         public static IWebHostBuilder UseHttpListener(this IWebHostBuilder builder, params string[] urls)
-            => builder.UseServer(new HttpListenerServer(urls));
+        {
+            return builder.UseServer(new HttpListenerServer(urls));
+        }
 
         public static Task WriteAsync(this HttpResponse response, string contents)
         {

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wjire.ASP.NET.Core
 {
@@ -24,12 +21,12 @@ namespace Wjire.ASP.NET.Core
             _httpListener.Start();
             while (true)
             {
-                var listenerContext = _httpListener.GetContextAsync().Result;
-                var feature = new HttpListenerFeature(listenerContext);
-                var features = new FeatureCollection()
+                HttpListenerContext listenerContext = _httpListener.GetContextAsync().Result;
+                HttpListenerFeature feature = new HttpListenerFeature(listenerContext);
+                IFeatureCollection features = new FeatureCollection()
                     .Set<IHttpRequestFeature>(feature)
                     .Set<IHttpResponseFeature>(feature);
-                var httpContext = new HttpContext(features);
+                HttpContext httpContext = new HttpContext(features);
                 handler(httpContext);
                 listenerContext.Response.Close();
             }

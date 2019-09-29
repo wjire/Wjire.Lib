@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace {NameSpaceName}.Model
+{
+    /// <summary>
+    /// {TableName}
+    /// </summary>
+    public class {TableName}
+    {
+/*FieldArea*/
+    }
+}

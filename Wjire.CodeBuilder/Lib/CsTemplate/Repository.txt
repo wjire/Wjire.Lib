@@ -1,0 +1,28 @@
+﻿using {NameSpaceName}.IRepository;
+using {NameSpaceName}.Model;
+
+namespace {NameSpaceName}.Repository
+{
+
+    /// <summary>
+    /// {TableName}Repository
+    /// </summary>
+    public class {TableName}Repository : BaseRepository<{TableName}>, I{TableName}Repository
+    {
+        public {TableName}Repository(string name) : base(name) { }
+
+        public {TableName}Repository(IUnitOfWork unit) : base(unit) { }
+
+        #region 便捷操作
+
+        public int Add({TableName} entity)
+        {
+            ClearParameters();
+            AddParameter(entity);
+            string sql = GetInsertSql(entity);
+            return ExecuteNonQuery(sql);
+        }  
+
+        #endregion
+    }
+}

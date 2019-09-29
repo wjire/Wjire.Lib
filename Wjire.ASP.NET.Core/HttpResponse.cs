@@ -11,6 +11,9 @@ namespace Wjire.ASP.NET.Core
         public Stream Body => _feature.Body;
         public int StatusCode { get => _feature.StatusCode; set => _feature.StatusCode = value; }
 
-        public HttpResponse(IFeatureCollection features) => _feature = features.Get<IHttpResponseFeature>();
+        public HttpResponse(IFeatureCollection features)
+        {
+            _feature = features.Get<IHttpResponseFeature>();
+        }
     }
 }

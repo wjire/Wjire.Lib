@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Wjire.ASP.NET.Core
+﻿namespace Wjire.ASP.NET.Core
 {
     public class WebHost : IWebHost
     {
@@ -13,6 +9,9 @@ namespace Wjire.ASP.NET.Core
             _server = server;
             _handler = handler;
         }
-        public void StartAsync() => _server.StartAsync(_handler);
+        public void StartAsync()
+        {
+            _server.StartAsync(_handler);
+        }
     }
 }

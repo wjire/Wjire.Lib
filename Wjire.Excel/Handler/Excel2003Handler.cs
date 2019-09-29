@@ -24,8 +24,8 @@ namespace Wjire.Excel
                 workbook?.Close();
             }
         }
-        
-    
+
+
 
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ICollection<string> exportFields)
         {

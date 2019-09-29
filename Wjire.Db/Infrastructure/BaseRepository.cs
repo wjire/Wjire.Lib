@@ -252,7 +252,7 @@ namespace Wjire.Db
         {
             return ExecuteReader(sql).ToModel<T>();
         }
-        
+
         public List<TEntity> GetList(string sql)
         {
             return ExecuteReader(sql).ToList<TEntity>();

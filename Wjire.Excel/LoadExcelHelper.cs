@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 
 namespace Wjire.Excel
 {
@@ -37,7 +37,7 @@ namespace Wjire.Excel
         /// <summary>
         /// 工作薄
         /// </summary>
-        private IWorkbook _IWorkbook;
+        private readonly IWorkbook _IWorkbook;
 
         /// <summary>
         /// 创建工作簿对象

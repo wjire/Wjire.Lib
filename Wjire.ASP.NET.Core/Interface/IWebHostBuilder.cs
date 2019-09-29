@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Wjire.ASP.NET.Core
 {
@@ -9,5 +8,5 @@ namespace Wjire.ASP.NET.Core
         IWebHostBuilder Configure(Action<IApplicationBuilder> configure);
         IWebHost Build();
     }
-   
+
 }

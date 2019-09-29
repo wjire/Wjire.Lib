@@ -1,0 +1,11 @@
+﻿using {NameSpaceName}.Model;
+using {NameSpaceName}.IService;
+using {NameSpaceName}.Logic;
+
+namespace {NameSpaceName}.Service
+{
+    public class {DbName}Service : I{DbName}Service
+    {
+
+    }
+}

@@ -8,7 +8,10 @@ namespace Wjire.ASP.NET.Core
     public class HttpListenerFeature : IHttpRequestFeature, IHttpResponseFeature
     {
         private readonly HttpListenerContext _context;
-        public HttpListenerFeature(HttpListenerContext context) => _context = context;
+        public HttpListenerFeature(HttpListenerContext context)
+        {
+            _context = context;
+        }
 
         Uri IHttpRequestFeature.Url => _context.Request.Url;
         NameValueCollection IHttpRequestFeature.Headers => _context.Request.Headers;

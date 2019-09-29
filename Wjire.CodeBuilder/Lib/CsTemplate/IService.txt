@@ -1,0 +1,9 @@
+﻿using {NameSpaceName}.Model;
+
+namespace {NameSpaceName}.IService
+{
+    public interface I{DbName}Service
+    {
+       
+    }
+}
