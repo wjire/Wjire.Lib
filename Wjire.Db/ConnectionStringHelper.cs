@@ -17,15 +17,12 @@ namespace Wjire.Db
 
         private static readonly IConfigurationSection Section;
 
-        private static readonly ConcurrentDictionary<string, ConnectionStringSettings> ConnectionStringInfoCache =
-            new ConcurrentDictionary<string, ConnectionStringSettings>();
-
         static ConnectionStringHelper()
         {
-            IConfigurationRoot config = null;
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var builder = new ConfigurationBuilder().SetBasePath(baseDirectory);
             string path = Path.Combine(baseDirectory, "appsettings.Development.json");
+            IConfigurationRoot config;
             if (File.Exists(path))
             {
                 config = builder.AddJsonFile("appsettings.Development.json", false, true).Build();
@@ -44,7 +41,7 @@ namespace Wjire.Db
         /// <returns></returns>
         public static ConnectionStringSettings GetConnectionStringSettings(string name)
         {
-            return ConnectionStringInfoCache.GetOrAdd(name, key => Section.GetSection(key).Get<ConnectionStringSettings>());
+            return Section.GetSection(name).Get<ConnectionStringSettings>();
         }
     }
 }
