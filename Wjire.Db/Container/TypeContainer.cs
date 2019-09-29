@@ -27,7 +27,7 @@ namespace Wjire.Db.Container
         {
             Dictionary<string, PropertyInfo> dic = EntityContainer.GetOrAdd(entityType, t =>
             {
-                PropertyInfo[] propertyInfos = entityType.GetProperties().Where(w => w.CanWrite == true).ToArray();
+                PropertyInfo[] propertyInfos = t.GetProperties().Where(w => w.CanWrite == true).ToArray();
                 return propertyInfos.ToDictionary(item => item.Name);
             });
             dic.TryGetValue(name, out PropertyInfo result);
@@ -43,12 +43,7 @@ namespace Wjire.Db.Container
         /// <returns></returns>
         internal static PropertyInfo[] GetPropertyInfos(Type parameterType)
         {
-            PropertyInfo[] result = ParameterContainer.GetOrAdd(parameterType, t => parameterType.GetProperties());
-            return result;
+            return ParameterContainer.GetOrAdd(parameterType, t => t.GetProperties());
         }
-
-
-
-
     }
 }
