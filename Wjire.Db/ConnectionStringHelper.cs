@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 
@@ -16,8 +17,8 @@ namespace Wjire.Db
 
         private static readonly IConfigurationSection Section;
 
-        private static readonly ConcurrentDictionary<string, ConnectionStringInfo> ConnectionStringInfoCache =
-            new ConcurrentDictionary<string, ConnectionStringInfo>();
+        private static readonly ConcurrentDictionary<string, ConnectionStringSettings> ConnectionStringInfoCache =
+            new ConcurrentDictionary<string, ConnectionStringSettings>();
 
         static ConnectionStringHelper()
         {
@@ -41,9 +42,9 @@ namespace Wjire.Db
         /// 读取配置文件,获取连接字符串
         /// </summary>
         /// <returns></returns>
-        public static ConnectionStringInfo GetConnectionString(string name)
+        public static ConnectionStringSettings GetConnectionStringSettings(string name)
         {
-            return ConnectionStringInfoCache.GetOrAdd(name, key => Section.GetSection(key).Get<ConnectionStringInfo>());
+            return ConnectionStringInfoCache.GetOrAdd(name, key => Section.GetSection(key).Get<ConnectionStringSettings>());
         }
     }
 }

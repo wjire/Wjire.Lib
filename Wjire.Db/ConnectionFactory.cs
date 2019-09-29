@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
@@ -23,15 +24,9 @@ namespace Wjire.Db
             {
                 throw new ArgumentNullException(nameof(name));
             }
-
-            //string connectionString = ConnectionStringHelper.GetConnectionString(name);
-            //if (string.IsNullOrWhiteSpace(connectionString))
-            //{
-            //    throw new ArgumentException($"未找到连接字符串:{name}");
-            //}
-
-            var connectionStringInfo = ConnectionStringHelper.GetConnectionString(name);
-            IDbConnection connection = CreateConnection(connectionStringInfo);
+            
+            var settings = ConnectionStringHelper.GetConnectionStringSettings(name);
+            IDbConnection connection = CreateConnection(settings);
             if (connection == null)
             {
                 throw new ArgumentException("创建数据库连接失败");
@@ -44,23 +39,17 @@ namespace Wjire.Db
 
             return connection;
         }
+        
 
-
-        private static IDbConnection CreateConnection(string connectionString)
+        private static IDbConnection CreateConnection(ConnectionStringSettings settings)
         {
-            return new SqlConnection(connectionString);
-        }
-
-
-        private static IDbConnection CreateConnection(ConnectionStringInfo connectionStringInfo)
-        {
-            switch (connectionStringInfo.Type)
+            switch (settings.ProviderName.ToLower())
             {
                 case "sql":
-                    return new SqlConnection(connectionStringInfo.ConnectionString);
+                    return new SqlConnection(settings.ConnectionString);
                 case "mysql":
-                    return new MySqlConnection(connectionStringInfo.ConnectionString);
-                default: throw new ArgumentException($"尚不支持 {connectionStringInfo.Type} 数据库");
+                    return new MySqlConnection(settings.ConnectionString);
+                default: throw new ArgumentException($"尚不支持 {settings.ProviderName} 数据库");
             }
         }
     }
