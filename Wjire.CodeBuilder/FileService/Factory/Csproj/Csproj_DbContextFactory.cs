@@ -15,10 +15,5 @@ namespace Wjire.CodeBuilder.FileService
         {
             return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.DbContext\\{formInfo.NameSpaceName}.DbContext.csproj");
         }
-
-        protected override bool IsCover()
-        {
-            return false;
-        }
     }
 }

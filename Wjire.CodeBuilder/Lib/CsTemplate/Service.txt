@@ -1,6 +1,5 @@
 ﻿using {NameSpaceName}.Model;
 using {NameSpaceName}.IService;
-using {NameSpaceName}.Logic;
 
 namespace {NameSpaceName}.Service
 {
