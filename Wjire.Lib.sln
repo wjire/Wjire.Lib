@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29318.209
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wjire.Excel", "Wjire.Excel\Wjire.Excel.csproj", "{740D2158-D99B-44FA-962E-CACB148D79C0}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wjire.ASP.NET.Core", "Wjire.ASP.NET.Core\Wjire.ASP.NET.Core.csproj", "{1ACF354C-CD05-4CB6-ACA6-B69A0CFED3CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.CodeBuilder", "Wjire.CodeBuilder\Wjire.CodeBuilder.csproj", "{1BB4D67F-3D3E-4918-8760-3183B073873C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.ProjectManager", "Wjire.ProjectManager\Wjire.ProjectManager.csproj", "{2816F510-3FEE-41AA-B80E-C06F9C83EE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{1BB4D67F-3D3E-4918-8760-3183B073873C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB4D67F-3D3E-4918-8760-3183B073873C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BB4D67F-3D3E-4918-8760-3183B073873C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{FDD43D08-F67A-4E7C-82E3-6663ED1213EC} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 		{1ACF354C-CD05-4CB6-ACA6-B69A0CFED3CE} = {0D5403D6-DF3A-4992-8D85-19E8CED9C03B}
 		{1BB4D67F-3D3E-4918-8760-3183B073873C} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
+		{2816F510-3FEE-41AA-B80E-C06F9C83EE63} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0C62F8E-9218-4B02-A1E9-BEE305856407}
