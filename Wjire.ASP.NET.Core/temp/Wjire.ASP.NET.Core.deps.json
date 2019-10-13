@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "Wjire.ASP.NET.Core/1.0.0": {
+        "runtime": {
+          "Wjire.ASP.NET.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Wjire.ASP.NET.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
