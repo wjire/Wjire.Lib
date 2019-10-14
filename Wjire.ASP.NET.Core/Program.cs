@@ -10,7 +10,7 @@
                     .Use(FooMiddleware)
                     .Use(BarMiddleware)
                     .Use(BazMiddleware))
-                .Build()
+                .Build()  
                 .StartAsync();
         }
 
