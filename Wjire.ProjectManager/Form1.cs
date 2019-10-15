@@ -11,13 +11,28 @@ namespace Wjire.ProjectManager
     {
         private readonly DbService _dbService;
         private readonly string _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
-
+        private List<AppInfoView> _appInfoViews;
 
 
         public Form1()
         {
             _dbService = new DbService(_connectionString);
             InitializeComponent();
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            BindSource();
+            BasePublishHandler handler = new BasePublishHandler(new PublishInfo());
+            _appInfoViews = handler.GetAllAPPInfo();
+        }
+
+
+        private void BindSource()
+        {
+            List<ProjectInfo> source = _dbService.GetProjectInfo();
+            dgv.DataSource = source;
         }
 
 
@@ -32,19 +47,6 @@ namespace Wjire.ProjectManager
         }
 
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            BindSource();
-            BasePublishHandler handler = new BasePublishHandler(new PublishInfo());
-            var appInfos = handler.GetAllAPPInfo();
-        }
-
-
-        private void BindSource()
-        {
-            List<ProjectInfo> source = _dbService.GetProjectInfo();
-            dgv.DataSource = source;
-        }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
