@@ -2,6 +2,6 @@
 {
     public interface IPublishHandler
     {
-        bool PublishWeb(PublishInfo info);
+        bool PublishWeb();
     }
 }

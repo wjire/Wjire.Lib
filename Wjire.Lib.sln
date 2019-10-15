@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.CodeBuilder", "Wjire.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.ProjectManager", "Wjire.ProjectManager\Wjire.ProjectManager.csproj", "{2816F510-3FEE-41AA-B80E-C06F9C83EE63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.ProjectManager.WebApi", "Wjire.ProjectManager.WebApi\Wjire.ProjectManager.WebApi.csproj", "{E0CC235C-31CD-4C56-B6F2-384B43678AD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2816F510-3FEE-41AA-B80E-C06F9C83EE63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0CC235C-31CD-4C56-B6F2-384B43678AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0CC235C-31CD-4C56-B6F2-384B43678AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0CC235C-31CD-4C56-B6F2-384B43678AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CC235C-31CD-4C56-B6F2-384B43678AD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{1ACF354C-CD05-4CB6-ACA6-B69A0CFED3CE} = {0D5403D6-DF3A-4992-8D85-19E8CED9C03B}
 		{1BB4D67F-3D3E-4918-8760-3183B073873C} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 		{2816F510-3FEE-41AA-B80E-C06F9C83EE63} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
+		{E0CC235C-31CD-4C56-B6F2-384B43678AD7} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0C62F8E-9218-4B02-A1E9-BEE305856407}
