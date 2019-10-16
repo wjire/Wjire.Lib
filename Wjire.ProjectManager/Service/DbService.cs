@@ -21,12 +21,12 @@ namespace Wjire.ProjectManager.Service
         /// 读取所有的项目
         /// </summary>
         /// <returns></returns>
-        public List<ProjectInfo> GetProjectInfo()
+        public List<AppInfo> GetAllAppInfo()
         {
-            string sql = "SELECT * FROM ProjectInfo";
+            string sql = "SELECT * FROM AppInfo";
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
-                return db.Query<ProjectInfo>(sql).ToList();
+                return db.Query<AppInfo>(sql).ToList();
             }
         }
 
@@ -36,9 +36,9 @@ namespace Wjire.ProjectManager.Service
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public int AddProjectInfo(ProjectInfo info)
+        public int AddProjectInfo(AppInfo info)
         {
-            string sql = "INSERT INTO ProjectInfo VALUES (@ProjectName,@ProjectDir,@ProjectType)";
+            string sql = "INSERT INTO AppInfo VALUES (@AppId,@AppName,@AppPath,@AppType,@LocalPath)";
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
                 return db.Execute(sql, info);

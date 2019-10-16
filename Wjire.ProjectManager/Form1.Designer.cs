@@ -32,10 +32,11 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.ProjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProjectDir = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProjectTypeString = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProjectType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LocalPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppTypeString = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,16 +54,17 @@
             // 
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ProjectName,
-            this.ProjectDir,
-            this.ProjectTypeString,
-            this.ProjectType});
+            this.AppId,
+            this.AppName,
+            this.LocalPath,
+            this.AppTypeString,
+            this.AppType});
             this.dgv.Location = new System.Drawing.Point(12, 12);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.RowTemplate.Height = 23;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(804, 304);
+            this.dgv.Size = new System.Drawing.Size(800, 255);
             this.dgv.TabIndex = 2;
             // 
             // button1
@@ -84,44 +86,52 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
-            // ProjectName
+            // AppId
             // 
-            this.ProjectName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProjectName.DataPropertyName = "ProjectName";
-            this.ProjectName.Frozen = true;
-            this.ProjectName.HeaderText = "项目名称";
-            this.ProjectName.Name = "ProjectName";
-            this.ProjectName.ReadOnly = true;
-            this.ProjectName.Width = 200;
+            this.AppId.DataPropertyName = "AppId";
+            this.AppId.Frozen = true;
+            this.AppId.HeaderText = "项目Id";
+            this.AppId.Name = "AppId";
+            this.AppId.Width = 80;
             // 
-            // ProjectDir
+            // AppName
             // 
-            this.ProjectDir.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProjectDir.DataPropertyName = "ProjectDir";
-            this.ProjectDir.Frozen = true;
-            this.ProjectDir.HeaderText = "项目文件夹";
-            this.ProjectDir.Name = "ProjectDir";
-            this.ProjectDir.ReadOnly = true;
-            this.ProjectDir.Width = 500;
+            this.AppName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.AppName.DataPropertyName = "AppName";
+            this.AppName.Frozen = true;
+            this.AppName.HeaderText = "项目名称";
+            this.AppName.Name = "AppName";
+            this.AppName.ReadOnly = true;
+            this.AppName.Width = 200;
             // 
-            // ProjectTypeString
+            // LocalPath
             // 
-            this.ProjectTypeString.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProjectTypeString.DataPropertyName = "ProjectTypeString";
-            this.ProjectTypeString.Frozen = true;
-            this.ProjectTypeString.HeaderText = "项目类型";
-            this.ProjectTypeString.Name = "ProjectTypeString";
-            this.ProjectTypeString.ReadOnly = true;
+            this.LocalPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LocalPath.DataPropertyName = "LocalPath";
+            this.LocalPath.Frozen = true;
+            this.LocalPath.HeaderText = "项目文件夹";
+            this.LocalPath.Name = "LocalPath";
+            this.LocalPath.ReadOnly = true;
+            this.LocalPath.Width = 400;
             // 
-            // ProjectType
+            // AppTypeString
             // 
-            this.ProjectType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProjectType.DataPropertyName = "ProjectType";
-            this.ProjectType.Frozen = true;
-            this.ProjectType.HeaderText = "项目类型";
-            this.ProjectType.Name = "ProjectType";
-            this.ProjectType.ReadOnly = true;
-            this.ProjectType.Visible = false;
+            this.AppTypeString.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.AppTypeString.DataPropertyName = "AppTypeString";
+            this.AppTypeString.Frozen = true;
+            this.AppTypeString.HeaderText = "项目类型";
+            this.AppTypeString.Name = "AppTypeString";
+            this.AppTypeString.ReadOnly = true;
+            // 
+            // AppType
+            // 
+            this.AppType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.AppType.DataPropertyName = "AppType";
+            this.AppType.Frozen = true;
+            this.AppType.HeaderText = "项目类型";
+            this.AppType.Name = "AppType";
+            this.AppType.ReadOnly = true;
+            this.AppType.Visible = false;
             // 
             // Form1
             // 
@@ -145,10 +155,11 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProjectName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProjectDir;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProjectTypeString;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProjectType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AppId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AppName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LocalPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AppTypeString;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AppType;
     }
 }
 

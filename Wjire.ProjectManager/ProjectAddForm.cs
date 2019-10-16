@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Wjire.ProjectManager.Model;
 using Wjire.ProjectManager.Service;
+using System.Linq;
 
 namespace Wjire.ProjectManager
 {
@@ -15,27 +17,50 @@ namespace Wjire.ProjectManager
             InitializeComponent();
         }
 
+
+        private void ProjectAddForm_Load(object sender, EventArgs e)
+        {
+            PublishHandler handler = new PublishHandler(new PublishInfo());
+            List<AppInfo> appInfoViews = handler.GetAllAPPInfo();
+            BindApp(appInfoViews);
+        }
+
+
+
+        /// <summary>
+        /// 填充App下拉
+        /// </summary>
+        /// <param name="appInfoViews"></param>
+        private void BindApp(List<AppInfo> appInfoViews)
+        {
+            foreach (AppInfo item in appInfoViews)
+            {
+                cbx_app.Items.Add(item);
+            }
+            cbx_app.Text = appInfoViews.FirstOrDefault()?.ToString();
+        }
+
+
         private void button1_Click(object sender, System.EventArgs e)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(lbl_projectName.Text))
+                if (string.IsNullOrWhiteSpace(lbl_appName.Text))
                 {
                     ShowMsg("项目名称不能为空");
                     return;
                 }
-                if (string.IsNullOrWhiteSpace(lbl_projectDir.Text))
+                if (string.IsNullOrWhiteSpace(lbl_appDir.Text))
                 {
                     ShowMsg("项目文件夹不能为空");
                     return;
                 }
 
-                int res = _dbService.AddProjectInfo(new ProjectInfo
-                {
-                    ProjectName = tbx_projectName.Text,
-                    ProjectDir = tbx_projectDir.Text,
-                    ProjectType = rbn_iis.Checked ? 1 : 2
-                });
+                var appInfo = cbx_app.SelectedItem as AppInfo;
+                appInfo.LocalPath = tbx_appDir.Text;
+                appInfo.AppType = rbn_iis.Checked ? 1 : 2;
+
+                int res = _dbService.AddProjectInfo(appInfo);
                 if (res == 1)
                 {
                     DialogResult = DialogResult.OK;
@@ -84,7 +109,7 @@ namespace Wjire.ProjectManager
                 return;
             }
 
-            tbx_projectDir.Text = dialog.SelectedPath;
+            tbx_appDir.Text = dialog.SelectedPath;
         }
     }
 }

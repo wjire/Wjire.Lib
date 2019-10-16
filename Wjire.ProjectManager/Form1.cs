@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Wjire.ProjectManager.Model;
 using Wjire.ProjectManager.Service;
@@ -11,7 +12,7 @@ namespace Wjire.ProjectManager
     {
         private readonly DbService _dbService;
         private readonly string _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
-        private List<AppInfoView> _appInfoViews;
+        private List<AppInfo> _appInfos;
 
 
         public Form1()
@@ -24,15 +25,20 @@ namespace Wjire.ProjectManager
         private void Form1_Load(object sender, EventArgs e)
         {
             BindSource();
-            BasePublishHandler handler = new BasePublishHandler(new PublishInfo());
-            _appInfoViews = handler.GetAllAPPInfo();
         }
 
 
         private void BindSource()
         {
-            List<ProjectInfo> source = _dbService.GetProjectInfo();
-            dgv.DataSource = source;
+            List<AppInfo> source = _dbService.GetAllAppInfo();
+            dgv.DataSource = source.Select(s => new AppInfoView
+            {
+                AppId = s.AppId,
+                AppName = s.AppName,
+                AppTypeString = s.AppTypeString,
+                LocalPath = s.LocalPath
+            }).ToList();
+            //dgv.DataSource = source;
         }
 
 
@@ -56,8 +62,16 @@ namespace Wjire.ProjectManager
             }
 
             PublishInfo publishInfo = CreatePublishInfo(dgv.SelectedRows[0]);
-            IPublishHandler handler = PublishHandlerFactory.Create(publishInfo);
-            handler.PublishWeb();
+            PublishHandler handler = new PublishHandler(publishInfo);
+            bool publishResult = handler.PublishWeb();
+            if (publishResult)
+            {
+                MessageBox.Show("成功");
+            }
+            else
+            {
+                MessageBox.Show("失败");
+            }
         }
 
 
@@ -65,19 +79,20 @@ namespace Wjire.ProjectManager
         {
             PublishInfo publishInfo = new PublishInfo
             {
-                ProjectInfo = new ProjectInfo
+                AppInfo = new AppInfo
                 {
-                    ProjectName = row.Cells["ProjectName"].Value.ToString(),
-                    ProjectDir = row.Cells["ProjectDir"].Value.ToString(),
-                    ProjectType = Convert.ToInt32(row.Cells["ProjectType"].Value.ToString())
+                    AppName = row.Cells["AppName"].Value.ToString(),
+                    LocalPath = row.Cells["LocalPath"].Value.ToString(),
+                    //AppType = Convert.ToInt32(row.Cells["AppType"].Value.ToString()),
+                    AppId = Convert.ToInt32(row.Cells["AppId"].Value.ToString()),
                 },
             };
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"upload\{publishInfo.ProjectInfo.ProjectName}");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"upload\{publishInfo.AppInfo.AppName}");
             if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);
             }
-            publishInfo.FileName = Path.Combine(path, $"{publishInfo.ProjectInfo.ProjectName}.zip");
+            publishInfo.FileName = Path.Combine(path, $"{publishInfo.AppInfo.AppName}.zip");
             return publishInfo;
         }
     }

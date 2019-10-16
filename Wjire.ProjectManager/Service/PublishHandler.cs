@@ -10,12 +10,12 @@ using Wjire.ProjectManager.Model;
 
 namespace Wjire.ProjectManager
 {
-    public class BasePublishHandler : IPublishHandler
+    public class PublishHandler
     {
         protected readonly PublishInfo Info;
         private readonly string _uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
 
-        public BasePublishHandler(PublishInfo info)
+        public PublishHandler(PublishInfo info)
         {
             Info = info;
         }
@@ -73,7 +73,7 @@ namespace Wjire.ProjectManager
                 //构造命令
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append($@"dotnet publish {Info.ProjectInfo.ProjectDir} -c release -o publish\{Info.ProjectInfo.ProjectName}");
+                sb.Append($@"dotnet publish {Info.AppInfo.LocalPath} -c release -o publish\{Info.AppInfo.AppName}");
                 //退出
                 sb.Append("&exit");
 
@@ -103,7 +103,7 @@ namespace Wjire.ProjectManager
         protected virtual void Pack()
         {
             FastZip fz = new FastZip { CreateEmptyDirectories = true };
-            fz.CreateZip(Info.FileName, $@"publish\{Info.ProjectInfo.ProjectName}", true, Info.FileFilter);
+            fz.CreateZip(Info.FileName, $@"publish\{Info.AppInfo.AppName}", true, Info.FileFilter);
             fz = null;
         }
 
@@ -117,11 +117,12 @@ namespace Wjire.ProjectManager
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_uploadApi);
-                string apiUrl = "api/upload/upload";
+                string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
                 FileStream fs = new FileStream(Info.FileName, FileMode.Open, FileAccess.Read);
                 content.Add(new StreamContent(fs), "file", Path.GetFileName(Info.FileName));
-                content.Add(new StringContent(Info.ProjectInfo.ProjectName), nameof(Info.ProjectInfo.ProjectName));
+                content.Add(new StringContent(Info.AppInfo.AppId.ToString()), nameof(Info.AppInfo.AppId));
+                //content.Add(new StringContent(Info.AppInfo.AppPath), nameof(Info.AppInfo.AppPath));
                 HttpResponseMessage result = client.PostAsync(apiUrl, content).Result;
                 fs.Dispose();
                 return result.Content.ReadAsStringAsync().Result;
@@ -129,14 +130,15 @@ namespace Wjire.ProjectManager
         }
 
 
-        public List<AppInfoView> GetAllAPPInfo()
+
+        public List<AppInfo> GetAllAPPInfo()
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_uploadApi);
-                string apiUrl = "api/appinfo";
+                string apiUrl = "api/publish/getallapps";
                 string result = client.GetStringAsync(apiUrl).Result;
-                return JsonConvert.DeserializeObject<List<AppInfoView>>(result);
+                return JsonConvert.DeserializeObject<List<AppInfo>>(result);
             }
         }
     }
