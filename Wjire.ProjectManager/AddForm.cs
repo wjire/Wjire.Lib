@@ -9,18 +9,18 @@ namespace Wjire.ProjectManager
 {
     public partial class AddForm : Form
     {
+        private readonly List<AppInfo> appInfos;
 
-        public AddForm()
+        public AddForm(List<AppInfo> appInfos)
         {
             InitializeComponent();
+            this.appInfos = appInfos;
         }
 
 
         private void ProjectAddForm_Load(object sender, EventArgs e)
         {
-            PublishHandler handler = new PublishHandler(new PublishInfo());
-            List<AppInfo> appInfoViews = handler.GetAllAPPInfo();
-            BindApp(appInfoViews);
+            BindApp(appInfos);
         }
 
 
@@ -39,7 +39,7 @@ namespace Wjire.ProjectManager
         }
 
 
-        private void button1_Click(object sender, System.EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -76,13 +76,6 @@ namespace Wjire.ProjectManager
         }
 
 
-        private void ShowMsg(string msg)
-        {
-            MessageBox.Show(msg);
-        }
-
-
-
         private void btn_chooseProjectDir_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog
@@ -102,5 +95,13 @@ namespace Wjire.ProjectManager
 
             tbx_appDir.Text = dialog.SelectedPath;
         }
+
+
+
+        private void ShowMsg(string msg)
+        {
+            MessageBox.Show(msg);
+        }
+
     }
 }

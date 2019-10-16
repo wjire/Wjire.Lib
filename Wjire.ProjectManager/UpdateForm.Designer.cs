@@ -84,13 +84,13 @@
             this.tbx_localPath.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbx_localPath.Location = new System.Drawing.Point(98, 76);
             this.tbx_localPath.Name = "tbx_localPath";
-            this.tbx_localPath.Size = new System.Drawing.Size(379, 26);
+            this.tbx_localPath.Size = new System.Drawing.Size(644, 26);
             this.tbx_localPath.TabIndex = 6;
             // 
             // btn_chooseProjectDir
             // 
             this.btn_chooseProjectDir.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_chooseProjectDir.Location = new System.Drawing.Point(493, 76);
+            this.btn_chooseProjectDir.Location = new System.Drawing.Point(757, 76);
             this.btn_chooseProjectDir.Name = "btn_chooseProjectDir";
             this.btn_chooseProjectDir.Size = new System.Drawing.Size(46, 26);
             this.btn_chooseProjectDir.TabIndex = 10;
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 181);
+            this.ClientSize = new System.Drawing.Size(806, 180);
             this.Controls.Add(this.tbx_appName);
             this.Controls.Add(this.btn_chooseProjectDir);
             this.Controls.Add(this.tbx_localPath);

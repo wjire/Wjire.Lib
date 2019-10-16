@@ -15,6 +15,12 @@ namespace Wjire.ProjectManager
         protected readonly PublishInfo Info;
         private readonly string _uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
 
+
+        public PublishHandler()
+        {
+
+        }
+
         public PublishHandler(PublishInfo info)
         {
             Info = info;

@@ -84,13 +84,13 @@
             this.tbx_appDir.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbx_appDir.Location = new System.Drawing.Point(98, 76);
             this.tbx_appDir.Name = "tbx_appDir";
-            this.tbx_appDir.Size = new System.Drawing.Size(379, 26);
+            this.tbx_appDir.Size = new System.Drawing.Size(644, 26);
             this.tbx_appDir.TabIndex = 6;
             // 
             // btn_chooseProjectDir
             // 
             this.btn_chooseProjectDir.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_chooseProjectDir.Location = new System.Drawing.Point(493, 76);
+            this.btn_chooseProjectDir.Location = new System.Drawing.Point(757, 76);
             this.btn_chooseProjectDir.Name = "btn_chooseProjectDir";
             this.btn_chooseProjectDir.Size = new System.Drawing.Size(46, 26);
             this.btn_chooseProjectDir.TabIndex = 10;
@@ -107,11 +107,11 @@
             this.cbx_app.Size = new System.Drawing.Size(378, 24);
             this.cbx_app.TabIndex = 11;
             // 
-            // ProjectAddForm
+            // AddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 181);
+            this.ClientSize = new System.Drawing.Size(806, 181);
             this.Controls.Add(this.cbx_app);
             this.Controls.Add(this.btn_chooseProjectDir);
             this.Controls.Add(this.tbx_appDir);
@@ -119,7 +119,7 @@
             this.Controls.Add(this.lbl_appName);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "ProjectAddForm";
+            this.Name = "AddForm";
             this.Text = "添加项目";
             this.Load += new System.EventHandler(this.ProjectAddForm_Load);
             this.ResumeLayout(false);

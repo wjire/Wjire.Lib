@@ -60,6 +60,17 @@ namespace Wjire.ProjectManager.WebApi.Service
         }
         
 
+        private string GetNewPath(long appId)
+        {
+            AppInfo app = GetIISAppInfo(appId);
+            string[] arr = app.AppPath.Split(".");
+            int number = Convert.ToInt32(arr[arr.Length - 1]);
+            number += 1;
+            arr[arr.Length - 1] = number.ToString();
+            string newPath = string.Join(".", arr);
+            return newPath;
+        }
+
 
         /// <summary>
         /// 获取IIS应用程序信息
@@ -85,9 +96,6 @@ namespace Wjire.ProjectManager.WebApi.Service
                 return app;
             }
         }
-
-
-      
 
 
         /// <summary>
@@ -169,18 +177,6 @@ namespace Wjire.ProjectManager.WebApi.Service
                 }
                 iisManager.CommitChanges();
             }
-        }
-
-
-        private string GetNewPath(long appId)
-        {
-            AppInfo app = GetIISAppInfo(appId);
-            string[] arr = app.AppPath.Split(".");
-            int number = Convert.ToInt32(arr[arr.Length - 1]);
-            number += 1;
-            arr[arr.Length - 1] = number.ToString();
-            string newPath = string.Join(".", arr);
-            return newPath;
         }
 
 

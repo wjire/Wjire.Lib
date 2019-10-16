@@ -8,13 +8,9 @@ using Wjire.ProjectManager.Service;
 
 namespace Wjire.ProjectManager
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-
-        private List<AppInfo> _appInfos;
-
-
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -22,6 +18,8 @@ namespace Wjire.ProjectManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            string uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
+            this.Text += $" 服务器 : {uploadApi}";
             BindDataGridView();
         }
 
@@ -42,11 +40,20 @@ namespace Wjire.ProjectManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AddForm fm = new AddForm();
-            fm.ShowDialog();
-            if (fm.DialogResult == DialogResult.OK)
+            try
             {
-                BindDataGridView();
+                List<AppInfo> appInfos = new PublishHandler().GetAllAPPInfo();
+                AddForm addForm = new AddForm(appInfos);
+                addForm.ShowDialog();
+                if (addForm.DialogResult == DialogResult.OK)
+                {
+                    BindDataGridView();
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(ex.ToString());
+                return;
             }
         }
 
