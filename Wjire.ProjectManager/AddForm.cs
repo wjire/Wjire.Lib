@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Wjire.ProjectManager.Model;
 using Wjire.ProjectManager.Service;
-using System.Linq;
 
 namespace Wjire.ProjectManager
 {
-    public partial class ProjectAddForm : Form
+    public partial class AddForm : Form
     {
-        private readonly DbService _dbService;
 
-        public ProjectAddForm(string connectionString)
+        public AddForm()
         {
-            _dbService = new DbService(connectionString);
             InitializeComponent();
         }
 
@@ -56,27 +54,20 @@ namespace Wjire.ProjectManager
                     return;
                 }
 
-                var appInfo = cbx_app.SelectedItem as AppInfo;
+                AppInfo appInfo = cbx_app.SelectedItem as AppInfo;
                 appInfo.LocalPath = tbx_appDir.Text;
-                appInfo.AppType = rbn_iis.Checked ? 1 : 2;
-
-                int res = _dbService.AddProjectInfo(appInfo);
-                if (res == 1)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-                {
-                    DialogResult = DialogResult.Abort;
-                    ShowMsg("失败");
-                }
+                appInfo.AppType = 1;
+                new DbService().Add(appInfo);
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {
+                DialogResult = DialogResult.Abort;
                 ShowMsg(ex.Message);
             }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {

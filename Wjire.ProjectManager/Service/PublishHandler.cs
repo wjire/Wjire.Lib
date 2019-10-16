@@ -28,7 +28,7 @@ namespace Wjire.ProjectManager
                 bool res = Publish();
                 if (res == false)
                 {
-                    return res;
+                    return false;
                 }
                 Pack();
                 Upload();
@@ -48,7 +48,7 @@ namespace Wjire.ProjectManager
         protected virtual bool Publish()
         {
             Process proc = new Process();
-            string strOuput = null;
+            string output = null;
             try
             {
                 proc.StartInfo.FileName = "cmd.exe";
@@ -81,7 +81,7 @@ namespace Wjire.ProjectManager
                 proc.StandardInput.WriteLine(sb.ToString());
                 proc.StandardInput.AutoFlush = true;
 
-                strOuput = proc.StandardOutput.ReadToEnd();
+                output = proc.StandardOutput.ReadToEnd();
                 return true;
             }
             catch (Exception)
@@ -92,7 +92,7 @@ namespace Wjire.ProjectManager
             {
                 proc.WaitForExit();
                 proc.Close();
-                Console.WriteLine(strOuput);
+                Console.WriteLine(output);
             }
         }
 
@@ -122,7 +122,6 @@ namespace Wjire.ProjectManager
                 FileStream fs = new FileStream(Info.FileName, FileMode.Open, FileAccess.Read);
                 content.Add(new StreamContent(fs), "file", Path.GetFileName(Info.FileName));
                 content.Add(new StringContent(Info.AppInfo.AppId.ToString()), nameof(Info.AppInfo.AppId));
-                //content.Add(new StringContent(Info.AppInfo.AppPath), nameof(Info.AppInfo.AppPath));
                 HttpResponseMessage result = client.PostAsync(apiUrl, content).Result;
                 fs.Dispose();
                 return result.Content.ReadAsStringAsync().Result;

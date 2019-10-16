@@ -10,27 +10,25 @@ namespace Wjire.ProjectManager
 {
     public partial class Form1 : Form
     {
-        private readonly DbService _dbService;
-        private readonly string _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+
         private List<AppInfo> _appInfos;
 
 
         public Form1()
         {
-            _dbService = new DbService(_connectionString);
             InitializeComponent();
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            BindSource();
+            BindDataGridView();
         }
 
 
-        private void BindSource()
+        private void BindDataGridView()
         {
-            List<AppInfo> source = _dbService.GetAllAppInfo();
+            List<AppInfo> source = new DbService().GetAllAppInfo();
             dgv.DataSource = source.Select(s => new AppInfoView
             {
                 AppId = s.AppId,
@@ -44,11 +42,11 @@ namespace Wjire.ProjectManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ProjectAddForm fm = new ProjectAddForm(_connectionString);
+            AddForm fm = new AddForm();
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
-                BindSource();
+                BindDataGridView();
             }
         }
 
@@ -94,6 +92,84 @@ namespace Wjire.ProjectManager
             }
             publishInfo.FileName = Path.Combine(path, $"{publishInfo.AppInfo.AppName}.zip");
             return publishInfo;
+        }
+
+
+
+        private void btn_deleteApp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgv.SelectedRows.Count == 0)
+                {
+                    return;
+                }
+
+                DialogResult result = MessageBox.Show("确定删除吗？", "删除", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    long appId = Convert.ToInt64(dgv.SelectedRows[0].Cells["AppId"].Value);
+                    new DbService().Delete(appId);
+                    ShowMsg("删除成功");
+                    BindDataGridView();
+                }
+                else { return; }
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(ex.Message);
+            }
+        }
+
+
+        private DialogResult ShowMsg(string msg)
+        {
+            return MessageBox.Show(msg);
+        }
+
+        private void btn_clearAll_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new DbService().Delete();
+                ShowMsg("删除成功");
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(ex.Message);
+            }
+        }
+
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgv.SelectedRows.Count == 0)
+                {
+                    return;
+                }
+
+                DataGridViewRow row = dgv.SelectedRows[0];
+                AppInfo appInfo = new AppInfo
+                {
+                    AppId = Convert.ToInt64(row.Cells["AppId"].Value),
+                    AppName = row.Cells["AppName"].Value.ToString(),
+                    LocalPath = row.Cells["LocalPath"].Value.ToString()
+                };
+
+                UpdateForm updateForm = new UpdateForm(appInfo);
+                updateForm.ShowDialog();
+                if (updateForm.DialogResult == DialogResult.OK)
+                {
+                    BindDataGridView();
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMsg(ex.Message);
+            }
         }
     }
 }

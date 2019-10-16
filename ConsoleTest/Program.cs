@@ -1,6 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
+using System.Management;
 
 namespace ConsoleTest
 {
@@ -8,14 +7,27 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            string path = @"c:\1\2\3\temp\1.0.0.0";
-            string[] arr = path.Split(".");
-            int number = Convert.ToInt32(arr[arr.Length - 1]);
-            number += 1;
-            arr[arr.Length - 1] = number.ToString();
-            string newVer = string.Join(".", arr);
-            var version = new Version("1.0.0.0");
-            Console.WriteLine(newVer);
+            string[] lvData = new string[6];
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Service");
+            foreach (ManagementObject mo in searcher.Get())
+            {
+                lvData[0] = mo["Name"].ToString();
+                lvData[1] = mo["DisplayName"].ToString();
+                lvData[2] = mo["StartMode"].ToString();
+                if (mo["Started"].Equals(true))
+                {
+                    lvData[3] = "Started";
+                }
+                else
+                {
+                    lvData[3] = "Stop";
+                }
+                //lvData[4] = mo["PathName"]?.ToString();//StartName
+                lvData[5] = mo["StartName"]?.ToString() ?? "null";//StartName
+                Console.WriteLine(lvData[0] + " === " + lvData[1] + " === " + lvData[2] + " === " + lvData[3] + " ===" + lvData[5]);
+            }
+
+            Console.ReadKey();
         }
     }
 }
