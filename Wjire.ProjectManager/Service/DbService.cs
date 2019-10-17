@@ -18,10 +18,11 @@ namespace Wjire.ProjectManager.Service
         /// <returns></returns>
         public List<AppInfo> GetAllAppInfo()
         {
-            string sql = "SELECT * FROM AppInfo";
+            string sql = "SELECT * FROM AppInfo WHERE ServerAddress=@ServerAddress";
+            var param = new {ServerAddress = System.Configuration.ConfigurationManager.AppSettings["uploadApi"]};
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
-                return db.Query<AppInfo>(sql).ToList();
+                return db.Query<AppInfo>(sql,param).ToList();
             }
         }
 
@@ -34,7 +35,7 @@ namespace Wjire.ProjectManager.Service
         public void Add(AppInfo info)
         {
             int res = 0;
-            string sql = "INSERT INTO AppInfo VALUES (@AppId,@AppName,@AppPath,@AppType,@LocalPath)";
+            string sql = "INSERT INTO AppInfo VALUES (@AppId,@AppName,@AppPath,@AppType,@LocalPath,@ServerAddress)";
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
                 res = db.Execute(sql, info);

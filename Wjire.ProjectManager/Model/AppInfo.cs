@@ -34,6 +34,12 @@
         public int AppType { get; set; }
 
 
+        /// <summary>
+        /// 服务器地址
+        /// </summary>
+        public string ServerAddress { get; set; }
+
+
         public string AppTypeString
         {
             get

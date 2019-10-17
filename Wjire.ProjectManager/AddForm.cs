@@ -57,6 +57,7 @@ namespace Wjire.ProjectManager
                 AppInfo appInfo = cbx_app.SelectedItem as AppInfo;
                 appInfo.LocalPath = tbx_appDir.Text;
                 appInfo.AppType = 1;
+                appInfo.ServerAddress = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
                 new DbService().Add(appInfo);
                 DialogResult = DialogResult.OK;
                 Close();
