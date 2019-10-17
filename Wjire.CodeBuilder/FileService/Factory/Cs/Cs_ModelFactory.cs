@@ -44,9 +44,12 @@ namespace Wjire.CodeBuilder.FileService
                 string name = item.ColumnName;
                 name = name.Substring(0, 1).ToUpper() + name.Substring(1);
                 string isNullable = item.IsNullable == "1" && typeName != "string" ? "?" : "";
-                if (string.IsNullOrWhiteSpace(columnDescription) && item.IsKey == "1")
+                if (item.IsKey == "1")
                 {
-                    columnDescription = "主键";
+                    if (string.IsNullOrWhiteSpace(columnDescription))
+                    {
+                        columnDescription = "主键";
+                    }
                     keyString = "[Key]";
                 }
 
