@@ -8,6 +8,8 @@
 
         public string AppPath { get; set; }
 
+        public int AppType { get; set; }
+
         public int Status { get; set; }
     }
 }

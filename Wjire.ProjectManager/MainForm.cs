@@ -19,7 +19,7 @@ namespace Wjire.ProjectManager
         private void Form1_Load(object sender, EventArgs e)
         {
             string uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
-            this.Text += $" 服务器 : {uploadApi}";
+            Text += $" 服务器 : {uploadApi}";
             BindDataGridView();
         }
 
@@ -32,7 +32,8 @@ namespace Wjire.ProjectManager
                 AppId = s.AppId,
                 AppName = s.AppName,
                 AppTypeString = s.AppTypeString,
-                LocalPath = s.LocalPath
+                LocalPath = s.LocalPath,
+                AppType = s.AppType
             }).ToList();
             //dgv.DataSource = source;
         }
@@ -42,8 +43,7 @@ namespace Wjire.ProjectManager
         {
             try
             {
-                List<AppInfo> appInfos = new PublishHandler().GetAllAPPInfo();
-                AddForm addForm = new AddForm(appInfos);
+                AddForm addForm = new AddForm();
                 addForm.ShowDialog();
                 if (addForm.DialogResult == DialogResult.OK)
                 {
@@ -68,7 +68,7 @@ namespace Wjire.ProjectManager
 
             PublishInfo publishInfo = CreatePublishInfo(dgv.SelectedRows[0]);
             PublishHandler handler = new PublishHandler(publishInfo);
-            bool publishResult = handler.PublishWeb();
+            bool publishResult = handler.PublishApp();
             if (publishResult)
             {
                 MessageBox.Show("成功");
@@ -88,7 +88,7 @@ namespace Wjire.ProjectManager
                 {
                     AppName = row.Cells["AppName"].Value.ToString(),
                     LocalPath = row.Cells["LocalPath"].Value.ToString(),
-                    //AppType = Convert.ToInt32(row.Cells["AppType"].Value.ToString()),
+                    AppType = Convert.ToInt32(row.Cells["AppType"].Value.ToString()),
                     AppId = Convert.ToInt32(row.Cells["AppId"].Value.ToString()),
                 },
             };

@@ -9,20 +9,24 @@ namespace Wjire.ProjectManager
 {
     public partial class AddForm : Form
     {
-        private readonly List<AppInfo> appInfos;
 
-        public AddForm(List<AppInfo> appInfos)
+        public AddForm()
         {
             InitializeComponent();
-            this.appInfos = appInfos;
         }
 
 
         private void ProjectAddForm_Load(object sender, EventArgs e)
         {
-            BindApp(appInfos);
+            BindApp();
         }
 
+        private void BindApp()
+        {
+            int appType = rbn_iis.Checked ? 1 : 2;
+            List<AppInfo> appInfos = new PublishHandler().GetAppInfos(appType);
+            BindApp(appInfos);
+        }
 
 
         /// <summary>
@@ -31,6 +35,7 @@ namespace Wjire.ProjectManager
         /// <param name="appInfoViews"></param>
         private void BindApp(List<AppInfo> appInfoViews)
         {
+            cbx_app.Items.Clear();
             foreach (AppInfo item in appInfoViews)
             {
                 cbx_app.Items.Add(item);
@@ -104,5 +109,9 @@ namespace Wjire.ProjectManager
             MessageBox.Show(msg);
         }
 
+        private void rbn_exe_CheckedChanged(object sender, EventArgs e)
+        {
+            BindApp();
+        }
     }
 }

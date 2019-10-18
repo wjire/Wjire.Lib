@@ -28,10 +28,10 @@
         public string LocalPath { get; set; }
 
 
-        ///// <summary>
-        ///// 1:IIS 2:EXE
-        ///// </summary>
-        //public int AppType { get; set; }
+        /// <summary>
+        /// 1:IIS 2:EXE
+        /// </summary>
+        public int AppType { get; set; }
 
 
         public string AppTypeString { get; set; }

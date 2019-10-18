@@ -27,11 +27,11 @@ namespace Wjire.ProjectManager
         }
 
 
-        public bool PublishWeb()
+        public bool PublishApp()
         {
             try
             {
-                bool res = Publish();
+                bool res = PublishDll();
                 if (res == false)
                 {
                     return false;
@@ -49,9 +49,9 @@ namespace Wjire.ProjectManager
 
 
         /// <summary>
-        /// 发布
+        /// 发布dll
         /// </summary>
-        protected virtual bool Publish()
+        protected virtual bool PublishDll()
         {
             Process proc = new Process();
             string output = null;
@@ -123,12 +123,17 @@ namespace Wjire.ProjectManager
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_uploadApi);
+                //client.BaseAddress = new Uri("http://localhost:52635");
                 string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
                 FileStream fs = new FileStream(Info.FileName, FileMode.Open, FileAccess.Read);
                 content.Add(new StreamContent(fs), "file", Path.GetFileName(Info.FileName));
-                content.Add(new StringContent(Info.AppInfo.AppId.ToString()), nameof(Info.AppInfo.AppId));
+                content.Add(new StringContent(JsonConvert.SerializeObject(Info.AppInfo)), nameof(AppInfo));
                 HttpResponseMessage result = client.PostAsync(apiUrl, content).Result;
+                if (result.IsSuccessStatusCode == false)
+                {
+                    Console.WriteLine(result.Content);
+                }
                 fs.Dispose();
                 return result.Content.ReadAsStringAsync().Result;
             }
@@ -136,12 +141,12 @@ namespace Wjire.ProjectManager
 
 
 
-        public List<AppInfo> GetAllAPPInfo()
+        public List<AppInfo> GetAppInfos(int appType)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_uploadApi);
-                string apiUrl = "api/publish/getallapps";
+                string apiUrl = "api/publish/getappInfos?type=" + appType;
                 string result = client.GetStringAsync(apiUrl).Result;
                 return JsonConvert.DeserializeObject<List<AppInfo>>(result);
             }
