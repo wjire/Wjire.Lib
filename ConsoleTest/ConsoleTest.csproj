@@ -10,4 +10,10 @@
     <PackageReference Include="System.Management" Version="4.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="service.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

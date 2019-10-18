@@ -122,8 +122,8 @@ namespace Wjire.ProjectManager
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(_uploadApi);
-                //client.BaseAddress = new Uri("http://localhost:52635");
+                //client.BaseAddress = new Uri(_uploadApi);
+                client.BaseAddress = new Uri("http://localhost:52635");
                 string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
                 FileStream fs = new FileStream(Info.FileName, FileMode.Open, FileAccess.Read);

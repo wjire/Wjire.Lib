@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wjire.ProjectManager.WebApi.Model;
+using Wjire.ProjectManager.WebApi.Utils;
 
 namespace Wjire.ProjectManager.WebApi.Service
 {
@@ -21,7 +22,7 @@ namespace Wjire.ProjectManager.WebApi.Service
 
         public IISPublishService(AppInfo appInfo) : base(appInfo)
         {
-            _applicationHostPath = new ConfigurationBuilder().Build()["applicationHostPath"];
+            _applicationHostPath = ConfigurationHelper.GetConfiguration("applicationHostPath");
         }
 
 
