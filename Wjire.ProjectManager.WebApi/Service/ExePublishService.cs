@@ -45,7 +45,7 @@ namespace Wjire.ProjectManager.WebApi.Service
         {
             string path = Path.Combine(_rpcServicePath, AppInfo.AppName);
             string[] dirs = Directory.GetDirectories(path);
-            List<Version> versions = dirs.Select(item => Path.GetFileName(item)).Select(versionString => new Version(versionString)).ToList();
+            List<Version> versions = dirs.Select(Path.GetFileName).Select(versionString => new Version(versionString)).ToList();
             Version max = versions.Max();
             string[] arr = max.ToString().Split(".");
             int lastNumber = Convert.ToInt32(arr[arr.Length - 1]);
@@ -84,14 +84,10 @@ namespace Wjire.ProjectManager.WebApi.Service
                 proc.Start();
 
                 //构造命令
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append($@"service.cmd");
-                //退出
-                sb.Append("&exit");
+                string command = GetCommand(newPath);
 
                 //向cmd窗口发送输入信息
-                proc.StandardInput.WriteLine(sb.ToString());
+                proc.StandardInput.WriteLine(command);
                 proc.StandardInput.AutoFlush = true;
 
                 output = proc.StandardOutput.ReadToEnd();
@@ -106,6 +102,42 @@ namespace Wjire.ProjectManager.WebApi.Service
                 proc.Close();
                 Console.WriteLine(output);
             }
+        }
+
+
+        private string GetCommand(string path)
+        {
+            /*
+             *@echo off
+                title Microservice.EventTracking
+                net stop Microservice.EventTracking
+                sc delete Microservice.EventTracking
+                sc create Microservice.EventTracking binpath= "%~dp0%..\ConsoleApp" displayname= "Microservice.EventTracking" depend= Tcpip start= auto
+                net start Microservice.EventTracking
+                exit
+             *
+             *
+             */
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"net stop {AppInfo.AppName}");
+            sb.Append($"&sc delete {AppInfo.AppName}");
+            sb.Append($"&sc create {AppInfo.AppName} binpath= \"{GetWindowsServiceBindPath(path)}\" displayname= \"{AppInfo.AppName}\" depend= Tcpip start= auto");
+            sb.Append($@"&net start {AppInfo.AppName}");
+            sb.Append("&exit");
+            return sb.ToString();
+        }
+
+
+        private string GetWindowsServiceBindPath(string path)
+        {
+            string[] files = Directory.GetFiles(path, "*.exe");
+            if (files.Count() == 1)
+            {
+                return Path.Combine(path, Path.GetFileNameWithoutExtension(files[0]));
+            }
+
+            throw new Exception($"未找到 .exe 文件");
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Management;
-using System.Linq;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Management;
 using System.Text;
 
 namespace ConsoleTest
@@ -13,16 +13,30 @@ namespace ConsoleTest
         private static void Main(string[] args)
         {
             //DirTest("Test1");
-            ProcessTest2(@"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2\service.cmd");
-            //Console.ReadKey();
+            //ProcessTest2(@"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2\service.cmd");
+
+            FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
+            Console.ReadKey();
+
         }
+
+        private static void FileTest(string path)
+        {
+            string[] files = Directory.GetFiles(path, "*.exe");
+            if (files.Count() == 1)
+            {
+                var basePath = Path.GetDirectoryName(path);
+                Console.WriteLine(Path.Combine(basePath, Path.GetFileNameWithoutExtension(files[0])));
+            }
+        }
+
 
 
         private static void ProcessTest(string path)
         {
             Process.Start(new ProcessStartInfo(path)
             {
-                WorkingDirectory = @"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2",           
+                WorkingDirectory = @"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2",
             });
         }
 
@@ -50,7 +64,7 @@ namespace ConsoleTest
                 //不显示程序窗口
                 proc.StartInfo.CreateNoWindow = true;
 
-                proc.StartInfo.WorkingDirectory = @"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2";        
+                proc.StartInfo.WorkingDirectory = @"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2";
 
                 proc.Start();
 
@@ -83,23 +97,23 @@ namespace ConsoleTest
 
         private static void DirTest(string name)
         {
-            var basePath = @"C:\\Users\\Administrator\\Desktop\\RPC";
-            var path = Path.Combine(basePath, name);
-            var dirs = Directory.GetDirectories(path);
+            string basePath = @"C:\\Users\\Administrator\\Desktop\\RPC";
+            string path = Path.Combine(basePath, name);
+            string[] dirs = Directory.GetDirectories(path);
 
-            var versions = new List<Version>();
-            foreach (var item in dirs)
+            List<Version> versions = new List<Version>();
+            foreach (string item in dirs)
             {
-                var versionString = Path.GetFileName(item);
+                string versionString = Path.GetFileName(item);
                 versions.Add(new Version(versionString));
             }
 
-            var max = versions.Max();
-            var arr = max.ToString().Split(".");
-            var lastNumber = Convert.ToInt32(arr[arr.Length - 1]);
+            Version max = versions.Max();
+            string[] arr = max.ToString().Split(".");
+            int lastNumber = Convert.ToInt32(arr[arr.Length - 1]);
             arr[arr.Length - 1] = (++lastNumber).ToString();
-            var newVersionString = string.Join(".", arr);
-            var dir = Path.Combine(path, newVersionString);
+            string newVersionString = string.Join(".", arr);
+            string dir = Path.Combine(path, newVersionString);
             if (Directory.Exists(dir) == false)
             {
                 Directory.CreateDirectory(dir);

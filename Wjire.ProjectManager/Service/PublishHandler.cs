@@ -80,10 +80,10 @@ namespace Wjire.ProjectManager
                 proc.Start();
 
                 //构造命令
-                string cmdString = GetPublishCommand(Info.AppInfo.AppType);
+                string command = GetCommand(Info.AppInfo.AppType);
 
                 //向cmd窗口发送输入信息
-                proc.StandardInput.WriteLine(cmdString);
+                proc.StandardInput.WriteLine(command);
                 proc.StandardInput.AutoFlush = true;
 
                 output = proc.StandardOutput.ReadToEnd();
@@ -153,7 +153,7 @@ namespace Wjire.ProjectManager
 
 
 
-        private string GetPublishCommand(int type)
+        private string GetCommand(int type)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append($@"dotnet publish {Info.AppInfo.LocalPath} -c release -o publish\{Info.AppInfo.AppName} ");
