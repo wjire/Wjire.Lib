@@ -16,13 +16,6 @@
         
 
         /// <summary>
-        /// 服务器地址
-        /// </summary>
-        public string AppPath { get; set; }
-
-
-
-        /// <summary>
         /// 本地地址
         /// </summary>
         public string LocalPath { get; set; }

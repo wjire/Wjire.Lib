@@ -35,7 +35,7 @@ namespace Wjire.ProjectManager.Service
         public void Add(AppInfo info)
         {
             int res = 0;
-            string sql = "INSERT INTO AppInfo VALUES (@AppId,@AppName,@AppPath,@AppType,@LocalPath,@ServerAddress)";
+            string sql = "INSERT INTO AppInfo VALUES (@AppId,@AppName,@AppType,@LocalPath,@ServerAddress)";
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
                 res = db.Execute(sql, info);

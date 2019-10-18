@@ -74,17 +74,16 @@ namespace Wjire.ProjectManager
                 //不显示程序窗口
                 proc.StartInfo.CreateNoWindow = true;
 
+                //指定cmd命令执行得路径
+                //proc.StartInfo.WorkingDirectory = Info.AppInfo.LocalPath;
+
                 proc.Start();
 
                 //构造命令
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append($@"dotnet publish {Info.AppInfo.LocalPath} -c release -o publish\{Info.AppInfo.AppName}");
-                //退出
-                sb.Append("&exit");
+                string cmdString = GetPublishCommand(Info.AppInfo.AppType);
 
                 //向cmd窗口发送输入信息
-                proc.StandardInput.WriteLine(sb.ToString());
+                proc.StandardInput.WriteLine(cmdString);
                 proc.StandardInput.AutoFlush = true;
 
                 output = proc.StandardOutput.ReadToEnd();
@@ -122,8 +121,8 @@ namespace Wjire.ProjectManager
         {
             using (HttpClient client = new HttpClient())
             {
-                //client.BaseAddress = new Uri(_uploadApi);
-                client.BaseAddress = new Uri("http://localhost:52635");
+                client.BaseAddress = new Uri(_uploadApi);
+                //client.BaseAddress = new Uri("http://localhost:52635");
                 string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
                 FileStream fs = new FileStream(Info.FileName, FileMode.Open, FileAccess.Read);
@@ -150,6 +149,21 @@ namespace Wjire.ProjectManager
                 string result = client.GetStringAsync(apiUrl).Result;
                 return JsonConvert.DeserializeObject<List<AppInfo>>(result);
             }
+        }
+
+
+
+        private string GetPublishCommand(int type)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($@"dotnet publish {Info.AppInfo.LocalPath} -c release -o publish\{Info.AppInfo.AppName} ");
+            if (type == 2)
+            {
+                //dotnet publish -c release -o test --runtime win-x64 --self-contained false
+                sb.Append("--runtime win-x64 --self-contained false");
+            }
+            sb.Append("&exit");
+            return sb.ToString();
         }
     }
 }
