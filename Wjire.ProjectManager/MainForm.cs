@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Wjire.ProjectManager.Model;
 using Wjire.ProjectManager.Service;
@@ -82,6 +81,7 @@ namespace Wjire.ProjectManager
                     LocalPath = row.Cells["LocalPath"].Value.ToString(),
                     AppType = Convert.ToInt32(row.Cells["AppType"].Value.ToString()),
                     AppId = Convert.ToInt32(row.Cells["AppId"].Value.ToString()),
+                    ServerAddress = row.Cells["ServerAddress"].Value.ToString(),
                 },
             };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"upload\{publishInfo.AppInfo.AppName}");

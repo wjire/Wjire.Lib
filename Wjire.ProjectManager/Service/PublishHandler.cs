@@ -121,7 +121,7 @@ namespace Wjire.ProjectManager
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(_uploadApi);
+                client.BaseAddress = new Uri(Info.AppInfo.ServerAddress);
                 //client.BaseAddress = new Uri("http://localhost:52635");
                 string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
@@ -137,20 +137,6 @@ namespace Wjire.ProjectManager
                 return result.Content.ReadAsStringAsync().Result;
             }
         }
-
-
-
-        public List<AppInfo> GetAppInfos(int appType)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_uploadApi);
-                string apiUrl = "api/publish/getappInfos?type=" + appType;
-                string result = client.GetStringAsync(apiUrl).Result;
-                return JsonConvert.DeserializeObject<List<AppInfo>>(result);
-            }
-        }
-
 
 
         private string GetCommand(int type)
