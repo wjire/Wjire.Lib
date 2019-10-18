@@ -15,13 +15,6 @@
         public string AppName { get; set; }
         
 
-        ///// <summary>
-        ///// 服务器地址
-        ///// </summary>
-        //public string AppPath { get; set; }
-
-
-
         /// <summary>
         /// 本地地址
         /// </summary>
@@ -35,6 +28,12 @@
 
 
         public string AppTypeString { get; set; }
+
+
+        /// <summary>
+        /// 服务器
+        /// </summary>
+        public string ServerAddress { get; set; }
 
     }
 }

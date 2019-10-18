@@ -18,8 +18,8 @@ namespace Wjire.ProjectManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
-            Text += $" 服务器 : {uploadApi}";
+            //string uploadApi = System.Configuration.ConfigurationManager.AppSettings["uploadApi"];
+            //Text += $" 服务器 : {uploadApi}";
             BindDataGridView();
         }
 
@@ -27,15 +27,7 @@ namespace Wjire.ProjectManager
         private void BindDataGridView()
         {
             List<AppInfo> source = new DbService().GetAllAppInfo();
-            dgv.DataSource = source.Select(s => new AppInfoView
-            {
-                AppId = s.AppId,
-                AppName = s.AppName,
-                AppTypeString = s.AppTypeString,
-                LocalPath = s.LocalPath,
-                AppType = s.AppType
-            }).ToList();
-            //dgv.DataSource = source;
+            dgv.DataSource = source;
         }
 
 

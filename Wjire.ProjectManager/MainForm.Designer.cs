@@ -34,10 +34,11 @@
             this.btn_deleteApp = new System.Windows.Forms.Button();
             this.btn_clearAll = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.ServerAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AppId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LocalPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AppTypeString = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LocalPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AppType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -68,10 +69,11 @@
             // 
             this.dgv.ColumnHeadersHeight = 30;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ServerAddress,
             this.AppId,
             this.AppName,
-            this.LocalPath,
             this.AppTypeString,
+            this.LocalPath,
             this.AppType});
             this.dgv.Location = new System.Drawing.Point(12, 12);
             this.dgv.MultiSelect = false;
@@ -115,6 +117,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // ServerAddress
+            // 
+            this.ServerAddress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ServerAddress.DataPropertyName = "ServerAddress";
+            this.ServerAddress.Frozen = true;
+            this.ServerAddress.HeaderText = "服务器";
+            this.ServerAddress.Name = "ServerAddress";
+            this.ServerAddress.Width = 61;
+            // 
             // AppId
             // 
             this.AppId.DataPropertyName = "AppId";
@@ -126,32 +137,33 @@
             // 
             // AppName
             // 
-            this.AppName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.AppName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.AppName.DataPropertyName = "AppName";
             this.AppName.Frozen = true;
             this.AppName.HeaderText = "项目名称";
             this.AppName.Name = "AppName";
             this.AppName.ReadOnly = true;
-            this.AppName.Width = 200;
-            // 
-            // LocalPath
-            // 
-            this.LocalPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LocalPath.DataPropertyName = "LocalPath";
-            this.LocalPath.Frozen = true;
-            this.LocalPath.HeaderText = "本地路径";
-            this.LocalPath.Name = "LocalPath";
-            this.LocalPath.ReadOnly = true;
-            this.LocalPath.Width = 450;
+            this.AppName.Width = 61;
             // 
             // AppTypeString
             // 
-            this.AppTypeString.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.AppTypeString.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.AppTypeString.DataPropertyName = "AppTypeString";
             this.AppTypeString.Frozen = true;
             this.AppTypeString.HeaderText = "项目类型";
             this.AppTypeString.Name = "AppTypeString";
             this.AppTypeString.ReadOnly = true;
+            this.AppTypeString.Width = 61;
+            // 
+            // LocalPath
+            // 
+            this.LocalPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.LocalPath.DataPropertyName = "LocalPath";
+            this.LocalPath.Frozen = true;
+            this.LocalPath.HeaderText = "本地路径";
+            this.LocalPath.Name = "LocalPath";
+            this.LocalPath.ReadOnly = true;
+            this.LocalPath.Width = 61;
             // 
             // AppType
             // 
@@ -163,7 +175,7 @@
             this.AppType.ReadOnly = true;
             this.AppType.Visible = false;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -174,7 +186,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.btn_addProject);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "项目管理";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -189,10 +201,11 @@
         private System.Windows.Forms.Button btn_deleteApp;
         private System.Windows.Forms.Button btn_clearAll;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServerAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppId;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LocalPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppTypeString;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LocalPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppType;
     }
 }
