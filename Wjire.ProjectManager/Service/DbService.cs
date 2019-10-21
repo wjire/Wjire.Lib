@@ -18,7 +18,8 @@ namespace Wjire.ProjectManager.Service
         /// <returns></returns>
         public List<AppInfo> GetAllAppInfo()
         {
-            string sql = "SELECT * FROM AppInfo WHERE ServerAddress=@ServerAddress";
+            //string sql = "SELECT * FROM AppInfo WHERE ServerAddress=@ServerAddress";
+            string sql = "SELECT * FROM AppInfo";
             var param = new {ServerAddress = System.Configuration.ConfigurationManager.AppSettings["uploadApi"]};
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
