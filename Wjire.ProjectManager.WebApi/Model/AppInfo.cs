@@ -10,6 +10,7 @@
 
         public int AppType { get; set; }
 
+        //0:关闭 1：开启
         public int Status { get; set; }
     }
 }

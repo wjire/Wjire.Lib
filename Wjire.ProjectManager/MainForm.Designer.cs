@@ -119,12 +119,11 @@
             // 
             // ServerAddress
             // 
-            this.ServerAddress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ServerAddress.DataPropertyName = "ServerAddress";
             this.ServerAddress.Frozen = true;
             this.ServerAddress.HeaderText = "服务器";
             this.ServerAddress.Name = "ServerAddress";
-            this.ServerAddress.Width = 61;
+            this.ServerAddress.Width = 250;
             // 
             // AppId
             // 
@@ -137,23 +136,21 @@
             // 
             // AppName
             // 
-            this.AppName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.AppName.DataPropertyName = "AppName";
             this.AppName.Frozen = true;
             this.AppName.HeaderText = "项目名称";
             this.AppName.Name = "AppName";
             this.AppName.ReadOnly = true;
-            this.AppName.Width = 61;
+            this.AppName.Width = 322;
             // 
             // AppTypeString
             // 
-            this.AppTypeString.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.AppTypeString.DataPropertyName = "AppTypeString";
             this.AppTypeString.Frozen = true;
             this.AppTypeString.HeaderText = "项目类型";
             this.AppTypeString.Name = "AppTypeString";
             this.AppTypeString.ReadOnly = true;
-            this.AppTypeString.Width = 61;
+            this.AppTypeString.Width = 250;
             // 
             // LocalPath
             // 
@@ -163,17 +160,18 @@
             this.LocalPath.HeaderText = "本地路径";
             this.LocalPath.Name = "LocalPath";
             this.LocalPath.ReadOnly = true;
+            this.LocalPath.Visible = false;
             this.LocalPath.Width = 61;
             // 
             // AppType
             // 
-            this.AppType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.AppType.DataPropertyName = "AppType";
             this.AppType.Frozen = true;
             this.AppType.HeaderText = "项目类型";
             this.AppType.Name = "AppType";
             this.AppType.ReadOnly = true;
             this.AppType.Visible = false;
+            this.AppType.Width = 250;
             // 
             // MainForm
             // 

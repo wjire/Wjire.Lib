@@ -19,7 +19,7 @@ namespace ConsoleTest
             //FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
 
             WindowsServiceTest();
-
+            //WindowsServiceTest2();
 
             //var file =
             //    @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService\1.0.0.8\Mxlemon.Magic.Microservice.MagicStatistics.Host";
@@ -38,8 +38,8 @@ namespace ConsoleTest
             string file = @"C:\Users\gongwei\Desktop\copy\copy.zip";
             FastZip fz = new FastZip { CreateEmptyDirectories = true };
             fz.CreateZip(file, source, true, "");
-            
-            var newPath = @"C:\Users\gongwei\Desktop\copy\";
+
+            string newPath = @"C:\Users\gongwei\Desktop\copy\";
             using (FileStream fs = File.OpenRead(file))
             {
                 UnpackFiles(fs, newPath);
@@ -195,6 +195,26 @@ namespace ConsoleTest
 
 
 
+        private static void WindowsServiceTest2()
+        {
+            string path = @"H:\gongwei\servers\Redis\";
+            string sql = $"SELECT * FROM Win32_Service ";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(sql);
+
+            foreach (ManagementBaseObject mo in searcher.Get())
+            {
+                string pathName = mo["PathName"]?.ToString();
+                if (string.IsNullOrWhiteSpace(pathName) == false)
+                {
+                    if (mo["PathName"].ToString().Contains(path))
+                    {
+                        Console.WriteLine(mo["PathName"]);
+                    }
+                }
+            }
+        }
+
+
 
         private static void WindowsServiceTest()
         {
@@ -204,7 +224,7 @@ namespace ConsoleTest
             foreach (ManagementObject mo in searcher.Get())
             {
                 //Console.WriteLine(mo["PathName"]);
-                foreach (var property in mo.Properties )
+                foreach (PropertyData property in mo.Properties)
                 {
                     Console.WriteLine(property.Name);
                 }

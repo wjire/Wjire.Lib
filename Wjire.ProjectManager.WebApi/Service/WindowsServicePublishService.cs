@@ -26,19 +26,52 @@ namespace Wjire.ProjectManager.WebApi.Service
         }
 
 
+
         /// <summary>
         /// 获取所有rpc服务
         /// </summary>
         /// <returns></returns>
         public override IEnumerable<AppInfo> GetAppInfos()
         {
-            string[] dirs = Directory.GetDirectories(_rpcServicePath);
-            return dirs.Select(s => new AppInfo
+            List<AppInfo> appInfos = new List<AppInfo>();
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Service ");
+            foreach (ManagementBaseObject mo in searcher.Get())
             {
-                AppName = Path.GetFileName(s),
-                AppType = 2,
-            });
+                string pathName = mo["PathName"]?.ToString();
+                if (string.IsNullOrWhiteSpace(pathName) == true)
+                {
+                    continue;
+                }
+                if (mo["PathName"].ToString().Contains(_rpcServicePath) == false)
+                {
+                    continue;
+                }
+                appInfos.Add(new AppInfo
+                {
+                    AppId = Convert.ToInt64(mo["ProcessId"]),
+                    AppPath = pathName,
+                    AppName = mo["Name"].ToString(),
+                    Status = mo["Started"].Equals(true) ? 1 : 0,
+                    AppType = 2,
+                });
+            }
+            return appInfos;
         }
+
+
+        ///// <summary>
+        ///// 获取所有rpc服务
+        ///// </summary>
+        ///// <returns></returns>
+        //public override IEnumerable<AppInfo> GetAppInfos2()
+        //{
+        //    string[] dirs = Directory.GetDirectories(_rpcServicePath);
+        //    return dirs.Select(s => new AppInfo
+        //    {
+        //        AppName = Path.GetFileName(s),
+        //        AppType = 2,
+        //    });
+        //}
 
 
         protected override void StopApp()

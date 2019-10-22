@@ -39,14 +39,22 @@ namespace Wjire.ProjectManager.WebApi.Service
             {
                 foreach (Site site in iisManager.Sites)
                 {
-                    AppInfo app = new AppInfo
+                    try
                     {
-                        AppId = site.Id,
-                        AppName = site.Name,
-                        AppPath = site.Applications["/"]?.VirtualDirectories["/"]?.PhysicalPath ?? string.Empty,
-                        Status = site.State == ObjectState.Started ? 1 : 0,
-                    };
-                    result.Add(app);
+                        AppInfo app = new AppInfo
+                        {
+                            AppId = site.Id,
+                            AppName = site.Name,
+                            AppPath = site.Applications["/"]?.VirtualDirectories["/"]?.PhysicalPath ?? string.Empty,
+                            Status = site.State == ObjectState.Started ? 1 : 0,
+                            AppType = 1
+                        };
+                        result.Add(app);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogService.WriteLog(ex, nameof(GetAppInfos));
+                    }
                 }
             }
             return result;
@@ -66,7 +74,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                 if (appPool == null)
                 {
                     throw new Exception($"{site.Name}应用程序池不存在");
-                }                
+                }
                 if (site.State != ObjectState.Stopped)
                 {
                     site.Stop();

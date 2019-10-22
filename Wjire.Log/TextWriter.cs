@@ -14,7 +14,7 @@ namespace Wjire.Log
         /// <summary>
         /// 日志集合
         /// </summary>
-        private static readonly BlockingCollection<LogInfo> LogCollection = new BlockingCollection<LogInfo>(int.MaxValue);
+        private static readonly BlockingCollection<LogInfo> LogCollection = new BlockingCollection<LogInfo>(128);
 
 
         static TextWriter()

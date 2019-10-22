@@ -19,7 +19,16 @@ namespace Wjire.ProjectManager.WebApi.Controller
         [HttpGet]
         public IEnumerable<AppInfo> GetAppInfos(int type)
         {
-            return PublishServiceFactory.Create(type).GetAppInfos();
+            try
+            {
+                return PublishServiceFactory.Create(type).GetAppInfos();
+            }
+            catch (Exception ex)
+            {
+                LogService.WriteLog(ex, nameof(GetAppInfos), type);
+            }
+
+            return new List<AppInfo>();
         }
 
 
