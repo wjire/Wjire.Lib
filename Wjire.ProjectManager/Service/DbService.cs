@@ -20,10 +20,10 @@ namespace Wjire.ProjectManager.Service
         {
             //string sql = "SELECT * FROM AppInfo WHERE ServerAddress=@ServerAddress";
             string sql = "SELECT * FROM AppInfo";
-            var param = new {ServerAddress = System.Configuration.ConfigurationManager.AppSettings["uploadApi"]};
+            var param = new { ServerAddress = System.Configuration.ConfigurationManager.AppSettings["uploadApi"] };
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
-                return db.Query<AppInfo>(sql,param).ToList();
+                return db.Query<AppInfo>(sql, param).ToList();
             }
         }
 
@@ -51,19 +51,19 @@ namespace Wjire.ProjectManager.Service
         /// <summary>
         /// 删除项目
         /// </summary>
-        /// <param name="appId"></param>
+        /// <param name="appInfo"></param>
         /// <returns></returns>
-        public void Delete(long? appId = null)
+        public void Delete(AppInfo appInfo = null)
         {
             int res = 0;
             string sql = "DELETE FROM AppInfo ";
-            if (appId.HasValue)
+            if (appInfo != null)
             {
-                sql += $" WHERE AppId = {appId}";
+                sql += " WHERE AppId = @AppId AND AppName = @AppName AND ServerAddress = @ServerAddress";
             }
             using (SQLiteConnection db = new SQLiteConnection(_connectionString))
             {
-                res = db.Execute(sql);
+                res = db.Execute(sql, appInfo);
             }
 
             if (res == 0)

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using Wjire.Log;
 using Wjire.ProjectManager.WebApi.Model;
 using Wjire.ProjectManager.WebApi.Service;
 
@@ -15,8 +15,6 @@ namespace Wjire.ProjectManager.WebApi.Controller
     [ApiController]
     public class PublishController : ControllerBase
     {
-        
-        
 
         [HttpGet]
         public IEnumerable<AppInfo> GetAppInfos(int type)
@@ -43,8 +41,8 @@ namespace Wjire.ProjectManager.WebApi.Controller
                         Content = new StringContent("未上传程序信息")
                     };
                 }
-
                 AppInfo appInfo = JsonConvert.DeserializeObject<AppInfo>(appInfoJson);
+              
                 if (Request.Form.Files.Count == 0)
                 {
                     return new HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -61,6 +59,7 @@ namespace Wjire.ProjectManager.WebApi.Controller
             }
             catch (Exception ex)
             {
+                LogService.WriteLog(ex, "Upload");
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     Content = new StringContent(ex.ToString())

@@ -12,7 +12,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                 case 1:
                     return new IISPublishService(appInfo);
                 case 2:
-                    return new ExePublishService(appInfo);
+                    return new WindowsServicePublishService(appInfo);
                 default:
                     throw new ArgumentException(nameof(appInfo));
             }
@@ -26,7 +26,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                 case 1:
                     return new IISPublishService();
                 case 2:
-                    return new ExePublishService();
+                    return new WindowsServicePublishService();
                 default:
                     throw new ArgumentException(nameof(type));
             }

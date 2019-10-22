@@ -22,7 +22,7 @@
 
 
         /// <summary>
-        /// 1:IIS 2:EXE
+        /// 1:IIS 2:Windows Service
         /// </summary>
         public int AppType { get; set; }
 
@@ -42,7 +42,7 @@
                     case 1:
                         return "IIS";
                     case 2:
-                        return "EXE";
+                        return "Windows Service";
                     default:
                         return AppType.ToString();
                 }

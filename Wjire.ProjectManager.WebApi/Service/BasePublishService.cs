@@ -1,7 +1,10 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Wjire.ProjectManager.WebApi.Model;
+using Wjire.ProjectManager.WebApi.Utils;
 
 namespace Wjire.ProjectManager.WebApi.Service
 {
@@ -12,7 +15,7 @@ namespace Wjire.ProjectManager.WebApi.Service
 
         protected BasePublishService()
         {
-            
+
         }
 
         protected BasePublishService(AppInfo appInfo)
@@ -37,13 +40,52 @@ namespace Wjire.ProjectManager.WebApi.Service
         /// <returns></returns>
         public virtual bool PublishApp(Stream stream)
         {
-            string newPath = GetNewPath();
-            UnpackFiles(stream, newPath);
-            ChangeAppVersion(newPath);
+            bool isCover = Convert.ToBoolean(ConfigurationHelper.GetConfiguration("isCover"));
+            if (isCover == false)
+            {
+                return PublishWithNew(stream);
+            }
+
+            StopApp();
+            Thread.Sleep(1000);
+            return PublishWithCover(stream);
+        }
+
+
+
+        /// <summary>
+        /// 覆盖发布
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        private bool PublishWithCover(Stream stream)
+        {
+            string path = GetCurrentPath();
+            UnpackFiles(stream, path);
+            CoverCurrentVersion(path);
             return true;
         }
 
+
+        /// <summary>
+        /// 新建版本发布
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        private bool PublishWithNew(Stream stream)
+        {
+            string path = GetNewPath();
+            UnpackFiles(stream, path);
+            CreateNewVersion(path);
+            return true;
+        }
+
+        protected abstract void StopApp();
         protected abstract string GetNewPath();
+        protected abstract string GetCurrentPath();
+        protected abstract void CreateNewVersion(string newPath);
+        protected abstract void CoverCurrentVersion(string path);
+
 
 
         /// <summary>
@@ -94,8 +136,6 @@ namespace Wjire.ProjectManager.WebApi.Service
                 }
             };
         }
-
-        protected abstract void ChangeAppVersion(string newPath);
 
 
         private void CreatePath(string path)

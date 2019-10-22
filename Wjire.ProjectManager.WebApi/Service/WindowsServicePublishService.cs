@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using Wjire.ProjectManager.WebApi.Model;
 using Wjire.ProjectManager.WebApi.Utils;
 
 namespace Wjire.ProjectManager.WebApi.Service
 {
-    public class ExePublishService : BasePublishService
+    public class WindowsServicePublishService : BasePublishService
     {
 
         private readonly string _rpcServicePath = ConfigurationHelper.GetConfiguration("rpcServicePath");
 
-        public ExePublishService()
+        public WindowsServicePublishService()
         {
 
         }
 
-        public ExePublishService(AppInfo appInfo) : base(appInfo)
+        public WindowsServicePublishService(AppInfo appInfo) : base(appInfo)
         {
 
         }
@@ -40,6 +41,11 @@ namespace Wjire.ProjectManager.WebApi.Service
         }
 
 
+        protected override void StopApp()
+        {
+            throw new NotImplementedException();
+        }
+
 
         protected override string GetNewPath()
         {
@@ -55,8 +61,28 @@ namespace Wjire.ProjectManager.WebApi.Service
         }
 
 
+        protected override string GetCurrentPath()
+        {
+            string path = string.Empty;
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher($"SELECT * FROM Win32_Service where Name = '{AppInfo.AppName}'"))
+            {
+                ManagementObjectCollection collection = searcher.Get();
+                int count = collection.Count;
+                if (count != 1)
+                {
+                    throw new Exception($"找到{count}个名为{AppInfo.AppName}的服务");
+                }
+                foreach (ManagementBaseObject mo in collection)
+                {
+                    path = mo["PathName"].ToString();
+                }
+            }
+            return path;
+        }
 
-        protected override void ChangeAppVersion(string newPath)
+
+
+        protected override void CreateNewVersion(string newPath)
         {
             Process proc = new Process();
             string output = null;
@@ -102,6 +128,11 @@ namespace Wjire.ProjectManager.WebApi.Service
                 proc.Close();
                 Console.WriteLine(output);
             }
+        }
+
+        protected override void CoverCurrentVersion(string path)
+        {
+            throw new NotImplementedException();
         }
 
 

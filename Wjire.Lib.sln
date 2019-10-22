@@ -21,13 +21,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.CodeBuilder", "Wjire.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.ProjectManager", "Wjire.ProjectManager\Wjire.ProjectManager.csproj", "{2816F510-3FEE-41AA-B80E-C06F9C83EE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.ProjectManager.WebApi", "Wjire.ProjectManager.WebApi\Wjire.ProjectManager.WebApi.csproj", "{E0CC235C-31CD-4C56-B6F2-384B43678AD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wjire.ProjectManager.WebApi", "Wjire.ProjectManager.WebApi\Wjire.ProjectManager.WebApi.csproj", "{E0CC235C-31CD-4C56-B6F2-384B43678AD7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Test", "02 Test", "{4342A7F6-961A-4D73-8712-AC046D0DE322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTest", "WebApiTest\WebApiTest.csproj", "{F8FAD662-49CB-49DB-B900-C1A51ECD8946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTest", "WebApiTest\WebApiTest.csproj", "{F8FAD662-49CB-49DB-B900-C1A51ECD8946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{7D8A00F7-DE88-4DAA-A494-451AB20021DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{7D8A00F7-DE88-4DAA-A494-451AB20021DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.Log", "Wjire.Log\Wjire.Log.csproj", "{D92A8003-507A-47E8-BB19-DD22B492A0C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{7D8A00F7-DE88-4DAA-A494-451AB20021DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D8A00F7-DE88-4DAA-A494-451AB20021DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D8A00F7-DE88-4DAA-A494-451AB20021DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{E0CC235C-31CD-4C56-B6F2-384B43678AD7} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 		{F8FAD662-49CB-49DB-B900-C1A51ECD8946} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
 		{7D8A00F7-DE88-4DAA-A494-451AB20021DD} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
+		{D92A8003-507A-47E8-BB19-DD22B492A0C1} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0C62F8E-9218-4B02-A1E9-BEE305856407}

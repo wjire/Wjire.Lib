@@ -66,20 +66,25 @@ namespace Wjire.ProjectManager
         /// <param name="e"></param>
         private void button2_Click_1(object sender, EventArgs e)
         {
-            if (dgv.SelectedRows.Count == 0)
+            try
             {
-                return;
-            }
-
-            PublishInfo publishInfo = CreatePublishInfo(dgv.SelectedRows[0]);
-            bool publishResult = PublishApp(publishInfo);
-            if (publishResult)
-            {
+                if (dgv.SelectedRows.Count == 0)
+                {
+                    return;
+                }
+                PublishInfo publishInfo = CreatePublishInfo(dgv.SelectedRows[0]);
+                bool publishDllRes = PublishDll(publishInfo.AppInfo);
+                if (publishDllRes == false)
+                {
+                    throw new Exception("发布dll失败");
+                }
+                Pack(publishInfo);
+                Upload(publishInfo);
                 MessageBox.Show("成功");
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("失败");
+                MessageBox.Show($"失败:{ex}");
             }
         }
 
@@ -88,14 +93,7 @@ namespace Wjire.ProjectManager
         {
             PublishInfo publishInfo = new PublishInfo
             {
-                AppInfo = new AppInfo
-                {
-                    AppName = row.Cells["AppName"].Value.ToString(),
-                    LocalPath = row.Cells["LocalPath"].Value.ToString(),
-                    AppType = Convert.ToInt32(row.Cells["AppType"].Value.ToString()),
-                    AppId = Convert.ToInt32(row.Cells["AppId"].Value.ToString()),
-                    ServerAddress = row.Cells["ServerAddress"].Value.ToString(),
-                },
+                AppInfo = GetAppInfoFromGrid()
             };
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"upload\{publishInfo.AppInfo.AppName}");
             if (Directory.Exists(path) == false)
@@ -106,31 +104,9 @@ namespace Wjire.ProjectManager
             publishInfo.FileName = Path.Combine(path, $"{publishInfo.AppInfo.AppName}.zip");
 
             publishInfo.FileFilter = null;
-            publishInfo.DirFilter = @"RPCConfig\w*";
+            publishInfo.DirFilter = null;
             return publishInfo;
         }
-
-
-
-        private bool PublishApp(PublishInfo publishInfo)
-        {
-            try
-            {
-                bool res = PublishDll(publishInfo.AppInfo);
-                if (res == false)
-                {
-                    return false;
-                }
-                Pack(publishInfo);
-                Upload(publishInfo);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
 
 
         /// <summary>
@@ -201,24 +177,25 @@ namespace Wjire.ProjectManager
         /// <summary>
         /// 上传
         /// </summary>
-        private string Upload(PublishInfo publishInfo)
+        private void Upload(PublishInfo publishInfo)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(publishInfo.AppInfo.ServerAddress);
-                //client.BaseAddress = new Uri("http://localhost:52635");
                 string apiUrl = "api/publish/upload";
                 MultipartFormDataContent content = new MultipartFormDataContent();
-                FileStream fs = new FileStream(publishInfo.FileName, FileMode.Open, FileAccess.Read);
-                content.Add(new StreamContent(fs), "file", Path.GetFileName(publishInfo.FileName));
-                content.Add(new StringContent(JsonConvert.SerializeObject(publishInfo.AppInfo)), nameof(AppInfo));
-                HttpResponseMessage result = client.PostAsync(apiUrl, content).Result;
-                if (result.IsSuccessStatusCode == false)
+                HttpResponseMessage result;
+                using (FileStream fs = new FileStream(publishInfo.FileName, FileMode.Open, FileAccess.Read))
                 {
-                    Console.WriteLine(result.Content);
+                    content.Add(new StreamContent(fs), "file", Path.GetFileName(publishInfo.FileName));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(publishInfo.AppInfo)), nameof(AppInfo));
+                    result = client.PostAsync(apiUrl, content).Result;
                 }
-                fs.Dispose();
-                return result.Content.ReadAsStringAsync().Result;
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return;
+                }
+                throw new Exception(result.Content.ReadAsStringAsync().Result);
             }
         }
 
@@ -253,20 +230,7 @@ namespace Wjire.ProjectManager
         {
             try
             {
-                if (dgv.SelectedRows.Count == 0)
-                {
-                    return;
-                }
-
-                DataGridViewRow row = dgv.SelectedRows[0];
-                AppInfo appInfo = new AppInfo
-                {
-                    AppId = Convert.ToInt64(row.Cells["AppId"].Value),
-                    AppName = row.Cells["AppName"].Value.ToString(),
-                    LocalPath = row.Cells["LocalPath"].Value.ToString()
-                };
-
-                UpdateForm updateForm = new UpdateForm(appInfo);
+                UpdateForm updateForm = new UpdateForm(GetAppInfoFromGrid());
                 updateForm.ShowDialog();
                 if (updateForm.DialogResult == DialogResult.OK)
                 {
@@ -290,16 +254,10 @@ namespace Wjire.ProjectManager
         {
             try
             {
-                if (dgv.SelectedRows.Count == 0)
-                {
-                    return;
-                }
-
                 DialogResult result = MessageBox.Show("确定删除吗？", "删除", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    long appId = Convert.ToInt64(dgv.SelectedRows[0].Cells["AppId"].Value);
-                    new DbService().Delete(appId);
+                    new DbService().Delete(GetAppInfoFromGrid());
                     ShowMsg("删除成功");
                     BindDataGridView();
                 }
@@ -310,8 +268,7 @@ namespace Wjire.ProjectManager
                 ShowMsg(ex.Message);
             }
         }
-
-
+        
 
         private void btn_clearAll_Click(object sender, EventArgs e)
         {
@@ -324,6 +281,24 @@ namespace Wjire.ProjectManager
             {
                 ShowMsg(ex.Message);
             }
+        }
+
+
+        private AppInfo GetAppInfoFromGrid()
+        {
+            if (dgv.SelectedRows.Count == 0)
+            {
+                throw new Exception("至少选择一个项目");
+            }
+            DataGridViewRow row = dgv.SelectedRows[0];
+            return new AppInfo
+            {
+                AppId = Convert.ToInt64(row.Cells["AppId"].Value),
+                AppName = row.Cells["AppName"].Value.ToString(),
+                LocalPath = row.Cells["LocalPath"].Value.ToString(),
+                AppType = Convert.ToInt32(row.Cells["AppType"].Value),
+                ServerAddress = row.Cells["ServerAddress"].Value.ToString(),
+            };
         }
     }
 }

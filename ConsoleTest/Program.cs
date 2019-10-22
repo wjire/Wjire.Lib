@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,17 +16,89 @@ namespace ConsoleTest
             //DirTest("Test1");
             //ProcessTest2(@"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2\service.cmd");
 
-            FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
-            Console.ReadKey();
+            //FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
 
+            WindowsServiceTest();
+
+
+            //var file =
+            //    @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService\1.0.0.8\Mxlemon.Magic.Microservice.MagicStatistics.Host";
+
+            //var path = Path.GetDirectoryName(file);
+            //Console.WriteLine(path);
+
+            //TestUnPack();
+            Console.ReadKey();
         }
+
+
+        private static void TestUnPack()
+        {
+            string source = @"C:\Users\gongwei\Desktop\source";
+            string file = @"C:\Users\gongwei\Desktop\copy\copy.zip";
+            FastZip fz = new FastZip { CreateEmptyDirectories = true };
+            fz.CreateZip(file, source, true, "");
+            
+            var newPath = @"C:\Users\gongwei\Desktop\copy\";
+            using (FileStream fs = File.OpenRead(file))
+            {
+                UnpackFiles(fs, newPath);
+            }
+            Console.WriteLine("over");
+        }
+
+
+        /// <summary>
+        /// 解压缩
+        /// </summary>
+        /// <param name="stream">待解压文件流</param>
+        /// <param name="newPath"> 解压到哪个目录中(包含物理路径)</param>
+        private static void UnpackFiles(Stream stream, string newPath)
+        {
+            using (ZipInputStream zipStream = new ZipInputStream(stream))
+            {
+                ZipEntry theEntry;
+                while ((theEntry = zipStream.GetNextEntry()) != null)
+                {
+                    string directoryName = Path.GetDirectoryName(theEntry.Name);
+                    string fileName = Path.GetFileName(theEntry.Name);
+                    if (directoryName != string.Empty)
+                    {
+                        Directory.CreateDirectory(newPath + directoryName);
+                    }
+
+                    if (fileName == string.Empty)
+                    {
+                        continue;
+                    }
+
+                    using (FileStream streamWriter = File.Create(newPath + theEntry.Name))
+                    {
+                        byte[] data = new byte[2048];
+                        while (true)
+                        {
+                            int size = zipStream.Read(data, 0, data.Length);
+                            if (size > 0)
+                            {
+                                streamWriter.Write(data, 0, size);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
 
         private static void FileTest(string path)
         {
             string[] files = Directory.GetFiles(path, "*.exe");
             if (files.Count() == 1)
             {
-                var basePath = Path.GetDirectoryName(path);
+                string basePath = Path.GetDirectoryName(path);
                 Console.WriteLine(Path.Combine(basePath, Path.GetFileNameWithoutExtension(files[0])));
             }
         }
@@ -130,9 +203,16 @@ namespace ConsoleTest
 
             foreach (ManagementObject mo in searcher.Get())
             {
+                //Console.WriteLine(mo["PathName"]);
+                foreach (var property in mo.Properties )
+                {
+                    Console.WriteLine(property.Name);
+                }
+
+                break;
                 //Console.WriteLine(mo.Path);
                 //Console.WriteLine(mo.ClassPath);
-                Console.WriteLine(mo["Name"].ToString());
+                //Console.WriteLine(mo["Name"].ToString());
 
                 //foreach (var item in mo.Properties)
                 //{                    

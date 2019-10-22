@@ -22,7 +22,7 @@
 
 
         /// <summary>
-        /// 1:IIS 2:EXE
+        /// 1:IIS 2:Windows Service
         /// </summary>
         public int AppType { get; set; }
 
