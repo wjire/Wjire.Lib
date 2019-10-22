@@ -78,7 +78,6 @@
     <Compile Include="AddForm.Designer.cs">
       <DependentUpon>AddForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Service\PublishHandler.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Service\DbService.cs" />
     <Compile Include="MainForm.cs">

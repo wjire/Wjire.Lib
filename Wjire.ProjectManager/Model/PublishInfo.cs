@@ -9,6 +9,8 @@ namespace Wjire.ProjectManager
 
         public string FileFilter { get; set; }
 
+        public string DirFilter { get; set; }
+
         public AppInfo AppInfo { get; set; }
     }
 }

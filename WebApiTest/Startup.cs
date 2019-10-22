@@ -25,7 +25,7 @@ namespace WebApiTest
             app.UseMvc();
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("FUCK YOU 22111");
+                await context.Response.WriteAsync("FUCK YOU");
             });
         }
     }
