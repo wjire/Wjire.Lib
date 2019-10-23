@@ -18,7 +18,12 @@ namespace ConsoleTest
 
             //FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
 
-            WindowsServiceTest();
+            var path1 = @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService";
+            var path2 = @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService\";
+            Console.WriteLine(string.Join(",", Directory.GetDirectories(path1)));
+            Console.WriteLine(string.Join(",", Directory.GetDirectories(path2)));
+
+            //WindowsServiceTest();
             //WindowsServiceTest2();
 
             //var file =
@@ -219,15 +224,18 @@ namespace ConsoleTest
         private static void WindowsServiceTest()
         {
             string[] lvData = new string[6];
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Service where Name like '%redis%'");
+            //ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Service where Name like '%redis%'");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Service where ProcessId = 15832 ");
 
             foreach (ManagementObject mo in searcher.Get())
             {
-                //Console.WriteLine(mo["PathName"]);
-                foreach (PropertyData property in mo.Properties)
-                {
-                    Console.WriteLine(property.Name);
-                }
+                Console.WriteLine(mo["PathName"]);
+                Console.WriteLine(Path.GetDirectoryName(mo["PathName"].ToString()));
+                Console.WriteLine(Path.GetDirectoryName(Path.GetDirectoryName(mo["PathName"].ToString())));
+                //foreach (PropertyData property in mo.Properties)
+                //{
+                //    Console.WriteLine(property.Name);
+                //}
 
                 break;
                 //Console.WriteLine(mo.Path);

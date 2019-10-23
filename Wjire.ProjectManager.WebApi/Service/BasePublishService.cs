@@ -47,7 +47,6 @@ namespace Wjire.ProjectManager.WebApi.Service
             }
 
             StopApp();
-            Thread.Sleep(1000);
             return PublishWithCover(stream);
         }
 

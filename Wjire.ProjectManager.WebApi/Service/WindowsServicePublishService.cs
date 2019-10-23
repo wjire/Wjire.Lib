@@ -49,7 +49,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                 appInfos.Add(new AppInfo
                 {
                     AppId = Convert.ToInt64(mo["ProcessId"]),
-                    AppPath = pathName,
+                    AppPath = Path.GetDirectoryName(pathName),
                     AppName = mo["Name"].ToString(),
                     Status = mo["Started"].Equals(true) ? 1 : 0,
                     AppType = 2,
@@ -76,13 +76,57 @@ namespace Wjire.ProjectManager.WebApi.Service
 
         protected override void StopApp()
         {
-            throw new NotImplementedException();
+            AppInfo app = GetAppInfo(AppInfo.AppName);
+            Process proc = new Process();
+            string output = null;
+            try
+            {
+                proc.StartInfo.FileName = "cmd.exe";
+
+                //是否使用操作系统shell启动
+                proc.StartInfo.UseShellExecute = false;
+
+                //接受来自调用程序的输入信息
+                proc.StartInfo.RedirectStandardInput = true;
+
+                //输出信息
+                proc.StartInfo.RedirectStandardOutput = true;
+
+                //输出错误
+                proc.StartInfo.RedirectStandardError = true;
+
+                //不显示程序窗口
+                proc.StartInfo.CreateNoWindow = true;
+
+                proc.StartInfo.WorkingDirectory = app.AppPath;
+
+                proc.Start();
+
+                //构造命令
+                string command = GetStopCommand(app.AppName);
+
+                //向cmd窗口发送输入信息
+                proc.StandardInput.WriteLine(command);
+                proc.StandardInput.AutoFlush = true;
+
+                output = proc.StandardOutput.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                proc.WaitForExit();
+                proc.Close();
+                Console.WriteLine(output);
+            }
         }
 
 
         protected override string GetNewPath()
         {
-            string path = Path.Combine(_rpcServicePath, AppInfo.AppName);
+            string path = Path.GetDirectoryName(GetAppInfo(AppInfo.AppName).AppPath);
             string[] dirs = Directory.GetDirectories(path);
             List<Version> versions = dirs.Select(Path.GetFileName).Select(versionString => new Version(versionString)).ToList();
             Version max = versions.Max();
@@ -93,24 +137,43 @@ namespace Wjire.ProjectManager.WebApi.Service
             return Path.Combine(path, newVersionString);
         }
 
+        //protected override string GetNewPath()
+        //{
+        //    string path = Path.Combine(_rpcServicePath, AppInfo.AppName);
+        //    string[] dirs = Directory.GetDirectories(path);
+        //    List<Version> versions = dirs.Select(Path.GetFileName).Select(versionString => new Version(versionString)).ToList();
+        //    Version max = versions.Max();
+        //    string[] arr = max.ToString().Split(".");
+        //    int lastNumber = Convert.ToInt32(arr[arr.Length - 1]);
+        //    arr[arr.Length - 1] = (++lastNumber).ToString();
+        //    string newVersionString = string.Join(".", arr);
+        //    return Path.Combine(path, newVersionString);
+        //}
+
 
         protected override string GetCurrentPath()
         {
-            string path = string.Empty;
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher($"SELECT * FROM Win32_Service where Name = '{AppInfo.AppName}'"))
+            return GetAppInfo(AppInfo.AppName).AppPath;
+        }
+
+
+
+        private AppInfo GetAppInfo(string name)
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher($"SELECT * FROM Win32_Service where Name='{name}' ");
+
+            foreach (ManagementBaseObject mo in searcher.Get())
             {
-                ManagementObjectCollection collection = searcher.Get();
-                int count = collection.Count;
-                if (count != 1)
+
+                return new AppInfo
                 {
-                    throw new Exception($"找到{count}个名为{AppInfo.AppName}的服务");
-                }
-                foreach (ManagementBaseObject mo in collection)
-                {
-                    path = mo["PathName"].ToString();
-                }
+                    AppPath = Path.GetDirectoryName(mo["PathName"]?.ToString()),
+                    AppName = mo["Name"].ToString(),
+
+                };
             }
-            return path;
+
+            throw new Exception($"未找到{name}的服务");
         }
 
 
@@ -143,7 +206,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                 proc.Start();
 
                 //构造命令
-                string command = GetCommand(newPath);
+                string command = GetStartCommand(newPath);
 
                 //向cmd窗口发送输入信息
                 proc.StandardInput.WriteLine(command);
@@ -165,11 +228,55 @@ namespace Wjire.ProjectManager.WebApi.Service
 
         protected override void CoverCurrentVersion(string path)
         {
-            throw new NotImplementedException();
+            AppInfo app = GetAppInfo(AppInfo.AppName);
+            Process proc = new Process();
+            string output = null;
+            try
+            {
+                proc.StartInfo.FileName = "cmd.exe";
+
+                //是否使用操作系统shell启动
+                proc.StartInfo.UseShellExecute = false;
+
+                //接受来自调用程序的输入信息
+                proc.StartInfo.RedirectStandardInput = true;
+
+                //输出信息
+                proc.StartInfo.RedirectStandardOutput = true;
+
+                //输出错误
+                proc.StartInfo.RedirectStandardError = true;
+
+                //不显示程序窗口
+                proc.StartInfo.CreateNoWindow = true;
+
+                proc.StartInfo.WorkingDirectory = path;
+
+                proc.Start();
+
+                //构造命令
+                string command = GetReStartCommand(app.AppName);
+
+                //向cmd窗口发送输入信息
+                proc.StandardInput.WriteLine(command);
+                proc.StandardInput.AutoFlush = true;
+
+                output = proc.StandardOutput.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                proc.WaitForExit();
+                proc.Close();
+                Console.WriteLine(output);
+            }
         }
 
 
-        private string GetCommand(string path)
+        private string GetStartCommand(string path)
         {
             /*
              *@echo off
@@ -188,6 +295,24 @@ namespace Wjire.ProjectManager.WebApi.Service
             sb.Append($"&sc delete {AppInfo.AppName}");
             sb.Append($"&sc create {AppInfo.AppName} binpath= \"{GetWindowsServiceBindPath(path)}\" displayname= \"{AppInfo.AppName}\" depend= Tcpip start= auto");
             sb.Append($@"&net start {AppInfo.AppName}");
+            sb.Append("&exit");
+            return sb.ToString();
+        }
+
+
+        private string GetReStartCommand(string name)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($@"&net start {name}");
+            sb.Append("&exit");
+            return sb.ToString();
+        }
+
+
+        private string GetStopCommand(string name)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"net stop {name}");
             sb.Append("&exit");
             return sb.ToString();
         }
