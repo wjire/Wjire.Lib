@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Text;
 
 namespace ConsoleTest
@@ -13,26 +14,7 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            //DirTest("Test1");
-            //ProcessTest2(@"C:\Users\Administrator\Desktop\RPC\Test1\1.1.0.2\service.cmd");
-
-            //FileTest(@"C:\Users\gongwei\Desktop\RPC\RPC1\1.0.0.4");
-
-            var path1 = @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService";
-            var path2 = @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService\";
-            Console.WriteLine(string.Join(",", Directory.GetDirectories(path1)));
-            Console.WriteLine(string.Join(",", Directory.GetDirectories(path2)));
-
-            //WindowsServiceTest();
-            //WindowsServiceTest2();
-
-            //var file =
-            //    @"C:\Users\gongwei\Desktop\RPC\MagicStatisticService\1.0.0.8\Mxlemon.Magic.Microservice.MagicStatistics.Host";
-
-            //var path = Path.GetDirectoryName(file);
-            //Console.WriteLine(path);
-
-            //TestUnPack();
+            Console.WriteLine(8 & 3);
             Console.ReadKey();
         }
 
@@ -43,7 +25,6 @@ namespace ConsoleTest
             string file = @"C:\Users\gongwei\Desktop\copy\copy.zip";
             FastZip fz = new FastZip { CreateEmptyDirectories = true };
             fz.CreateZip(file, source, true, "");
-
             string newPath = @"C:\Users\gongwei\Desktop\copy\";
             using (FileStream fs = File.OpenRead(file))
             {
