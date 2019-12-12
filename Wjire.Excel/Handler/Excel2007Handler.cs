@@ -10,7 +10,6 @@ namespace Wjire.Excel
     internal class Excel2007Handler : IExcelHandler
     {
 
-
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
         {
             using (ExcelPackage pck = CreateExcelPackage(sources))
