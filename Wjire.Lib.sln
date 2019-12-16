@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wjire.Excel", "Wjire.Excel\Wjire.Excel.csproj", "{740D2158-D99B-44FA-962E-CACB148D79C0}"
 EndProject
@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTest", "WebApiTest\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{7D8A00F7-DE88-4DAA-A494-451AB20021DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.Log", "Wjire.Log\Wjire.Log.csproj", "{D92A8003-507A-47E8-BB19-DD22B492A0C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wjire.Log", "Wjire.Log\Wjire.Log.csproj", "{D92A8003-507A-47E8-BB19-DD22B492A0C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{AA633146-483A-4FAA-8CDF-B68B590A5EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92A8003-507A-47E8-BB19-DD22B492A0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA633146-483A-4FAA-8CDF-B68B590A5EDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA633146-483A-4FAA-8CDF-B68B590A5EDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA633146-483A-4FAA-8CDF-B68B590A5EDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA633146-483A-4FAA-8CDF-B68B590A5EDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{F8FAD662-49CB-49DB-B900-C1A51ECD8946} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
 		{7D8A00F7-DE88-4DAA-A494-451AB20021DD} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
 		{D92A8003-507A-47E8-BB19-DD22B492A0C1} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
+		{AA633146-483A-4FAA-8CDF-B68B590A5EDB} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0C62F8E-9218-4B02-A1E9-BEE305856407}

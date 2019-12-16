@@ -10,7 +10,6 @@ namespace Wjire.Excel
     internal class Excel2007Handler : IExcelHandler
     {
 
-
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
         {
             using (ExcelPackage pck = CreateExcelPackage(sources))
@@ -104,7 +103,8 @@ namespace Wjire.Excel
         private ExcelPackage CreateExcelPackage<T>(IEnumerable<T> sources, string path = null)
         {
             (ExcelPackage, ExcelWorksheet) ee = GetExcelWorksheet(path);
-            ee.Item2.Cells["A1"].LoadFromCollection(sources, true);
+            DataTable dt = CreateDataTable(sources);
+            ee.Item2.Cells["A1"].LoadFromDataTable(dt, true);
             return ee.Item1;
         }
 
@@ -181,6 +181,27 @@ namespace Wjire.Excel
         /// </summary>
         /// <typeparam name="T">源数据类型</typeparam>
         /// <param name="sources">源数据</param>
+        /// <returns></returns>
+        private DataTable CreateDataTable<T>(IEnumerable<T> sources)
+        {
+            Type type = typeof(T);
+            ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type);
+            DataTable dataTable = new DataTable();
+            foreach (ColumnInfo col in cols)
+            {
+                dataTable.Columns.Add(col.DisplayName);
+            }
+            FillDataTable(dataTable, sources, cols);
+            return dataTable;
+        }
+
+
+
+        /// <summary>
+        /// 数据源 转 DataTable
+        /// </summary>
+        /// <typeparam name="T">源数据类型</typeparam>
+        /// <param name="sources">源数据</param>
         /// <param name="exportFields"></param>
         /// <returns></returns>
         private DataTable CreateDataTable<T>(IEnumerable<T> sources, ICollection<string> exportFields)
@@ -195,6 +216,7 @@ namespace Wjire.Excel
             FillDataTable(dataTable, sources, cols);
             return dataTable;
         }
+
 
 
 
