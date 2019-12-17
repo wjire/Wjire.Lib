@@ -7,6 +7,7 @@ using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Text;
+using Wjire.Db;
 
 namespace ConsoleTest
 {
@@ -14,7 +15,7 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-
+            var s = ConnectionStringHelper.GetConnectionStringSettings("ODBData201912Read");
             Console.ReadKey();
         }
 
