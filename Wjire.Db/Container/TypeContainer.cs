@@ -29,9 +29,9 @@ namespace Wjire.Db.Container
             Dictionary<string, PropertyInfo> dic = EntityContainer.GetOrAdd(entityType, t =>
             {
                 PropertyInfo[] propertyInfos = t.GetProperties().Where(w => w.CanWrite == true).ToArray();
-                return propertyInfos.ToDictionary(item => item.Name);
+                return propertyInfos.ToDictionary(item => item.Name.ToLower());
             });
-            dic.TryGetValue(name, out PropertyInfo result);
+            dic.TryGetValue(name.ToLower(), out PropertyInfo result);
             return result;
         }
 
