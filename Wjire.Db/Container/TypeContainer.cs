@@ -17,6 +17,7 @@ namespace Wjire.Db.Container
 
         internal static readonly ConcurrentDictionary<Type, string> AddSqlContainer = new ConcurrentDictionary<Type, string>();
 
+
         /// <summary>
         /// 获取实体属性信息
         /// </summary>
