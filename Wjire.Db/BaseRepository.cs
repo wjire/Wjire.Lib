@@ -16,7 +16,7 @@ namespace Wjire.Db
     {
 
         protected static string TableName = typeof(TEntity).Name;
-
+        
 
         /// <summary>
         /// IDbConnection
@@ -46,7 +46,6 @@ namespace Wjire.Db
             {
                 Connection.Open();
             }
-
             _cmd = Connection.CreateCommand();
         }
 
