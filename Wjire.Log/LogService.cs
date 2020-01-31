@@ -18,11 +18,15 @@ namespace Wjire.Log
         /// </summary>
         private const string ExceptionLogPath = "Logs/ExceptionLog";
 
+        /// <summary>
+        /// 默认的调用日志记录路径
+        /// </summary>
+        private const string CallLogPath = "Logs/CallLog";
 
         /// <summary>
         /// 默认的文本日志记录路径
         /// </summary>
-        private const string CallLogPath = "Logs/CallLog";
+        private const string TextLogPath = "Logs/TextLog";
 
 
         /// <summary>
@@ -33,7 +37,7 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">路径</param>
-        public static async Task WriteLog(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
+        public static async Task WriteException(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
         {
             await Task.Run(() =>
             {
@@ -50,12 +54,26 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">保存文件夹</param>
-        public static async Task SaveLog(string method, object request = null, object response = null, string path = CallLogPath)
+        public static async Task WriteCall(string method, object request = null, object response = null, string path = CallLogPath)
         {
             await Task.Run(() =>
             {
                 var callLog = CreateCallLogContent(method, request, response);
                 WriteLog(callLog, path);
+            });
+        }
+
+
+        /// <summary>
+        /// 记录文本日志
+        /// </summary>
+        /// <param name="content">文本</param>
+        /// <param name="path">保存文件夹</param>
+        public static async Task WriteText(string content, string path = TextLogPath)
+        {
+            await Task.Run(() =>
+            {
+                WriteLog(content, path);
             });
         }
 
@@ -117,8 +135,7 @@ namespace Wjire.Log
             stringBuilder.Append(newLine);
             return stringBuilder.ToString();
         }
-
-
+        
 
         /// <summary>
         /// 创建调用信息

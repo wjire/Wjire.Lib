@@ -53,7 +53,7 @@ namespace Wjire.ProjectManager.WebApi.Service
                     }
                     catch (Exception ex)
                     {
-                        LogService.WriteLog(ex, nameof(GetAppInfos));
+                        LogService.WriteException(ex, nameof(GetAppInfos));
                     }
                 }
             }
