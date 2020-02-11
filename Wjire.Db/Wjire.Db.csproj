@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>wjire</Authors>
     <Company>wjire</Company>
-    <Description>don`t have any middleware, just only use ado.net</Description>
+    <Description>for sqlserver and mysql. don`t have any middleware, just only use ado.net.</Description>
     <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Db</PackageProjectUrl>
   </PropertyGroup>
 

@@ -15,7 +15,7 @@ namespace Wjire.Db
     {
 
         protected static string TableName = typeof(TEntity).Name;
-        
+
 
         /// <summary>
         /// IDbConnection
@@ -234,7 +234,7 @@ namespace Wjire.Db
             _cmd.CommandTimeout = timeout;
             return _cmd.ExecuteNonQuery();
         }
-        
+
 
         /// <summary>
         /// 添加参数

@@ -1,14 +1,11 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
-using System.Reflection;
 using System.Text;
-using Wjire.Db;
-using Wjire.Log;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace ConsoleTest
 {
@@ -18,7 +15,7 @@ namespace ConsoleTest
         {
             //var s = ConnectionStringHelper.GetConnectionStringSettings("ODBData201912Read");
 
-            using (var db = NCovDbFactory.CreateIUserInfoRepositoryWrite())
+            using (UserInfoRepository db = NCovDbFactory.CreateIUserInfoRepositoryWrite())
             {
 
             }

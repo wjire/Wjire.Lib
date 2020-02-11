@@ -13,7 +13,7 @@
         /// 项目名称
         /// </summary>
         public string AppName { get; set; }
-        
+
 
         /// <summary>
         /// 本地地址
@@ -52,7 +52,7 @@
 
         public override string ToString()
         {
-            return this.AppName;
+            return AppName;
         }
     }
 }

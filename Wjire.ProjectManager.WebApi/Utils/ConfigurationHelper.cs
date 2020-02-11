@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 
 namespace Wjire.ProjectManager.WebApi.Utils
 {

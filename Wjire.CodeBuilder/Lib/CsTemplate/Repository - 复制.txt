@@ -13,5 +13,16 @@ namespace {NameSpaceName}.Repository
 
         public {TableName}Repository(IUnitOfWork unit) : base(unit) { }
 
+        #region 便捷操作
+
+        public int Add({TableName} entity)
+        {
+            ClearParameters();
+            AddParameter(entity);
+            string sql = GetInsertSql(entity);
+            return ExecuteNonQuery(sql);
+        }  
+
+        #endregion
     }
 }

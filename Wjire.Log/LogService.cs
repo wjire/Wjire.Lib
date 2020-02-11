@@ -1,9 +1,9 @@
 ﻿
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Wjire.Log
 {
@@ -41,7 +41,7 @@ namespace Wjire.Log
         {
             await Task.Run(() =>
             {
-                var exceptionContent = CreateExceptionContent(ex, remark, request, response);
+                string exceptionContent = CreateExceptionContent(ex, remark, request, response);
                 WriteLog(exceptionContent, path);
             });
         }
@@ -58,7 +58,7 @@ namespace Wjire.Log
         {
             await Task.Run(() =>
             {
-                var callLog = CreateCallLogContent(method, request, response);
+                string callLog = CreateCallLogContent(method, request, response);
                 WriteLog(callLog, path);
             });
         }
@@ -135,7 +135,7 @@ namespace Wjire.Log
             stringBuilder.Append(newLine);
             return stringBuilder.ToString();
         }
-        
+
 
         /// <summary>
         /// 创建调用信息

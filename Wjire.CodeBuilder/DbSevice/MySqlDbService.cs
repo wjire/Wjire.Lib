@@ -1,9 +1,9 @@
-﻿using Dapper;
-using MySql.Data.MySqlClient;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
+using MySql.Data.MySqlClient;
 using Wjire.CodeBuilder.Model;
 
 namespace Wjire.CodeBuilder.DbService

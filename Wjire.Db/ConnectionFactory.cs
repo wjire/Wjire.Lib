@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Wjire.Db
 {

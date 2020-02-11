@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Wjire.Log;
 using Wjire.ProjectManager.WebApi.Model;
 using Wjire.ProjectManager.WebApi.Service;
@@ -51,7 +51,7 @@ namespace Wjire.ProjectManager.WebApi.Controller
                     };
                 }
                 AppInfo appInfo = JsonConvert.DeserializeObject<AppInfo>(appInfoJson);
-              
+
                 if (Request.Form.Files.Count == 0)
                 {
                     return new HttpResponseMessage(HttpStatusCode.BadRequest)

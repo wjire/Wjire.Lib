@@ -84,7 +84,7 @@ GO");
         {
             return string.IsNullOrWhiteSpace(length) ? null : $"({length})";
         }
-        
+
         private string GetNullable(TableInfo tableInfo)
         {
             if (tableInfo.IsKey == "1")

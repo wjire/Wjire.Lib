@@ -1,12 +1,12 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Forms;
+using ICSharpCode.SharpZipLib.Zip;
+using Newtonsoft.Json;
 using Wjire.ProjectManager.Model;
 using Wjire.ProjectManager.Service;
 
@@ -268,7 +268,7 @@ namespace Wjire.ProjectManager
                 ShowMsg(ex.Message);
             }
         }
-        
+
 
         private void btn_clearAll_Click(object sender, EventArgs e)
         {

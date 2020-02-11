@@ -4,9 +4,9 @@ using Wjire.Excel;
 
 namespace ConsoleApp1
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //var list = new List<Person>
             //{
@@ -16,10 +16,10 @@ namespace ConsoleApp1
             //};
             //var path = @"C:\Users\Administrator\Desktop\1.csv";
             //ExcelWriteHelper.CreateFile(list,path);
-            var path = @"C:\Users\Administrator\Desktop\123.csv";
+            string path = @"C:\Users\Administrator\Desktop\123.csv";
             //var lists = new ExcelReadHandler(path).Read<Temp>(new[] { "licenseplate", "time", "speed", "lng" });
-            var lists = CsvReadHelper.ReadByGB2312<Temp>(path);
-            foreach (var item in lists)
+            List<Temp> lists = CsvReadHelper.ReadByGB2312<Temp>(path);
+            foreach (Temp item in lists)
             {
                 Console.WriteLine(item.licenseplate);
                 Console.WriteLine(item.lng);

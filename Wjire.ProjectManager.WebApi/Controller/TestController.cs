@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Web.Administration;
-using Wjire.Log;
 
 namespace Wjire.ProjectManager.WebApi.Controller
 {

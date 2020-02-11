@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
@@ -15,8 +14,7 @@ namespace Wjire.Db
     public abstract partial class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
     {
 
-        protected static string TableName = typeof(TEntity).Name;
-
+        protected string TableName = typeof(TEntity).Name;
 
         /// <summary>
         /// IDbConnection
@@ -237,7 +235,7 @@ namespace Wjire.Db
             _cmd.CommandTimeout = timeout;
             return _cmd.ExecuteNonQuery();
         }
-        
+
 
 
         /// <summary>
@@ -246,9 +244,9 @@ namespace Wjire.Db
         protected virtual void Add(TEntity entity)
         {
             ClearParameters();
-            var sql = GetInsertSql(entity);
+            string sql = GetInsertSql(entity);
             AddParameter(entity);
-            var addResult = ExecuteNonQuery(sql);
+            int addResult = ExecuteNonQuery(sql);
             if (addResult != 1)
             {
                 throw new Exception("insert into database throw a exception");

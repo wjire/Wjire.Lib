@@ -1,6 +1,4 @@
-﻿using FileService.SqlCreater;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Windows.Forms;
+using FileService.SqlCreater;
+using Newtonsoft.Json;
 using Wjire.CodeBuilder.DbService;
 using Wjire.CodeBuilder.FileService;
 using Wjire.CodeBuilder.Model;

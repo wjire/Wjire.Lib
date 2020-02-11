@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,7 @@ namespace Wjire.Excel
 
         public static List<T> ReadByDefaultEncoding<T>(string fileName)
         {
-            var encoding = Encoding.Default;
+            Encoding encoding = Encoding.Default;
             return Read<T>(fileName, encoding);
         }
 
@@ -20,7 +19,7 @@ namespace Wjire.Excel
 
         public static List<T> ReadByUTF8Encoding<T>(string fileName)
         {
-            var encoding = Encoding.UTF8;
+            Encoding encoding = Encoding.UTF8;
             return Read<T>(fileName, encoding);
         }
 
@@ -28,7 +27,7 @@ namespace Wjire.Excel
         public static List<T> ReadByGB2312<T>(string fileName)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var encoding = Encoding.GetEncoding("GB2312");
+            Encoding encoding = Encoding.GetEncoding("GB2312");
             return Read<T>(fileName, encoding);
         }
 

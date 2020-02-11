@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Configuration;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Wjire.Db
 {

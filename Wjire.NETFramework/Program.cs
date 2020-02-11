@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using Wjire.Log;
 
 namespace Wjire.NETFramework
@@ -10,7 +8,7 @@ namespace Wjire.NETFramework
     {
         private static void Main(string[] args)
         {
-            LogService.WriteException(new Exception("123123"),"remark");
+            LogService.WriteException(new Exception("123123"), "remark");
             Console.ReadKey();
         }
     }

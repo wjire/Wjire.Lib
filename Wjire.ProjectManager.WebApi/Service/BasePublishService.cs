@@ -1,8 +1,7 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using ICSharpCode.SharpZipLib.Zip;
 using Wjire.ProjectManager.WebApi.Model;
 using Wjire.ProjectManager.WebApi.Utils;
 

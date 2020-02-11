@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Wjire.ProjectManager.WebApi.Service;
 
 namespace Wjire.ProjectManager.WebApi
 {

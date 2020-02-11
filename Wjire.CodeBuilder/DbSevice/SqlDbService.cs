@@ -1,9 +1,9 @@
-﻿using Dapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Wjire.CodeBuilder.Model;
 
 namespace Wjire.CodeBuilder.DbService
