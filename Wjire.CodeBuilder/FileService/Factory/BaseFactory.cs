@@ -39,7 +39,7 @@ namespace Wjire.CodeBuilder.FileService
 
         protected virtual bool IsCover()
         {
-            return true;
+            return false;
         }
     }
 }

@@ -64,14 +64,11 @@ namespace Wjire.Db
         public void Dispose()
         {
             _transaction?.Dispose();
-
             Command?.Dispose();
-
             if (_connection == null)
             {
                 return;
             }
-
             _connection.Close();
             _connection.Dispose();
         }

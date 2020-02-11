@@ -32,7 +32,7 @@ namespace Wjire.CodeBuilder.Utils
         }
 
 
-        public static void CreateFile(string path, string content, bool isCover = true)
+        public static void CreateFile(string path, string content, bool isCover = false)
         {
             if (string.IsNullOrWhiteSpace(path))
             {

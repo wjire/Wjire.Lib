@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Wjire.NETFramework
@@ -8,6 +9,9 @@ namespace Wjire.NETFramework
     {
         private static void Main(string[] args)
         {
+
+            SqlConnection conn = new SqlConnection();
+            conn.Dispose();
             List<Person> list = new List<Person>
             {
                 new Person{ Logins = new List<Login>
@@ -24,7 +28,7 @@ namespace Wjire.NETFramework
 
             Console.WriteLine();
 
-            list.ForEach(f => f.Logins = f.Logins.OrderBy(o=>o.Date).ToList());
+            list.ForEach(f => f.Logins = f.Logins.OrderBy(o => o.Date).ToList());
             list.ForEach(f => f.Logins.ForEach(ff => Console.WriteLine(ff.Date)));
             Console.ReadKey();
         }

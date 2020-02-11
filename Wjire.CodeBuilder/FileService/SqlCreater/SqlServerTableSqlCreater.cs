@@ -35,7 +35,7 @@ namespace FileService
                 {
                     keys.Add("[" + table.ColumnName + "]");
                 }
-                sb.AppendLine($" [{table.ColumnName}] {table.ColumnType}{GetLength(table.ColumnLength)} {GetSortRule(table.ColumnType)} {GetNullable(table.IsNullable, table.IsKey)},");
+                sb.AppendLine($" [{table.ColumnName}] {table.ColumnType}{GetLength(table.ColumnLength)} {GetSortRule(table.ColumnType)} {GetNullable(table)},");
             }
             sb = sb.Remove(sb.Length - 3, 1);
             sb.AppendLine(")");
@@ -93,6 +93,15 @@ GO");
                 return "NOT NULL";
             }
             return isNullable == "1" ? "Null" : "NOT NULL";
+        }
+
+        private string GetNullable(TableInfo tableInfo)
+        {
+            if (tableInfo.IsKey == "1")
+            {
+                return tableInfo.IsIncrement == "1" ? "IDENTITY(1,1) NOT NULL" : "NOT NULL";
+            }
+            return tableInfo.IsNullable == "1" ? "Null" : "NOT NULL";
         }
     }
 }

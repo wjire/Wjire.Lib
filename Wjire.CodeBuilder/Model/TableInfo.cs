@@ -40,5 +40,11 @@
         /// 是否是主键 0:否 1:是
         /// </summary>
         public string IsKey { get; set; }
+
+
+        /// <summary>
+        /// 是否自增 默认 IDENTITY(1,1)
+        /// </summary>
+        public string IsIncrement { get; set; }
     }
 }
