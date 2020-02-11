@@ -16,7 +16,7 @@ namespace Wjire.Db
     {
 
         protected static string TableName = typeof(TEntity).Name;
-        
+
 
         /// <summary>
         /// IDbConnection
@@ -159,7 +159,7 @@ namespace Wjire.Db
         /// <param name="behavior"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected IDataReader ExecuteReader(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0)
+        protected IDataReader ExecuteReader(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 30)
         {
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
@@ -175,7 +175,7 @@ namespace Wjire.Db
         /// <param name="behavior"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected DataTable ExecuteTable(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 0)
+        protected DataTable ExecuteTable(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 30)
         {
             using (IDataReader dr = ExecuteReader(sql, type, behavior, timeout))
             {
@@ -191,11 +191,13 @@ namespace Wjire.Db
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="type"></param>
+        /// <param name="behavior"></param>
+        /// <param name="timeout"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        protected DataSet ExecuteDataSet(string sql, CommandType type = CommandType.Text, params string[] tableName)
+        protected DataSet ExecuteDataSet(string sql, CommandType type = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, int timeout = 30, params string[] tableName)
         {
-            using (IDataReader dr = ExecuteReader(sql, type))
+            using (IDataReader dr = ExecuteReader(sql, type, behavior, timeout))
             {
                 DataSet ds = new DataSet();
                 ds.Load(dr, LoadOption.Upsert, tableName);
@@ -211,7 +213,7 @@ namespace Wjire.Db
         /// <param name="type">type</param>
         /// <param name="timeout">timeout</param>
         /// <returns>result</returns>
-        protected object ExecuteScalar(string sql, CommandType type = CommandType.Text, int timeout = 0)
+        protected object ExecuteScalar(string sql, CommandType type = CommandType.Text, int timeout = 30)
         {
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
@@ -228,7 +230,7 @@ namespace Wjire.Db
         /// <param name="type"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected int ExecuteNonQuery(string sql, CommandType type = CommandType.Text, int timeout = 0)
+        protected int ExecuteNonQuery(string sql, CommandType type = CommandType.Text, int timeout = 30)
         {
             _cmd.CommandText = sql;
             _cmd.CommandType = type;
@@ -236,6 +238,24 @@ namespace Wjire.Db
             return _cmd.ExecuteNonQuery();
         }
         
+
+
+        /// <summary>
+        /// 新增
+        /// </summary>
+        protected virtual void Add(TEntity entity)
+        {
+            ClearParameters();
+            var sql = GetInsertSql(entity);
+            AddParameter(entity);
+            var addResult = ExecuteNonQuery(sql);
+            if (addResult != 1)
+            {
+                throw new Exception("insert into database throw a exception");
+            }
+        }
+
+
 
         /// <summary>
         /// 添加参数
