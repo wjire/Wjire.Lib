@@ -65,12 +65,7 @@ namespace Wjire.Db
         {
             _transaction?.Dispose();
             Command?.Dispose();
-            if (_connection == null)
-            {
-                return;
-            }
-            _connection.Close();
-            _connection.Dispose();
+            _connection?.Dispose();
         }
     }
 }

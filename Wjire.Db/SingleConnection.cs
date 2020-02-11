@@ -53,14 +53,7 @@ namespace Wjire.Db
         public void Dispose()
         {
             Command?.Dispose();
-
-            if (_connection == null)
-            {
-                return;
-            }
-
-            _connection.Close();
-            _connection.Dispose();
+            _connection?.Dispose();
         }
     }
 }

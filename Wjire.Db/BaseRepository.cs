@@ -49,8 +49,6 @@ namespace Wjire.Db
             _cmd = Connection.CreateCommand();
         }
 
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository"/> class.
         /// 构造函数
@@ -237,89 +235,7 @@ namespace Wjire.Db
             _cmd.CommandTimeout = timeout;
             return _cmd.ExecuteNonQuery();
         }
-
-
-
-        #region 便捷操作,public 可对外
-
-
-        public TEntity GetSingle(string sql)
-        {
-            return ExecuteReader(sql).ToModel<TEntity>();
-        }
-
-        public T GetSingle<T>(string sql) where T : class, new()
-        {
-            return ExecuteReader(sql).ToModel<T>();
-        }
-
-        public List<TEntity> GetList(string sql)
-        {
-            return ExecuteReader(sql).ToList<TEntity>();
-        }
-
-        public List<T> GetList<T>(string sql) where T : class, new()
-        {
-            return ExecuteReader(sql).ToList<T>();
-        }
-
-
-
-        #region 分页查询
-
-
-        /// <summary>
-        /// 单表分页查询
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataSql">获取所有数据sql</param>
-        /// <param name="countSql">获取总条数sql</param>
-        /// <param name="pageIndex">第几页</param>
-        /// <param name="pageSize">每页容量</param>
-        /// <param name="rowsCount">总条数</param>
-        /// <returns></returns>
-        protected List<T> QueryPager<T>(StringBuilder dataSql, string countSql, int pageIndex, int pageSize, out int rowsCount) where T : class, new()
-        {
-            rowsCount = Convert.ToInt32(ExecuteScalar(countSql));
-            if (rowsCount == 0)
-            {
-                return new List<T>();
-            }
-            int pageSkip = pageIndex - 1 * pageSize;
-            dataSql.Append($" OFFSET {pageSkip} ROWS FETCH NEXT {pageSize} ROWS ONLY ");
-            List<T> result = ExecuteReader(dataSql.ToString()).ToList<T>();
-            return result;
-        }
-
-
-        #endregion
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="paramList"></param>
-        /// <returns></returns>
-        protected string GetWhereIn<T>(IList<T> paramList) where T : struct
-        {
-            return $" ({string.Join(",", paramList)}) ";
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="paramList"></param>
-        /// <returns></returns>
-        protected string GetWhereIn(IList<string> paramList)
-        {
-            return $" ('{string.Join("','", paramList)}') ";
-        }
-
-
-        #endregion
-
-
+        
 
         /// <summary>
         /// 添加参数
@@ -371,14 +287,7 @@ namespace Wjire.Db
         public void Dispose()
         {
             _cmd?.Dispose();
-
-            if (Connection == null)
-            {
-                return;
-            }
-
-            Connection.Close();
-            Connection.Dispose();
+            Connection?.Dispose();
         }
     }
 }

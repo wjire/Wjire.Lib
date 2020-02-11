@@ -11,6 +11,9 @@ namespace Wjire.Db
     /// </summary>
     public static class ConnectionStringHelper
     {
+        private const string Development = "appsettings.Development.json";
+        private const string Release = "appsettings.json";
+        private const string ConnectionStrings = "connectionStrings";
 
         private static readonly IConfigurationSection Section;
 
@@ -18,17 +21,17 @@ namespace Wjire.Db
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(baseDirectory);
-            string path = Path.Combine(baseDirectory, "appsettings.Development.json");
+            string path = Path.Combine(baseDirectory, Development);
             IConfigurationRoot config;
             if (File.Exists(path))
             {
-                config = builder.AddJsonFile("appsettings.Development.json", false, true).Build();
+                config = builder.AddJsonFile(Development, false, true).Build();
             }
             else
             {
-                config = builder.AddJsonFile("appsettings.json", false, true).Build();
+                config = builder.AddJsonFile(Release, false, true).Build();
             }
-            Section = config.GetSection("connectionStrings");
+            Section = config.GetSection(ConnectionStrings);
         }
 
 
