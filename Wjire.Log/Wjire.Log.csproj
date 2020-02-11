@@ -1,9 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>Wjire</Company>
-    <Authors>Wjire</Authors>
+    <Company>wjire</Company>
+    <Authors>wjire</Authors>
+    <Version>1.0.1</Version>
+    <Description>轻量级日志记录框架</Description>
+    <Copyright>wjire</Copyright>
+    <PackageId>Wjire.Log</PackageId>
+    <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Log</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

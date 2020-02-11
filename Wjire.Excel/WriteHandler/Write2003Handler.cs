@@ -7,7 +7,7 @@ using System.IO;
 namespace Wjire.Excel
 {
 
-    internal class Excel2003Handler : IExcelHandler
+    internal class Write2003Handler : IWriteHandler
     {
 
 

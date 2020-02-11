@@ -84,17 +84,7 @@ GO");
         {
             return string.IsNullOrWhiteSpace(length) ? null : $"({length})";
         }
-
-
-        private string GetNullable(string isNullable, string isKey)
-        {
-            if (isKey == "1")
-            {
-                return "NOT NULL";
-            }
-            return isNullable == "1" ? "Null" : "NOT NULL";
-        }
-
+        
         private string GetNullable(TableInfo tableInfo)
         {
             if (tableInfo.IsKey == "1")

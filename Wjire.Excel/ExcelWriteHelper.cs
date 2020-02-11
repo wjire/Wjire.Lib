@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Wjire.Excel
 {
-    public static class ExcelHelper
+    public static class ExcelWriteHelper
     {
 
 
@@ -19,7 +20,7 @@ namespace Wjire.Excel
         public static MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources, ExcelVersion version = ExcelVersion.Excel2007)
         {
             CheckSources(sources);
-            return ExcelHandlerFactory.CreateHandler(version).CreateMemoryStream(sources);
+            return WriteHandlerFactory.CreateHandler(version).CreateMemoryStream(sources);
         }
 
 
@@ -35,7 +36,7 @@ namespace Wjire.Excel
         {
             CheckSources(sources);
             CheckExportFields(exportFields);
-            return ExcelHandlerFactory.CreateHandler(version).CreateMemoryStream(sources, exportFields);
+            return WriteHandlerFactory.CreateHandler(version).CreateMemoryStream(sources, exportFields);
         }
 
 
@@ -51,7 +52,7 @@ namespace Wjire.Excel
         {
             CheckSources(sources);
             CheckExportFieldsWithName(exportFieldsWithName);
-            return ExcelHandlerFactory.CreateHandler(version).CreateMemoryStream(sources, exportFieldsWithName);
+            return WriteHandlerFactory.CreateHandler(version).CreateMemoryStream(sources, exportFieldsWithName);
         }
 
 
@@ -65,7 +66,7 @@ namespace Wjire.Excel
         public static byte[] CreateBytes<T>(IEnumerable<T> sources, ExcelVersion version = ExcelVersion.Excel2007)
         {
             CheckSources(sources);
-            return ExcelHandlerFactory.CreateHandler(version).CreateBytes(sources);
+            return WriteHandlerFactory.CreateHandler(version).CreateBytes(sources);
         }
 
 
@@ -81,7 +82,7 @@ namespace Wjire.Excel
         {
             CheckSources(sources);
             CheckExportFields(exportFields);
-            return ExcelHandlerFactory.CreateHandler(version).CreateBytes(sources, exportFields);
+            return WriteHandlerFactory.CreateHandler(version).CreateBytes(sources, exportFields);
         }
 
 
@@ -97,7 +98,7 @@ namespace Wjire.Excel
         {
             CheckSources(sources);
             CheckExportFieldsWithName(exportFieldsWithName);
-            return ExcelHandlerFactory.CreateHandler(version).CreateBytes(sources, exportFieldsWithName);
+            return WriteHandlerFactory.CreateHandler(version).CreateBytes(sources, exportFieldsWithName);
         }
 
 
@@ -114,7 +115,7 @@ namespace Wjire.Excel
         {
             CheckSources(sources);
             CheckPath(path);
-            ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, path);
+            WriteHandlerFactory.CreateHandler(version).CreateFile(sources, path);
         }
 
 
@@ -133,7 +134,7 @@ namespace Wjire.Excel
             CheckSources(sources);
             CheckPath(path);
             CheckExportFields(exportFields);
-            ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, exportFields, path);
+            WriteHandlerFactory.CreateHandler(version).CreateFile(sources, exportFields, path);
         }
 
 
@@ -152,7 +153,7 @@ namespace Wjire.Excel
             CheckSources(sources);
             CheckPath(path);
             CheckExportFieldsWithName(exportFieldsWithName);
-            ExcelHandlerFactory.CreateHandler(version).CreateFile(sources, exportFieldsWithName, path);
+            WriteHandlerFactory.CreateHandler(version).CreateFile(sources, exportFieldsWithName, path);
         }
 
 
@@ -180,7 +181,6 @@ namespace Wjire.Excel
                 throw new ArgumentNullException("the exportFieldsWithName is null");
             }
         }
-
 
         private static void CheckPath(string path)
         {

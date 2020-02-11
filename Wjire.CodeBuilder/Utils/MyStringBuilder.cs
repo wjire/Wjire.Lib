@@ -6,7 +6,7 @@ namespace Wjire.CodeBuilder.Utils
     {
         private readonly StringBuilder _sb;
 
-        public MyStringBuilder() : this(4)
+        public MyStringBuilder() : this(16)
         {
 
         }

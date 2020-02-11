@@ -96,6 +96,8 @@ namespace Wjire.CodeBuilder.FileService
             switch (type.ToLower())
             {
                 case "int":
+                case "tinyint":
+                case "smallint":
                     return "int";
                 case "bigint":
                     return "long";
@@ -110,10 +112,6 @@ namespace Wjire.CodeBuilder.FileService
                     return "double";
                 case "real":
                     return "Single";
-                case "smallint":
-                    return "short";
-                case "tinyint":
-                    return "byte";
                 case "char":
                 case "nchar":
                 case "varchar":

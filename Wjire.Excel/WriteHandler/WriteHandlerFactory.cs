@@ -4,9 +4,9 @@ namespace Wjire.Excel
 {
 
     /// <summary>
-    /// ExcelHandler工厂
+    /// WriteHandler工厂
     /// </summary>
-    internal static class ExcelHandlerFactory
+    internal static class WriteHandlerFactory
     {
 
         /// <summary>
@@ -14,14 +14,14 @@ namespace Wjire.Excel
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        internal static IExcelHandler CreateHandler(ExcelVersion version)
+        internal static IWriteHandler CreateHandler(ExcelVersion version)
         {
             switch (version)
             {
                 case ExcelVersion.Excel2007:
-                    return new Excel2007Handler();
+                    return new Excel2007WriteHandler();
                 case ExcelVersion.Excel2003:
-                    return new Excel2003Handler();
+                    return new Write2003Handler();
                 default:
                     throw new ArgumentException("the excel version is invalid");
             }

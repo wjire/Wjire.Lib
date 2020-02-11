@@ -7,7 +7,7 @@ using System.IO;
 namespace Wjire.Excel
 {
 
-    internal class Excel2007Handler : IExcelHandler
+    internal class Excel2007WriteHandler : IWriteHandler
     {
 
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
