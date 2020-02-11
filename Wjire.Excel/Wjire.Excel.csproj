@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>wjire</Company>
+    <Authors>wjire</Authors>
+    <Description>导出/读取Excel,内置NPOI,EPPlus,CsvHelper</Description>
+    <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Excel</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
