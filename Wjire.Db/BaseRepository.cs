@@ -265,7 +265,7 @@ namespace Wjire.Db
                 StringBuilder addBuilder = new StringBuilder(64);
                 foreach (PropertyInfo property in type.GetProperties())
                 {
-                    //忽略主键
+                    //忽略自增字段
                     KeyAttribute keyAttribute = property.GetCustomAttribute<KeyAttribute>();
                     if (keyAttribute == null)
                     {
