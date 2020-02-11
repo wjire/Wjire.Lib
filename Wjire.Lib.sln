@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.NETFramework", "Wjire.NETFramework\Wjire.NETFramework.csproj", "{1CE8D363-DBFC-4E7D-A53D-D579229ECB43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wjire.Db_Bak", "Wjire.Db_Bak\Wjire.Db_Bak.csproj", "{55F15CA4-A02D-4278-AB41-43507FA5CE95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{1CE8D363-DBFC-4E7D-A53D-D579229ECB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CE8D363-DBFC-4E7D-A53D-D579229ECB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CE8D363-DBFC-4E7D-A53D-D579229ECB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F15CA4-A02D-4278-AB41-43507FA5CE95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F15CA4-A02D-4278-AB41-43507FA5CE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F15CA4-A02D-4278-AB41-43507FA5CE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F15CA4-A02D-4278-AB41-43507FA5CE95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{D92A8003-507A-47E8-BB19-DD22B492A0C1} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 		{AA633146-483A-4FAA-8CDF-B68B590A5EDB} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
 		{1CE8D363-DBFC-4E7D-A53D-D579229ECB43} = {4342A7F6-961A-4D73-8712-AC046D0DE322}
+		{55F15CA4-A02D-4278-AB41-43507FA5CE95} = {65182266-8094-418A-9A4A-B5985AD2ED2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0C62F8E-9218-4B02-A1E9-BEE305856407}
