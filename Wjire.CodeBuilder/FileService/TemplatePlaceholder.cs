@@ -22,7 +22,6 @@
         public const string Host = "{Host}";
         public const string Account = "{Account}";
         public const string Pwd = "{Pwd}";
-        public const string SqlType = "{SqlType}";
         public const string FieldArea = "/*FieldArea*/";
     }
 }

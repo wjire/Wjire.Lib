@@ -29,7 +29,7 @@ namespace Wjire.CodeBuilder.DbService
         {
             return $"Data Source={ConnectionInfo.IP};Initial Catalog={ConnectionInfo.DbName};User ID={ConnectionInfo.User};PassWord={ConnectionInfo.Pwd};persist security info=True;";
         }
-        
+
 
         /// <summary>
         /// 获取所有数据库名
@@ -94,8 +94,8 @@ namespace Wjire.CodeBuilder.DbService
             {
                 using (IDbConnection connection = new SqlConnection(ConnectionString))
                 {
-                    var result = connection.Query<TableInfo>(GetSql(tableName)).ToList();
-                    foreach (var item in result.Where(w => w.IsKey == "1"))
+                    List<TableInfo> result = connection.Query<TableInfo>(GetSql(tableName)).ToList();
+                    foreach (TableInfo item in result.Where(w => w.IsKey == "1"))
                     {
                         item.IsIncrement = connection.QuerySingleOrDefault<string>(
                             $"SELECT COLUMNPROPERTY( OBJECT_ID('{tableName}'),'{item.ColumnName}','IsIdentity') as IsIdentity");

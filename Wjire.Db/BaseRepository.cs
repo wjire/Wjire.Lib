@@ -11,7 +11,7 @@ namespace Wjire.Db
     /// <summary>
     /// 底层基础处理仓储
     /// </summary>
-    public abstract class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
+    public abstract partial class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
     {
 
         protected string TableName = typeof(TEntity).Name;
@@ -234,24 +234,7 @@ namespace Wjire.Db
             _cmd.CommandTimeout = timeout;
             return _cmd.ExecuteNonQuery();
         }
-
-
-
-        /// <summary>
-        /// 新增
-        /// </summary>
-        public virtual void Add(TEntity entity)
-        {
-            ClearParameters();
-            string sql = GetInsertSql(entity);
-            AddParameter(entity);
-            int addResult = ExecuteNonQuery(sql);
-            if (addResult != 1)
-            {
-                throw new Exception("insert into database throw a exception");
-            }
-        }
-
+        
 
 
         /// <summary>

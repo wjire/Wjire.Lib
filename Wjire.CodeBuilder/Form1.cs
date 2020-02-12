@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Resources;
-using System.Text;
 using System.Windows.Forms;
 using FileService.SqlCreater;
 using Newtonsoft.Json;
@@ -691,8 +690,8 @@ namespace Wjire.CodeBuilder
         private void button_toConfiguration_Click(object sender, EventArgs e)
         {
             ConnectionInfo info = GetCurrentConnectionInfo();
-            var creater = ConfigureCreaterFactory.Create(info);
-            var configure = creater.CreateConfigure();
+            BaseConfigureCreater creater = ConfigureCreaterFactory.Create(info);
+            string configure = creater.CreateConfigure();
             textBox_result.Text = configure;
         }
     }

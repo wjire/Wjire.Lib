@@ -18,7 +18,7 @@ namespace ConsoleTest
 
             using (UserInfoRepository db = NCovDbFactory.CreateIUserInfoRepositoryWrite())
             {
-                
+
             }
 
 

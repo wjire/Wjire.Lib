@@ -14,7 +14,7 @@ namespace FileService.SqlCreater
                 case "mysql":
                     return new MySqlTableSqlCreater();
                 default:
-                    throw new Exception("尚不支持 "+type);
+                    throw new Exception("尚不支持 " + type);
             }
         }
     }
