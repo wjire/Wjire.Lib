@@ -43,15 +43,8 @@ namespace Wjire.Common
         /// <returns></returns>
         public static T DeserializeFrom<T>(Stream memory)
         {
-            try
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (T)formatter.Deserialize(memory);
-            }
-            catch (Exception)
-            {
-                return default(T);
-            }
+            BinaryFormatter formatter = new BinaryFormatter();
+            return (T)formatter.Deserialize(memory);
         }
     }
 }

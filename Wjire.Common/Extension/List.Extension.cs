@@ -19,9 +19,9 @@ namespace Wjire.Common.Extension
         /// <returns></returns>
         public static DataTable ToDataTable<T>(this List<T> entities)
         {
-            if (entities == null || entities.Count < 1)
+            if (entities == null || entities.Count == 0)
             {
-                throw new ArgumentNullException("需转换的集合为空");
+                throw new ArgumentNullException("entities is null or empty");
             }
 
             Type type = typeof(T);
