@@ -6,6 +6,7 @@
     <Company>wjire</Company>
     <Description>for sqlserver and mysql. don`t have any middleware, just only use ado.net.</Description>
     <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Db</PackageProjectUrl>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
