@@ -45,7 +45,7 @@ namespace Wjire.Db
         {
             switch (settings.ProviderName.ToLower())
             {
-                case "sql":
+                case "sqlserver":
                     return new SqlConnection(settings.ConnectionString);
                 case "mysql":
                     return new MySqlConnection(settings.ConnectionString);

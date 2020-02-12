@@ -148,6 +148,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Lib\ConnectionStringTemplate\sqlserver.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Lib\ConnectionStringTemplate\mysql.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Lib\CsprojTemplate\DbContext.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -229,5 +235,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

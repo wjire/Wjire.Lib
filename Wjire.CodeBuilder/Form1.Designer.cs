@@ -35,7 +35,7 @@
             this.button_toIService = new System.Windows.Forms.Button();
             this.button_toService = new System.Windows.Forms.Button();
             this.button_toNamespace = new System.Windows.Forms.Button();
-            this.button_toSqlPath = new System.Windows.Forms.Button();
+            this.button_toConfiguration = new System.Windows.Forms.Button();
             this.button_toIRepository = new System.Windows.Forms.Button();
             this.button_choosePath = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -87,7 +87,7 @@
             this.groupBox1.Controls.Add(this.button_toIService);
             this.groupBox1.Controls.Add(this.button_toService);
             this.groupBox1.Controls.Add(this.button_toNamespace);
-            this.groupBox1.Controls.Add(this.button_toSqlPath);
+            this.groupBox1.Controls.Add(this.button_toConfiguration);
             this.groupBox1.Controls.Add(this.button_toIRepository);
             this.groupBox1.Controls.Add(this.button_choosePath);
             this.groupBox1.Controls.Add(this.label3);
@@ -190,17 +190,16 @@
             this.button_toNamespace.UseVisualStyleBackColor = true;
             this.button_toNamespace.Click += new System.EventHandler(this.button_toNamespace_Click);
             // 
-            // button_toSqlPath
+            // button_toConfiguration
             // 
-            this.button_toSqlPath.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_toSqlPath.Location = new System.Drawing.Point(1346, 62);
-            this.button_toSqlPath.Name = "button_toSqlPath";
-            this.button_toSqlPath.Size = new System.Drawing.Size(76, 31);
-            this.button_toSqlPath.TabIndex = 36;
-            this.button_toSqlPath.Text = "打开sql";
-            this.button_toSqlPath.UseVisualStyleBackColor = true;
-            this.button_toSqlPath.Visible = false;
-            this.button_toSqlPath.Click += new System.EventHandler(this.button_toSqlPath_Click);
+            this.button_toConfiguration.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_toConfiguration.Location = new System.Drawing.Point(1286, 62);
+            this.button_toConfiguration.Name = "button_toConfiguration";
+            this.button_toConfiguration.Size = new System.Drawing.Size(136, 31);
+            this.button_toConfiguration.TabIndex = 36;
+            this.button_toConfiguration.Text = "生成配置文件";
+            this.button_toConfiguration.UseVisualStyleBackColor = true;
+            this.button_toConfiguration.Click += new System.EventHandler(this.button_toConfiguration_Click);
             // 
             // button_toIRepository
             // 
@@ -262,7 +261,6 @@
             this.textBox_result.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox_result.Size = new System.Drawing.Size(467, 534);
             this.textBox_result.TabIndex = 23;
-            this.textBox_result.TextChanged += new System.EventHandler(this.textBox_result_TextChanged);
             // 
             // textBox_namespace
             // 
@@ -365,13 +363,13 @@
             this.textBox_excelPath.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBox_excelPath.Location = new System.Drawing.Point(532, 68);
             this.textBox_excelPath.Name = "textBox_excelPath";
-            this.textBox_excelPath.Size = new System.Drawing.Size(719, 23);
+            this.textBox_excelPath.Size = new System.Drawing.Size(665, 23);
             this.textBox_excelPath.TabIndex = 24;
             // 
             // button_CreateTableSql
             // 
             this.button_CreateTableSql.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_CreateTableSql.Location = new System.Drawing.Point(1257, 62);
+            this.button_CreateTableSql.Location = new System.Drawing.Point(1203, 62);
             this.button_CreateTableSql.Name = "button_CreateTableSql";
             this.button_CreateTableSql.Size = new System.Drawing.Size(77, 31);
             this.button_CreateTableSql.TabIndex = 17;
@@ -637,7 +635,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox_codePath;
         private System.Windows.Forms.Button button_toIRepository;
-        private System.Windows.Forms.Button button_toSqlPath;
+        private System.Windows.Forms.Button button_toConfiguration;
         private System.Windows.Forms.Button button_toNamespace;
         private System.Windows.Forms.Button button_toIService;
         private System.Windows.Forms.Button button_toService;

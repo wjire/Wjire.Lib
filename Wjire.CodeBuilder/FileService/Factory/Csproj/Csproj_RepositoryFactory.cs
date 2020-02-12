@@ -8,7 +8,7 @@ namespace Wjire.CodeBuilder.FileService
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {
-            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "IRepository.txt");
+            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "Repository.txt");
         }
 
         protected override string GetToSavePath(FormInfo formInfo)

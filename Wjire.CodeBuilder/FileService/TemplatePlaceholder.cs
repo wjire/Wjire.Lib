@@ -19,6 +19,10 @@
         public const string NameSpaceName = "{NameSpaceName}";
         public const string TableName = "{TableName}";
         public const string DbName = "{DbName}";
+        public const string Host = "{Host}";
+        public const string Account = "{Account}";
+        public const string Pwd = "{Pwd}";
+        public const string SqlType = "{SqlType}";
         public const string FieldArea = "/*FieldArea*/";
     }
 }

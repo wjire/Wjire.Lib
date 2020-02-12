@@ -29,7 +29,7 @@ namespace Wjire.CodeBuilder.DbService
         {
             return $"Data Source={ConnectionInfo.IP};Initial Catalog={ConnectionInfo.DbName};User ID={ConnectionInfo.User};PassWord={ConnectionInfo.Pwd};persist security info=True;";
         }
-
+        
 
         /// <summary>
         /// 获取所有数据库名

@@ -8,7 +8,7 @@ namespace Wjire.CodeBuilder.DbService
 
         public static IDbService CreateDbService(ConnectionInfo info)
         {
-            if (info.Type == "sql")
+            if (info.Type == "sqlserver")
             {
                 return new SqlDbService(info);
             }

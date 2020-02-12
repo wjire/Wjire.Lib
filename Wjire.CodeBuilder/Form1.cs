@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Resources;
+using System.Text;
 using System.Windows.Forms;
 using FileService.SqlCreater;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ namespace Wjire.CodeBuilder
         private readonly Cs_ModelFactory _modelCreater = new Cs_ModelFactory();
         private IDbService _dbService;
         private ITableSqlCreater _sqlCreater;
-        private string _dbType = "sql";
+        private string _dbType = "sqlserver";
 
         public Form1()
         {
@@ -299,16 +300,6 @@ namespace Wjire.CodeBuilder
         }
 
 
-        //TODO:有BUG,报异常了,暂时隐藏该按钮
-        /// <summary>
-        /// 打开生成的sql文件目录 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button_toSqlPath_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog(textBox_excelPath.Text, "sql文件|*.sql");
-        }
 
 
         /// <summary>
@@ -388,7 +379,7 @@ namespace Wjire.CodeBuilder
 
         private void InitDbTypes()
         {
-            comboBox_dbType.Items.Add("sql");
+            comboBox_dbType.Items.Add("sqlserver");
             comboBox_dbType.Items.Add("mysql");
             comboBox_dbType.Text = _dbType;
         }
@@ -690,9 +681,32 @@ namespace Wjire.CodeBuilder
             }
         }
 
-        private void textBox_result_TextChanged(object sender, EventArgs e)
-        {
 
+        /// <summary>
+        /// 生成配置文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_toConfiguration_Click(object sender, EventArgs e)
+        {
+            ConnectionInfo info = GetCurrentConnectionInfo();
+
+            var liens = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                @"Lib\ConnectionStringTemplate\sqlserver.txt"));
+
+            StringBuilder sb = new StringBuilder(512);
+            foreach (var line in liens)
+            {
+                var item = line
+                    .Replace(TemplatePlaceholder.DbName, info.DbName)
+                    .Replace(TemplatePlaceholder.Host, info.IP)
+                    .Replace(TemplatePlaceholder.Account, info.User)
+                    .Replace(TemplatePlaceholder.Pwd, info.Pwd)
+                    .Replace(TemplatePlaceholder.SqlType, _dbType);
+                sb.AppendLine(item);
+            }
+            var content = sb.ToString();
+            textBox_result.Text = content;
         }
     }
 }

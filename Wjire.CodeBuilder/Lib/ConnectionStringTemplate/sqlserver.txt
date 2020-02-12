@@ -1,0 +1,12 @@
+﻿{
+  "connectionStrings": {
+    "{DbName}Read": {
+      "connectionString": "Data Source={Host};Initial Catalog={DbName};Persist Security Info=True;User ID={Account};Password={Pwd}",
+      "providerName": "{SqlType}"
+    },
+    "{DbName}Write": {
+      "connectionString": "Data Source={Host};Initial Catalog={DbName};Persist Security Info=True;User ID={Account};Password={Pwd}",
+      "providerName": "{SqlType}"
+    }
+  }
+}
