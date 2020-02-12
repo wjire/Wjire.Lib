@@ -76,6 +76,10 @@
     <Compile Include="DbSevice\IDbService.cs" />
     <Compile Include="DbSevice\MySqlDbService.cs" />
     <Compile Include="DbSevice\SqlDbService.cs" />
+    <Compile Include="FileService\ConfigureCreater\BaseConfigureCreater.cs" />
+    <Compile Include="FileService\ConfigureCreater\ConfigureCreaterFactory.cs" />
+    <Compile Include="FileService\ConfigureCreater\MySqlConfigureCreater.cs" />
+    <Compile Include="FileService\ConfigureCreater\SqlServerConfigureCreater.cs" />
     <Compile Include="FileService\Factory\BaseFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_BaseFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_DbContextFactory.cs" />

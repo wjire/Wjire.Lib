@@ -1,11 +1,11 @@
 ﻿{
   "connectionStrings": {
     "{DbName}Read": {
-      "connectionString": "Data Source={Host};Initial Catalog={DbName};Persist Security Info=True;User ID={Account};Password={Pwd}",
+      "connectionString": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};",
       "providerName": "mysql"
     },
     "{DbName}Write": {
-      "connectionString": "Data Source={Host};Initial Catalog={DbName};Persist Security Info=True;User ID={Account};Password={Pwd}",
+      "connectionString": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};",
       "providerName": "mysql"
     }
   }

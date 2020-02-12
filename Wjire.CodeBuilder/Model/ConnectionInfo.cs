@@ -7,9 +7,9 @@
     public class ConnectionInfo
     {
         /// <summary>
-        /// 数据库类型 : "sql",",mysql"
+        /// 数据库类型 : "sqlserver",",mysql"
         /// </summary>
-        public string Type { get; set; } = "sql";
+        public string Type { get; set; } = "sqlserver";
         public string IP { get; set; }
         public string DbName { get; set; }
         public string User { get; set; }

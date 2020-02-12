@@ -12,6 +12,7 @@ using FileService.SqlCreater;
 using Newtonsoft.Json;
 using Wjire.CodeBuilder.DbService;
 using Wjire.CodeBuilder.FileService;
+using Wjire.CodeBuilder.FileService.ConfigureCreater;
 using Wjire.CodeBuilder.Model;
 using Wjire.CodeBuilder.Utils;
 
@@ -690,23 +691,9 @@ namespace Wjire.CodeBuilder
         private void button_toConfiguration_Click(object sender, EventArgs e)
         {
             ConnectionInfo info = GetCurrentConnectionInfo();
-
-            var liens = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                @"Lib\ConnectionStringTemplate\sqlserver.txt"));
-
-            StringBuilder sb = new StringBuilder(512);
-            foreach (var line in liens)
-            {
-                var item = line
-                    .Replace(TemplatePlaceholder.DbName, info.DbName)
-                    .Replace(TemplatePlaceholder.Host, info.IP)
-                    .Replace(TemplatePlaceholder.Account, info.User)
-                    .Replace(TemplatePlaceholder.Pwd, info.Pwd)
-                    .Replace(TemplatePlaceholder.SqlType, _dbType);
-                sb.AppendLine(item);
-            }
-            var content = sb.ToString();
-            textBox_result.Text = content;
+            var creater = ConfigureCreaterFactory.Create(info);
+            var configure = creater.CreateConfigure();
+            textBox_result.Text = configure;
         }
     }
 }

@@ -197,7 +197,7 @@
             this.button_toConfiguration.Name = "button_toConfiguration";
             this.button_toConfiguration.Size = new System.Drawing.Size(136, 31);
             this.button_toConfiguration.TabIndex = 36;
-            this.button_toConfiguration.Text = "生成配置文件";
+            this.button_toConfiguration.Text = "生成连接字符串";
             this.button_toConfiguration.UseVisualStyleBackColor = true;
             this.button_toConfiguration.Click += new System.EventHandler(this.button_toConfiguration_Click);
             // 
@@ -276,9 +276,9 @@
             this.comboBox_dbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_dbType.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox_dbType.FormattingEnabled = true;
-            this.comboBox_dbType.Location = new System.Drawing.Point(66, 22);
+            this.comboBox_dbType.Location = new System.Drawing.Point(57, 22);
             this.comboBox_dbType.Name = "comboBox_dbType";
-            this.comboBox_dbType.Size = new System.Drawing.Size(68, 24);
+            this.comboBox_dbType.Size = new System.Drawing.Size(97, 24);
             this.comboBox_dbType.TabIndex = 29;
             this.comboBox_dbType.SelectedIndexChanged += new System.EventHandler(this.comboBox_dbType_SelectedIndexChanged);
             // 

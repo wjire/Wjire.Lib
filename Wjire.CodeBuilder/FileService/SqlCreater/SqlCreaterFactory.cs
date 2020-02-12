@@ -9,12 +9,12 @@ namespace FileService.SqlCreater
         {
             switch (type.ToLower())
             {
-                case "sql":
+                case "sqlserver":
                     return new SqlServerTableSqlCreater();
                 case "mysql":
                     return new MySqlTableSqlCreater();
                 default:
-                    throw new Exception();
+                    throw new Exception("尚不支持 "+type);
             }
         }
     }
