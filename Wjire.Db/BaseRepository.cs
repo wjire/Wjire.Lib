@@ -11,7 +11,7 @@ namespace Wjire.Db
     /// <summary>
     /// 底层基础处理仓储
     /// </summary>
-    public abstract partial class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
+    public abstract class BaseRepository<TEntity> : IDisposable where TEntity : class, new()
     {
 
         protected string TableName = typeof(TEntity).Name;
@@ -29,7 +29,6 @@ namespace Wjire.Db
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseRepository"/> class.
         /// 构造函数
         /// </summary>
         /// <param name="name">链接名称</param>
@@ -241,7 +240,7 @@ namespace Wjire.Db
         /// <summary>
         /// 新增
         /// </summary>
-        protected virtual void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             ClearParameters();
             string sql = GetInsertSql(entity);

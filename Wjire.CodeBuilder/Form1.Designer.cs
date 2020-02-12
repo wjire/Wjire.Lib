@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_toDbContext = new System.Windows.Forms.Button();
+            this.button_toLogic = new System.Windows.Forms.Button();
             this.button_toSolution = new System.Windows.Forms.Button();
             this.button_toIService = new System.Windows.Forms.Button();
             this.button_toService = new System.Windows.Forms.Button();
@@ -51,7 +53,6 @@
             this.button_editCodeTemplate = new System.Windows.Forms.Button();
             this.textBox_excelPath = new System.Windows.Forms.TextBox();
             this.button_CreateTableSql = new System.Windows.Forms.Button();
-            this.button_toLogic = new System.Windows.Forms.Button();
             this.button_ChooseExcel = new System.Windows.Forms.Button();
             this.textBox_dbName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -73,7 +74,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.button_toDbContext = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -123,6 +123,28 @@
             this.groupBox1.Size = new System.Drawing.Size(1428, 734);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
+            // 
+            // button_toDbContext
+            // 
+            this.button_toDbContext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_toDbContext.Location = new System.Drawing.Point(641, 692);
+            this.button_toDbContext.Name = "button_toDbContext";
+            this.button_toDbContext.Size = new System.Drawing.Size(99, 34);
+            this.button_toDbContext.TabIndex = 41;
+            this.button_toDbContext.Text = "DbContext";
+            this.button_toDbContext.UseVisualStyleBackColor = true;
+            this.button_toDbContext.Click += new System.EventHandler(this.button_toDbContext_Click);
+            // 
+            // button_toLogic
+            // 
+            this.button_toLogic.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_toLogic.Location = new System.Drawing.Point(746, 692);
+            this.button_toLogic.Name = "button_toLogic";
+            this.button_toLogic.Size = new System.Drawing.Size(76, 34);
+            this.button_toLogic.TabIndex = 15;
+            this.button_toLogic.Text = "Logic";
+            this.button_toLogic.UseVisualStyleBackColor = true;
+            this.button_toLogic.Click += new System.EventHandler(this.button_toLogic_Click);
             // 
             // button_toSolution
             // 
@@ -177,6 +199,7 @@
             this.button_toSqlPath.TabIndex = 36;
             this.button_toSqlPath.Text = "打开sql";
             this.button_toSqlPath.UseVisualStyleBackColor = true;
+            this.button_toSqlPath.Visible = false;
             this.button_toSqlPath.Click += new System.EventHandler(this.button_toSqlPath_Click);
             // 
             // button_toIRepository
@@ -188,6 +211,7 @@
             this.button_toIRepository.TabIndex = 35;
             this.button_toIRepository.Text = "IRepository";
             this.button_toIRepository.UseVisualStyleBackColor = true;
+            this.button_toIRepository.Visible = false;
             this.button_toIRepository.Click += new System.EventHandler(this.button_toIRepository_Click);
             // 
             // button_choosePath
@@ -238,7 +262,7 @@
             this.textBox_result.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox_result.Size = new System.Drawing.Size(467, 534);
             this.textBox_result.TabIndex = 23;
-            this.textBox_result.Text = "Logic";
+            this.textBox_result.TextChanged += new System.EventHandler(this.textBox_result_TextChanged);
             // 
             // textBox_namespace
             // 
@@ -354,17 +378,6 @@
             this.button_CreateTableSql.Text = "生成sql";
             this.button_CreateTableSql.UseVisualStyleBackColor = true;
             this.button_CreateTableSql.Click += new System.EventHandler(this.button_CreateTableSql_Click);
-            // 
-            // button_toLogic
-            // 
-            this.button_toLogic.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_toLogic.Location = new System.Drawing.Point(746, 692);
-            this.button_toLogic.Name = "button_toLogic";
-            this.button_toLogic.Size = new System.Drawing.Size(76, 34);
-            this.button_toLogic.TabIndex = 15;
-            this.button_toLogic.Text = "Logic";
-            this.button_toLogic.UseVisualStyleBackColor = true;
-            this.button_toLogic.Click += new System.EventHandler(this.button_toLogic_Click);
             // 
             // button_ChooseExcel
             // 
@@ -563,17 +576,6 @@
             this.label10.Size = new System.Drawing.Size(64, 16);
             this.label10.TabIndex = 0;
             this.label10.Text = "用户名:";
-            // 
-            // button_toDbContext
-            // 
-            this.button_toDbContext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_toDbContext.Location = new System.Drawing.Point(641, 692);
-            this.button_toDbContext.Name = "button_toDbContext";
-            this.button_toDbContext.Size = new System.Drawing.Size(99, 34);
-            this.button_toDbContext.TabIndex = 41;
-            this.button_toDbContext.Text = "DbContext";
-            this.button_toDbContext.UseVisualStyleBackColor = true;
-            this.button_toDbContext.Click += new System.EventHandler(this.button_toDbContext_Click);
             // 
             // Form1
             // 

@@ -11,6 +11,8 @@ Project("{{ProjectGuid}}") = "{NameSpaceName}.Logic", "{NameSpaceName}.Logic\{Na
 EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.DbContext", "{NameSpaceName}.DbContext\{NameSpaceName}.DbContext.csproj", "{{DbContextGuid}}"
 EndProject
+Project("{{ProjectGuid}}") = "{NameSpaceName}.IRepository", "{NameSpaceName}.IRepository\{NameSpaceName}.IRepository.csproj", "{{IRepositoryGuid}}"
+EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.Repository", "{NameSpaceName}.Repository\{NameSpaceName}.Repository.csproj", "{{RepositoryGuid}}"
 EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.Model", "{NameSpaceName}.Model\{NameSpaceName}.Model.csproj", "{{ModelGuid}}"
@@ -36,7 +38,11 @@ Global
 		{{DbContextGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{{DbContextGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{DbContextGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{{DbContextGuid}}.Release|Any CPU.Build.0 = Release|Any CPU				
+		{{DbContextGuid}}.Release|Any CPU.Build.0 = Release|Any CPU		
+		{{IRepositoryGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{IRepositoryGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{IRepositoryGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{IRepositoryGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
 		{{RepositoryGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{{RepositoryGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{RepositoryGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU

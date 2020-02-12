@@ -1,5 +1,4 @@
-﻿using Wjire.Db;
-using {NameSpaceName}.Model;
+﻿using {NameSpaceName}.Model;
 
 namespace {NameSpaceName}.Repository
 {

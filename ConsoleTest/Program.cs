@@ -15,9 +15,10 @@ namespace ConsoleTest
         {
             //var s = ConnectionStringHelper.GetConnectionStringSettings("ODBData201912Read");
 
+
             using (UserInfoRepository db = NCovDbFactory.CreateIUserInfoRepositoryWrite())
             {
-
+                
             }
 
 

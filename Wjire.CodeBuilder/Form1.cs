@@ -246,7 +246,7 @@ namespace Wjire.CodeBuilder
                 string tableName = selectedItem.SubItems[1].Text;
                 CreateModel(tableName);
                 CreateRepository(tableName);
-                CreateIRepository(tableName);
+                //CreateIRepository(tableName);
                 CreateDbContext(tableName);
                 CreateLogic(tableName);
                 CreateService(tableName);
@@ -299,8 +299,9 @@ namespace Wjire.CodeBuilder
         }
 
 
+        //TODO:有BUG,报异常了,暂时隐藏该按钮
         /// <summary>
-        /// 打开生成的sql文件目录
+        /// 打开生成的sql文件目录 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -687,6 +688,11 @@ namespace Wjire.CodeBuilder
             {
                 action(selectedItem.SubItems[1].Text);
             }
+        }
+
+        private void textBox_result_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Wjire.Db;
-
-namespace {NameSpaceName}.DbContext
+﻿namespace {NameSpaceName}.DbContext
 {
 
     /// <summary>
