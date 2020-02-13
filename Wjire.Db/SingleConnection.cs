@@ -11,7 +11,7 @@ namespace Wjire.Db
         /// <summary>
         /// IDbConnection
         /// </summary>
-        private readonly IDbConnection _connection;
+        public IDbConnection Connection { get; }
 
 
         /// <summary>
@@ -20,6 +20,11 @@ namespace Wjire.Db
         public IDbCommand Command { get; private set; }
 
 
+        /// <summary>
+        /// IDbTransaction
+        /// </summary>
+        public IDbTransaction Transaction { get; }
+
 
         /// <summary>
         /// 构造函数
@@ -27,8 +32,8 @@ namespace Wjire.Db
         /// <param name="name">链接名称</param>
         public SingleConnection(string name)
         {
-            _connection = ConnectionFactory.GetConnection(name);
-            Command = _connection.CreateCommand();
+            Connection = ConnectionFactory.GetConnection(name);
+            Command = Connection.CreateCommand();
         }
 
 
@@ -53,7 +58,7 @@ namespace Wjire.Db
         public void Dispose()
         {
             Command?.Dispose();
-            _connection?.Dispose();
+            Connection?.Dispose();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Wjire.Db;
+﻿using Wjire.Db.Dapper;
 
 namespace {NameSpaceName}.DbContext
 {
@@ -18,7 +18,7 @@ namespace {NameSpaceName}.DbContext
         /// <returns></returns>
         public static IUnitOfWork CreateTransaction()
         {
-            return new UnitOfWork({DbName}Write);
+            return new TransactionConnection({DbName}Write);
         }
 
         /// <summary>

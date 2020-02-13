@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Wjire.Db" Version="1.0.1" />
+    <PackageReference Include="Wjire.Db.Dapper" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

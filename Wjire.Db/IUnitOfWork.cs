@@ -8,8 +8,11 @@ namespace Wjire.Db
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
+        IDbConnection Connection { get; }
 
         IDbCommand Command { get; }
+
+        IDbTransaction Transaction { get; }
 
         void Commit();
 

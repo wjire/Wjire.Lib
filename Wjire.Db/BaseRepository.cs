@@ -23,6 +23,12 @@ namespace Wjire.Db
 
 
         /// <summary>
+        /// Transaction
+        /// </summary>
+        protected readonly IDbTransaction Transaction;
+
+
+        /// <summary>
         /// IDbCommand
         /// </summary>
         private readonly IDbCommand _cmd;
@@ -57,7 +63,10 @@ namespace Wjire.Db
             {
                 return;
             }
+
+            Connection = unit.Connection;
             _cmd = unit.Command;
+            Transaction = unit.Transaction;
         }
 
 
@@ -234,7 +243,7 @@ namespace Wjire.Db
             _cmd.CommandTimeout = timeout;
             return _cmd.ExecuteNonQuery();
         }
-        
+
 
 
         /// <summary>
