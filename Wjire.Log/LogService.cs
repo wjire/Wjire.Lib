@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -37,9 +38,9 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">路径</param>
-        public static async Task WriteException(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
+        public static Task WriteException(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 string exceptionContent = CreateExceptionContent(ex, remark, request, response);
                 WriteLog(exceptionContent, path);
@@ -54,9 +55,9 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">保存文件夹</param>
-        public static async Task WriteCall(string method, object request = null, object response = null, string path = CallLogPath)
+        public static Task WriteCall(string method, object request = null, object response = null, string path = CallLogPath)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 string callLog = CreateCallLogContent(method, request, response);
                 WriteLog(callLog, path);
@@ -69,9 +70,9 @@ namespace Wjire.Log
         /// </summary>
         /// <param name="content">文本</param>
         /// <param name="path">保存文件夹</param>
-        public static async Task WriteText(string content, string path = TextLogPath)
+        public static Task WriteText(string content, string path = TextLogPath)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 WriteLog(content, path);
             });

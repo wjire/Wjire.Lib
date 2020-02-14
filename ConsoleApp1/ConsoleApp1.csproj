@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wjire.Excel\Wjire.Excel.csproj" />
+    <ProjectReference Include="..\Wjire.Log\Wjire.Log.csproj" />
   </ItemGroup>
 
 </Project>
