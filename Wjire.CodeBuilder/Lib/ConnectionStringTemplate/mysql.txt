@@ -1,12 +1,6 @@
 ﻿{
   "connectionStrings": {
-    "{DbName}Read": {
-      "connectionString": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};",
-      "providerName": "mysql"
-    },
-    "{DbName}Write": {
-      "connectionString": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};",
-      "providerName": "mysql"
-    }
+    "{DbName}Read": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};",
+    "{DbName}Write": "Server={Host};Database={DbName};Uid={Account};Pwd={Pwd};"
   }
 }

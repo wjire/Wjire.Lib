@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\{NameSpaceName}.DbContext\{NameSpaceName}.DbContext.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.DbContext\{NameSpaceName}.DbContext.csproj" />
     <ProjectReference Include="..\{NameSpaceName}.Model\{NameSpaceName}.Model.csproj" />
   </ItemGroup>
 

@@ -191,13 +191,7 @@
     <Content Include="Lib\CsTemplate\Model.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\CsTemplate\Repository - 复制.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Lib\CsTemplate\Repository.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Lib\CsTemplate\RepositoryFactory - 复制.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\CsTemplate\RepositoryFactory.txt">
