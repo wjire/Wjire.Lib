@@ -4,7 +4,7 @@ using Wjire.CodeBuilder.Model;
 namespace Wjire.CodeBuilder.FileService
 {
 
-    public class Csproj_LogicFactory : CsprojAbstractFactory
+    public class Cs_LogicFactory : CsAbstractFactory
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {
@@ -13,7 +13,7 @@ namespace Wjire.CodeBuilder.FileService
 
         protected override string GetToSavePath(FormInfo formInfo)
         {
-            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Logic\\{formInfo.NameSpaceName}.Logic.csproj");
+            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Logic\\{formInfo.TableName}Logic.cs");
         }
     }
 }

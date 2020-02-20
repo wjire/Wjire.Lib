@@ -1,0 +1,19 @@
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {NameSpaceName}.WebApi.Util
+{
+    public static class ServicesExtension
+    {
+        public static void AddLogics(this IServiceCollection services)
+        {
+            Assembly ass = AppDomain.CurrentDomain.Load("{NameSpaceName}.Logic");
+            foreach (Type type in ass.GetTypes().Where(w => w.Name.EndsWith("Logic")))
+            {
+                services.AddSingleton(type);
+            }
+        }
+    }
+}

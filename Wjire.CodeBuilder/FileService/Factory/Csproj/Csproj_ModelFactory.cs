@@ -4,7 +4,7 @@ using Wjire.CodeBuilder.Model;
 namespace Wjire.CodeBuilder.FileService
 {
 
-    public class Csproj_ModelFactory : Csproj_BaseFactory
+    public class Csproj_ModelFactory : CsprojAbstractFactory
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {

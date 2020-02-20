@@ -9,7 +9,7 @@ namespace Wjire.CodeBuilder.FileService
     /// <summary>
     /// 文件创建基类 工厂模式+模板模式
     /// </summary>
-    public abstract class BaseFactory
+    public abstract class AbstractFactory
     {
         public void CreateFile(FormInfo formInfo)
         {

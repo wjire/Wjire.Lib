@@ -15,6 +15,7 @@
         public const string ModelGuid = "{ModelGuid}";
         public const string SolutionGuid = "{SolutionGuid}";
         public const string DbContextGuid = "{DbContextGuid}";
+        public const string WebApiGuid = "{WebApiGuid}";
 
         public const string NameSpaceName = "{NameSpaceName}";
         public const string TableName = "{TableName}";

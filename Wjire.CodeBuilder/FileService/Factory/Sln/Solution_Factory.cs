@@ -5,7 +5,7 @@ using Wjire.CodeBuilder.Model;
 namespace Wjire.CodeBuilder.FileService
 {
 
-    public class Solution_Factory : BaseFactory
+    public class Solution_Factory : AbstractFactory
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {
@@ -25,6 +25,7 @@ namespace Wjire.CodeBuilder.FileService
                     .Replace(TemplatePlaceholder.ServiceGuid, Guid.NewGuid().ToString())
                     .Replace(TemplatePlaceholder.SolutionGuid, Guid.NewGuid().ToString())
                     .Replace(TemplatePlaceholder.DbContextGuid, Guid.NewGuid().ToString())
+                    .Replace(TemplatePlaceholder.WebApiGuid, Guid.NewGuid().ToString())
                 ;
         }
 

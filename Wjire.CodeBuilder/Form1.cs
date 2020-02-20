@@ -242,6 +242,8 @@ namespace Wjire.CodeBuilder
         /// <param name="e"></param>
         private void button_toAll_Click(object sender, EventArgs e)
         {
+            CreateSolution("");
+            CreateWebApi("");
             foreach (ListViewItem selectedItem in listView_one_tables.SelectedItems)
             {
                 string tableName = selectedItem.SubItems[1].Text;
@@ -252,7 +254,7 @@ namespace Wjire.CodeBuilder
                 CreateLogic(tableName);
                 CreateService(tableName);
                 CreateIService(tableName);
-                CreateSolution(tableName);
+                CreateController(tableName);
             }
             OpenCurrentNameSpaceFileFolder();
         }
@@ -618,6 +620,8 @@ namespace Wjire.CodeBuilder
         private void CreateLogic(string tableName)
         {
             new Csproj_LogicFactory().CreateFile(GetCurrentFormInfo(tableName));
+            FormInfo formInfo = GetCurrentFormInfo(tableName);
+            new Cs_LogicFactory().CreateFile(formInfo);
         }
 
 
@@ -652,6 +656,25 @@ namespace Wjire.CodeBuilder
             FormInfo formInfo = GetCurrentFormInfo(tableName);
             _modelCreater.CreateFile(list, formInfo);
             new Csproj_ModelFactory().CreateFile(formInfo);
+        }
+
+
+        private void CreateWebApi(string tableName)
+        {
+            FormInfo formInfo = GetCurrentFormInfo(tableName);
+            new Csproj_WebApiFactory().CreateFile(formInfo);
+            new Cs_ProgramFactory().CreateFile(formInfo);
+            new Cs_StartupFactory().CreateFile(formInfo);
+            new Cs_ServicesExtensionFactory().CreateFile(formInfo);
+            new Cs_AppsettingsFactory().CreateFile(formInfo);
+            new Cs_AppsettingsDevFactory().CreateFile(formInfo);
+        }
+
+
+        private void CreateController(string tableName)
+        {
+            FormInfo formInfo = GetCurrentFormInfo(tableName);
+            new Cs_ControllerFactory().CreateFile(formInfo);
         }
 
 

@@ -80,22 +80,31 @@
     <Compile Include="FileService\ConfigureCreater\ConfigureCreaterFactory.cs" />
     <Compile Include="FileService\ConfigureCreater\MySqlConfigureCreater.cs" />
     <Compile Include="FileService\ConfigureCreater\SqlServerConfigureCreater.cs" />
-    <Compile Include="FileService\Factory\BaseFactory.cs" />
+    <Compile Include="FileService\Factory\AbstractFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_BaseFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_DbContextFactory.cs" />
+    <Compile Include="FileService\Factory\Csproj\Csproj_WebApiFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_IRepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_IServiceFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_LogicFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_ModelFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_RepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_ServiceFactory.cs" />
-    <Compile Include="FileService\Factory\Cs\Cs_BaseFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\Cs_AbstractFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_DbFactoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_IRepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_IServiceFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_ModelFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_RepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_RepositoryFactoryFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\Cs_LogicFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_Appsettings.Dev.Factory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_ProgramFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_ControllerFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_ServicesExtensionFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_AppsettingsFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_StartupFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\WebApi\Cs_WebApiAbstractFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_ServiceFactory.cs" />
     <Compile Include="FileService\Factory\Sln\Solution_Factory.cs" />
     <Compile Include="FileService\SqlCreater\ITableSqlCreater.cs" />
@@ -161,6 +170,9 @@
     <Content Include="Lib\CsprojTemplate\DbContext.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lib\CsprojTemplate\WebApi.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\CsprojTemplate\IRepository.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -197,7 +209,25 @@
     <Content Include="Lib\CsTemplate\RepositoryFactory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lib\CsTemplate\Logic.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\CsTemplate\Service.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CsTemplate\WebApi\Controller.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CsTemplate\WebApi\appsettings.Development.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CsTemplate\WebApi\Startup.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CsTemplate\WebApi\Program.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CsTemplate\WebApi\ServicesExtension.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\SolutionTemplate\Solution.txt">

@@ -4,16 +4,16 @@ using Wjire.CodeBuilder.Model;
 namespace Wjire.CodeBuilder.FileService
 {
 
-    public class Csproj_LogicFactory : CsprojAbstractFactory
+    public class Cs_StartupFactory : Cs_WebApiAbstractFactory
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {
-            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "Logic.txt");
+            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "Startup.txt");
         }
 
         protected override string GetToSavePath(FormInfo formInfo)
         {
-            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Logic\\{formInfo.NameSpaceName}.Logic.csproj");
+            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.WebApi\\Startup.cs");
         }
     }
 }

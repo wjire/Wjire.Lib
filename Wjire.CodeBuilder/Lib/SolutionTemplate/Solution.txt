@@ -15,6 +15,8 @@ Project("{{ProjectGuid}}") = "{NameSpaceName}.Repository", "{NameSpaceName}.Repo
 EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.Model", "{NameSpaceName}.Model\{NameSpaceName}.Model.csproj", "{{ModelGuid}}"
 EndProject
+Project("{{ProjectGuid}}") = "{NameSpaceName}.WebApi", "{NameSpaceName}.WebApi\{NameSpaceName}.WebApi.csproj", "{{WebApiGuid}}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{{ModelGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{ModelGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{{ModelGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{{WebApiGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{WebApiGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{WebApiGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{WebApiGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

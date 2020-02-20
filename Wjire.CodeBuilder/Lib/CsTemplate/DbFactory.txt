@@ -9,8 +9,8 @@ namespace {NameSpaceName}.DbContext
     public static partial class {DbName}DbFactory
     {
        
-        private static readonly string {DbName}Read = "{DbName}Read";
-        private static readonly string {DbName}Write = "{DbName}Write";
+        private static readonly string {DbName}_Read = "{DbName}_Read";
+        private static readonly string {DbName}_Write = "{DbName}_Write";
 
         /// <summary>
         /// 创建事务
@@ -18,7 +18,7 @@ namespace {NameSpaceName}.DbContext
         /// <returns></returns>
         public static IUnitOfWork CreateTransaction()
         {
-            return new TransactionConnection({DbName}Write);
+            return new TransactionConnection({DbName}_Write);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace {NameSpaceName}.DbContext
         /// <returns></returns>
         public static IUnitOfWork CreateSingle()
         {
-            return new SingleConnection({DbName}Read);
+            return new SingleConnection({DbName}_Read);
         }
 
     }

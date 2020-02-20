@@ -10,9 +10,9 @@ namespace {NameSpaceName}.DbContext
         /// 创建 {TableName}Repository 读连接
         /// </summary>
         /// <returns></returns>
-        public static {TableName}Repository CreateI{TableName}RepositoryRead()
+        public static {TableName}Repository Create{TableName}RepositoryRead()
         {
-            return new {TableName}Repository({DbName}Read);
+            return new {TableName}Repository({DbName}_Read);
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace {NameSpaceName}.DbContext
         /// </summary>
         /// <param name="unit"></param>
         /// <returns></returns>
-        public static {TableName}Repository CreateI{TableName}RepositoryRead(IUnitOfWork unit)
+        public static {TableName}Repository Create{TableName}RepositoryRead(IUnitOfWork unit)
         {
             return new {TableName}Repository(unit);
         }
@@ -29,9 +29,9 @@ namespace {NameSpaceName}.DbContext
         /// 创建 {TableName}Repository 写连接
         /// </summary>
         /// <returns></returns>
-        public static {TableName}Repository CreateI{TableName}RepositoryWrite()
+        public static {TableName}Repository Create{TableName}RepositoryWrite()
         {
-            return new {TableName}Repository({DbName}Write);
+            return new {TableName}Repository({DbName}_Write);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace {NameSpaceName}.DbContext
         /// </summary>
         /// <param name="unit"></param>
         /// <returns></returns>
-        public static {TableName}Repository CreateI{TableName}RepositoryWrite(IUnitOfWork unit)
+        public static {TableName}Repository Create{TableName}RepositoryWrite(IUnitOfWork unit)
         {
             return new {TableName}Repository(unit);
         }

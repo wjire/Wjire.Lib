@@ -1,0 +1,17 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using {NameSpaceName}.Logic;
+
+namespace {NameSpaceName}.WebApi.Controllers
+{
+    [Route("[controller]/[action]")]
+    [ApiController]
+    public class {TableName}Controller : ControllerBase
+    {
+        private readonly {TableName}Logic _logic;
+
+        public {TableName}Controller({TableName}Logic logic)
+        {
+            _logic = logic;
+        }
+    }
+}
