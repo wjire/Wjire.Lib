@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\{NameSpaceName}.DbContext\{NameSpaceName}.DbContext.csproj" />
-    <ProjectReference Include="..\{NameSpaceName}.Model\{NameSpaceName}.Model.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.Entity\{NameSpaceName}.Entity.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.DTO\{NameSpaceName}.DTO.csproj" />
   </ItemGroup>
 
 </Project>

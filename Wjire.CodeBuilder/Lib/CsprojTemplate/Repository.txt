@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\{NameSpaceName}.Model\{NameSpaceName}.Model.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.Entity\{NameSpaceName}.Entity.csproj" />
   </ItemGroup>
 
 </Project>

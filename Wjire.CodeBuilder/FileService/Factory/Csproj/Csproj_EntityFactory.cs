@@ -4,16 +4,16 @@ using Wjire.CodeBuilder.Model;
 namespace Wjire.CodeBuilder.FileService
 {
 
-    public class Csproj_ModelFactory : CsprojAbstractFactory
+    public class Csproj_EntityFactory : CsprojAbstractFactory
     {
         protected override string GetFromTemplateInfoPath(FormInfo formInfo)
         {
-            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "Model.txt");
+            return Path.Combine(base.GetFromTemplateInfoPath(formInfo), "Entity.txt");
         }
 
         protected override string GetToSavePath(FormInfo formInfo)
         {
-            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Model\\{formInfo.NameSpaceName}.Model.csproj");
+            return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Entity\\{formInfo.NameSpaceName}.Entity.csproj");
         }
     }
 }

@@ -133,6 +133,7 @@
             this.button_toDbContext.TabIndex = 41;
             this.button_toDbContext.Text = "DbContext";
             this.button_toDbContext.UseVisualStyleBackColor = true;
+            this.button_toDbContext.Visible = false;
             this.button_toDbContext.Click += new System.EventHandler(this.button_toDbContext_Click);
             // 
             // button_toLogic
@@ -144,6 +145,7 @@
             this.button_toLogic.TabIndex = 15;
             this.button_toLogic.Text = "Logic";
             this.button_toLogic.UseVisualStyleBackColor = true;
+            this.button_toLogic.Visible = false;
             this.button_toLogic.Click += new System.EventHandler(this.button_toLogic_Click);
             // 
             // button_toSolution
@@ -155,6 +157,7 @@
             this.button_toSolution.TabIndex = 40;
             this.button_toSolution.Text = "Solution";
             this.button_toSolution.UseVisualStyleBackColor = true;
+            this.button_toSolution.Visible = false;
             this.button_toSolution.Click += new System.EventHandler(this.button_toSolution_Click);
             // 
             // button_toIService
@@ -166,6 +169,7 @@
             this.button_toIService.TabIndex = 39;
             this.button_toIService.Text = "IService";
             this.button_toIService.UseVisualStyleBackColor = true;
+            this.button_toIService.Visible = false;
             this.button_toIService.Click += new System.EventHandler(this.button_toIService_Click);
             // 
             // button_toService
@@ -177,6 +181,7 @@
             this.button_toService.TabIndex = 38;
             this.button_toService.Text = "Service";
             this.button_toService.UseVisualStyleBackColor = true;
+            this.button_toService.Visible = false;
             this.button_toService.Click += new System.EventHandler(this.button_toService_Click);
             // 
             // button_toNamespace
@@ -301,6 +306,7 @@
             this.button_toClass.TabIndex = 24;
             this.button_toClass.Text = "Model";
             this.button_toClass.UseVisualStyleBackColor = true;
+            this.button_toClass.Visible = false;
             this.button_toClass.Click += new System.EventHandler(this.button_toClass_Click);
             // 
             // button_toRepository
@@ -312,6 +318,7 @@
             this.button_toRepository.TabIndex = 25;
             this.button_toRepository.Text = "Repository";
             this.button_toRepository.UseVisualStyleBackColor = true;
+            this.button_toRepository.Visible = false;
             this.button_toRepository.Click += new System.EventHandler(this.button_toRepository_Click);
             // 
             // comboBox_IP

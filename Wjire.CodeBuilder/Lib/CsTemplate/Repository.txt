@@ -1,5 +1,5 @@
 ﻿using Wjire.Db.Dapper;
-using {NameSpaceName}.Model;
+using {NameSpaceName}.Entity;
 
 namespace {NameSpaceName}.Repository
 {

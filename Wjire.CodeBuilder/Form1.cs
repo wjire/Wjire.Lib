@@ -21,7 +21,7 @@ namespace Wjire.CodeBuilder
     {
 
         private readonly Dictionary<string, ConnectionInfo> _connectionInfos = new Dictionary<string, ConnectionInfo>();
-        private readonly Cs_ModelFactory _modelCreater = new Cs_ModelFactory();
+        private readonly Cs_EntityFactory _entityCreater = new Cs_EntityFactory();
         private IDbService _dbService;
         private ITableSqlCreater _sqlCreater;
         private string _dbType = "sqlserver";
@@ -155,7 +155,7 @@ namespace Wjire.CodeBuilder
             ListViewItem selectedItem = listView_one_tables.SelectedItems[0];
             string tableName = selectedItem.SubItems[1].Text;
             List<TableInfo> list = await _dbService.GetTableInfo(tableName);
-            textBox_result.Text = _modelCreater.CreateCode(list, GetCurrentFormInfo(tableName));
+            textBox_result.Text = _entityCreater.CreateCode(list, GetCurrentFormInfo(tableName));
             listView_one_tableStruct.Items.Clear();
             int index = 1;
             foreach (TableInfo item in list)
@@ -194,7 +194,7 @@ namespace Wjire.CodeBuilder
             foreach (ListViewItem selectedItem in listView_one_tables.SelectedItems)
             {
                 string tableName = selectedItem.SubItems[1].Text;
-                CreateModel(tableName);
+                CreateEntity(tableName);
             }
             OpenCurrentNameSpaceFileFolder();
         }
@@ -247,13 +247,14 @@ namespace Wjire.CodeBuilder
             foreach (ListViewItem selectedItem in listView_one_tables.SelectedItems)
             {
                 string tableName = selectedItem.SubItems[1].Text;
-                CreateModel(tableName);
+                CreateEntity(tableName);
+                CreateDTO(tableName);
                 CreateRepository(tableName);
                 //CreateIRepository(tableName);
                 CreateDbContext(tableName);
                 CreateLogic(tableName);
-                CreateService(tableName);
-                CreateIService(tableName);
+                //CreateService(tableName);
+                //CreateIService(tableName);
                 CreateController(tableName);
             }
             OpenCurrentNameSpaceFileFolder();
@@ -650,12 +651,19 @@ namespace Wjire.CodeBuilder
         }
 
 
-        private async void CreateModel(string tableName)
+        private async void CreateEntity(string tableName)
         {
             List<TableInfo> list = await _dbService.GetTableInfo(tableName);
             FormInfo formInfo = GetCurrentFormInfo(tableName);
-            _modelCreater.CreateFile(list, formInfo);
-            new Csproj_ModelFactory().CreateFile(formInfo);
+            _entityCreater.CreateFile(list, formInfo);
+            new Csproj_EntityFactory().CreateFile(formInfo);
+        }
+
+
+        private void CreateDTO(string tableName)
+        {
+            FormInfo formInfo = GetCurrentFormInfo(tableName);
+            new Csproj_DTOFactory().CreateFile(formInfo);
         }
 
 

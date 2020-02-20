@@ -2,7 +2,9 @@
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{{ProjectGuid}}") = "{NameSpaceName}.WebApi", "{NameSpaceName}.WebApi\{NameSpaceName}.WebApi.csproj", "{{WebApiGuid}}"
+Project("{{ProjectGuid}}") = "{NameSpaceName}.IService", "{NameSpaceName}.IService\{NameSpaceName}.IService.csproj", "{{IServiceGuid}}"
+EndProject
+Project("{{ProjectGuid}}") = "{NameSpaceName}.Service", "{NameSpaceName}.Service\{NameSpaceName}.Service.csproj", "{{ServiceGuid}}"
 EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.Logic", "{NameSpaceName}.Logic\{NameSpaceName}.Logic.csproj", "{{LogicGuid}}"
 EndProject
@@ -10,20 +12,24 @@ Project("{{ProjectGuid}}") = "{NameSpaceName}.DbContext", "{NameSpaceName}.DbCon
 EndProject
 Project("{{ProjectGuid}}") = "{NameSpaceName}.Repository", "{NameSpaceName}.Repository\{NameSpaceName}.Repository.csproj", "{{RepositoryGuid}}"
 EndProject
-Project("{{ProjectGuid}}") = "{NameSpaceName}.Entity", "{NameSpaceName}.Entity\{NameSpaceName}.Entity.csproj", "{{EntityGuid}}"
+Project("{{ProjectGuid}}") = "{NameSpaceName}.Model", "{NameSpaceName}.Model\{NameSpaceName}.Model.csproj", "{{ModelGuid}}"
 EndProject
-Project("{{ProjectGuid}}") = "{NameSpaceName}.DTO", "{NameSpaceName}.DTO\{NameSpaceName}.DTO.csproj", "{{DTOGuid}}"
+Project("{{ProjectGuid}}") = "{NameSpaceName}.WebApi", "{NameSpaceName}.WebApi\{NameSpaceName}.WebApi.csproj", "{{WebApiGuid}}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution		
-	    {{WebApiGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{{WebApiGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{{WebApiGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{{WebApiGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{{IServiceGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{IServiceGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{IServiceGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{IServiceGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{{ServiceGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{ServiceGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{ServiceGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{ServiceGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
 		{{LogicGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{{LogicGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{LogicGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,14 +42,14 @@ Global
 		{{RepositoryGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{RepositoryGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{{RepositoryGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
-		{{EntityGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{{EntityGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{{EntityGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{{EntityGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
-		{{DTOGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{{DTOGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{{DTOGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{{DTOGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{{ModelGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{ModelGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{ModelGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{ModelGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{{WebApiGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{{WebApiGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{{WebApiGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{{WebApiGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\{NameSpaceName}.Model\{NameSpaceName}.Model.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.Entity\{NameSpaceName}.Entity.csproj" />
+    <ProjectReference Include="..\{NameSpaceName}.DTO\{NameSpaceName}.DTO.csproj" />
   </ItemGroup>
 
 </Project>

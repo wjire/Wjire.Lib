@@ -83,18 +83,19 @@
     <Compile Include="FileService\Factory\AbstractFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_BaseFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_DbContextFactory.cs" />
+    <Compile Include="FileService\Factory\Csproj\Csproj_DTOFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_WebApiFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_IRepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_IServiceFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_LogicFactory.cs" />
-    <Compile Include="FileService\Factory\Csproj\Csproj_ModelFactory.cs" />
+    <Compile Include="FileService\Factory\Csproj\Csproj_EntityFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_RepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Csproj\Csproj_ServiceFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_AbstractFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_DbFactoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_IRepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_IServiceFactory.cs" />
-    <Compile Include="FileService\Factory\Cs\Cs_ModelFactory.cs" />
+    <Compile Include="FileService\Factory\Cs\Cs_EntityFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_RepositoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_RepositoryFactoryFactory.cs" />
     <Compile Include="FileService\Factory\Cs\Cs_LogicFactory.cs" />
@@ -170,6 +171,9 @@
     <Content Include="Lib\CsprojTemplate\DbContext.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lib\CsprojTemplate\DTO.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\CsprojTemplate\WebApi.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -182,7 +186,7 @@
     <Content Include="Lib\CsprojTemplate\Logic.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\CsprojTemplate\Model.txt">
+    <Content Include="Lib\CsprojTemplate\Entity.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\CsprojTemplate\Repository.txt">
@@ -200,7 +204,7 @@
     <Content Include="Lib\CsTemplate\IService.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\CsTemplate\Model.txt">
+    <Content Include="Lib\CsTemplate\Entity.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Lib\CsTemplate\Repository.txt">
@@ -230,7 +234,13 @@
     <Content Include="Lib\CsTemplate\WebApi\ServicesExtension.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lib\SolutionTemplate\Solution - 复制%282%29.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\SolutionTemplate\Solution.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SolutionTemplate\Solution - 复制.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="xiongxiong.ico">

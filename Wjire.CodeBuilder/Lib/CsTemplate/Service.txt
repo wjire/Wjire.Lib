@@ -1,4 +1,4 @@
-﻿using {NameSpaceName}.Model;
+﻿using {NameSpaceName}.Entity;
 using {NameSpaceName}.IService;
 
 namespace {NameSpaceName}.Service

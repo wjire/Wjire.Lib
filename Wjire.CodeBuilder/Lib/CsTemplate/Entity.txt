@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace {NameSpaceName}.Model
+namespace {NameSpaceName}.Entity
 {
     /// <summary>
     /// {TableName}

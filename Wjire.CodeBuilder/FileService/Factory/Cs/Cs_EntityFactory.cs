@@ -10,7 +10,7 @@ namespace Wjire.CodeBuilder.FileService
     /// <summary>
     /// 实体创建,单独的逻辑,不继承任何类
     /// </summary>
-    public class Cs_ModelFactory
+    public class Cs_EntityFactory
     {
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Wjire.CodeBuilder.FileService
         public void CreateFile(List<TableInfo> items, FormInfo formInfo)
         {
             string text = CreateCode(items, formInfo);
-            string filePath = Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Model\\{formInfo.TableName}.cs");
+            string filePath = Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.Entity\\{formInfo.TableName}.cs");
             FileHelper.CreateFile(filePath, text);
         }
 
@@ -60,7 +60,7 @@ namespace Wjire.CodeBuilder.FileService
                 fieldBuilder.AppendLine();
             }
 
-            string[] textArray = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib\\CsTemplate\\Model.txt"));
+            string[] textArray = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lib\\CsTemplate\\Entity.txt"));
             MyStringBuilder sb = new MyStringBuilder(128);
             foreach (string text in textArray)
             {
