@@ -7,7 +7,7 @@ namespace Wjire.CodeBuilder.FileService
 {
 
     /// <summary>
-    /// 文件创建基类 工厂模式+模板模式
+    /// 项目创建基类 工厂模式+模板模式
     /// </summary>
     public abstract class AbstractFactory
     {

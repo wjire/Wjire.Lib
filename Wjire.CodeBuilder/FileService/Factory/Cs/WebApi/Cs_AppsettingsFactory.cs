@@ -15,5 +15,11 @@ namespace Wjire.CodeBuilder.FileService
         {
             return Path.Combine(formInfo.BasePath, $"{formInfo.NameSpaceName}.WebApi\\appsettings.Development.json");
         }
+
+        protected override string ReplaceTemplateOfLine(string line, FormInfo formInfo)
+        {
+            var str = base.ReplaceTemplateOfLine(line, formInfo);
+            return str.Replace(TemplatePlaceholder.Pwd, formInfo.Pwd);
+        }
     }
 }

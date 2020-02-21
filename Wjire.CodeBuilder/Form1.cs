@@ -693,7 +693,8 @@ namespace Wjire.CodeBuilder
                 BasePath = Path.Combine(textBox_codePath.Text, textBox_namespace.Text),
                 NameSpaceName = textBox_namespace.Text,
                 DbName = textBox_dbName.Text,
-                TableName = string.IsNullOrWhiteSpace(tableName) ? string.Empty : tableName
+                TableName = string.IsNullOrWhiteSpace(tableName) ? string.Empty : tableName,
+                Pwd = textBox_one_pwd.Text,
             };
         }
 

@@ -64,26 +64,6 @@ namespace Wjire.CodeBuilder.DbService
 
 
         /// <summary>
-        /// 检查某字段是否是自增字段
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="field"></param>
-        /// <returns></returns>
-        public Task<int> CheckFiledIsIdentity(string tableName, string field)
-        {
-            return Task.Run(() =>
-            {
-                using (IDbConnection connection = new SqlConnection(ConnectionString))
-                {
-                    return connection.QuerySingleOrDefault<int>(
-                        $"SELECT COLUMNPROPERTY( OBJECT_ID('{tableName}'),'{field}','IsIdentity') as IsIdentity");
-                }
-            });
-        }
-
-
-
-        /// <summary>
         /// 获取表结构
         /// </summary>
         /// <param name="tableName"></param>
