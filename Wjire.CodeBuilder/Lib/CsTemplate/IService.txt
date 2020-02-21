@@ -1,9 +1,0 @@
-﻿using {NameSpaceName}.Entity;
-
-namespace {NameSpaceName}.IService
-{
-    public interface I{DbName}Service
-    {
-       
-    }
-}

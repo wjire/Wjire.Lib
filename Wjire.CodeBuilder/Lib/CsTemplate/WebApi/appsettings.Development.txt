@@ -1,6 +1,0 @@
-﻿{
-  "connectionStrings": {
-    "{DbName}_Read": "Data Source=localhost;Initial Catalog={DbName};User ID=sa;Password={Pwd}",
-    "{DbName}_Write": "Data Source=localhost;Initial Catalog={DbName};User ID=sa;Password={Pwd}"
-  }
-}
