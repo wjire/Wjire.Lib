@@ -25,27 +25,37 @@ namespace Wjire.Log
 
 
         /// <summary>
-        /// 写日志
+        /// 消费日志
         /// </summary>
         internal static void WriteLog()
         {
             foreach (LogInfo log in Logs.GetConsumingEnumerable())
             {
-                DateTime timeStamp = DateTime.Now;
-                string path = GetFileMainPath(log.Path, timeStamp);
-                FileInfo lastFile = GetLastAccessFile(path, timeStamp);
-                using (FileStream fileStream = GetFileStream(lastFile, path, timeStamp))
+                WriteLog(log);
+            }
+        }
+
+
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="log"></param>
+        internal static void WriteLog(LogInfo log)
+        {
+            DateTime timeStamp = DateTime.Now;
+            string path = GetFileMainPath(log.Path, timeStamp);
+            FileInfo lastFile = GetLastAccessFile(path, timeStamp);
+            using (FileStream fileStream = GetFileStream(lastFile, path, timeStamp))
+            {
+                if (fileStream == null)
                 {
-                    if (fileStream == null)
-                    {
-                        continue;
-                    }
-                    using (StreamWriter sw = new StreamWriter(fileStream))
-                    {
-                        sw.BaseStream.Seek(0, SeekOrigin.End);
-                        sw.Write(log.Info);
-                        sw.Flush();
-                    }
+                    return;
+                }
+                using (StreamWriter sw = new StreamWriter(fileStream))
+                {
+                    sw.BaseStream.Seek(0, SeekOrigin.End);
+                    sw.Write(log.Info);
+                    sw.Flush();
                 }
             }
         }

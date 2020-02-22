@@ -25,7 +25,7 @@ namespace Wjire.ProjectManager.WebApi.Controller
             }
             catch (Exception ex)
             {
-                LogService.WriteException(ex, nameof(GetAppInfos), type);
+                LogService.WriteExceptionAsync(ex, nameof(GetAppInfos), type);
             }
 
             return new List<AppInfo>();
@@ -68,7 +68,7 @@ namespace Wjire.ProjectManager.WebApi.Controller
             }
             catch (Exception ex)
             {
-                LogService.WriteException(ex, "Upload");
+                LogService.WriteExceptionAsync(ex, "Upload");
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     Content = new StringContent(ex.ToString())

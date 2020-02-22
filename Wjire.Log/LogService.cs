@@ -38,12 +38,54 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">路径</param>
-        public static Task WriteException(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
+        public static void WriteException(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
+        {
+            string exceptionContent = CreateExceptionContent(ex, remark, request, response);
+            WriteLog(exceptionContent, path);
+        }
+
+
+        /// <summary>
+        /// 记录调用日志
+        /// </summary>
+        /// <param name="method">调用方法(必填)</param>
+        /// <param name="request">入参</param>
+        /// <param name="response">返回值</param>
+        /// <param name="path">保存文件夹</param>
+        public static void WriteCall(string method, object request = null, object response = null, string path = CallLogPath)
+        {
+            string callLog = CreateCallLogContent(method, request, response);
+            WriteLog(callLog, path);
+        }
+
+
+        /// <summary>
+        /// 记录文本日志
+        /// </summary>
+        /// <param name="content">文本</param>
+        /// <param name="path">保存文件夹</param>
+        public static void WriteText(string content, string path = TextLogPath)
+        {
+            WriteLog(content, path);
+        }
+
+
+
+
+        /// <summary>
+        /// 记录异常日志
+        /// </summary>
+        /// <param name="ex">异常</param>
+        /// <param name="remark">备注,通常是业务描述或者方法名</param>
+        /// <param name="request">入参</param>
+        /// <param name="response">返回值</param>
+        /// <param name="path">路径</param>
+        public static Task WriteExceptionAsync(Exception ex, string remark, object request = null, object response = null, string path = ExceptionLogPath)
         {
             return Task.Run(() =>
             {
                 string exceptionContent = CreateExceptionContent(ex, remark, request, response);
-                WriteLog(exceptionContent, path);
+                PublishLog(exceptionContent, path);
             });
         }
 
@@ -55,12 +97,12 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="path">保存文件夹</param>
-        public static Task WriteCall(string method, object request = null, object response = null, string path = CallLogPath)
+        public static Task WriteCallAsync(string method, object request = null, object response = null, string path = CallLogPath)
         {
             return Task.Run(() =>
             {
                 string callLog = CreateCallLogContent(method, request, response);
-                WriteLog(callLog, path);
+                PublishLog(callLog, path);
             });
         }
 
@@ -70,17 +112,36 @@ namespace Wjire.Log
         /// </summary>
         /// <param name="content">文本</param>
         /// <param name="path">保存文件夹</param>
-        public static Task WriteText(string content, string path = TextLogPath)
+        public static Task WriteTextAsync(string content, string path = TextLogPath)
         {
             return Task.Run(() =>
             {
-                WriteLog(content, path);
+                PublishLog(content, path);
             });
         }
 
 
         /// <summary>
-        /// 记录文本日志
+        /// 发布日志
+        /// </summary>
+        /// <param name="content">日志内容</param>
+        /// <param name="path">日志路径</param>
+        private static void PublishLog(string content, string path)
+        {
+            try
+            {
+                LogInfo log = BuildLog(content, path);
+                LogCollection.Add(log);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
+        /// <summary>
+        /// 记录日志
         /// </summary>
         /// <param name="content">日志内容</param>
         /// <param name="path">日志路径</param>
@@ -88,17 +149,24 @@ namespace Wjire.Log
         {
             try
             {
-                LogInfo log = new LogInfo
-                {
-                    Info = DateTime.Now.ToString("日志时间:yyyy-MM-dd HH:mm:ss") + Environment.NewLine + content + Environment.NewLine,
-                    Path = GetLogPath(path)
-                };
-                LogCollection.Add(log);
+                LogInfo log = BuildLog(content, path);
+                LogCollection.WriteLog(log);
             }
             catch (Exception)
             {
 
             }
+        }
+
+
+        private static LogInfo BuildLog(string content, string path)
+        {
+            LogInfo log = new LogInfo
+            {
+                Info = DateTime.Now.ToString("日志时间:yyyy-MM-dd HH:mm:ss") + Environment.NewLine + content + Environment.NewLine,
+                Path = GetLogPath(path)
+            };
+            return log;
         }
 
 
