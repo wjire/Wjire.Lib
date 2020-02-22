@@ -9,7 +9,7 @@ namespace ConsoleApp1
     {
         private static void Main(string[] args)
         {
-            LogService.WriteTextAsync("test");
+            LogService.WriteText("11111111111");
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }
