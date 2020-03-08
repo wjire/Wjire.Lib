@@ -15,7 +15,7 @@ namespace Wjire.Log
         /// <summary>
         /// 日志集合
         /// </summary>
-        private static readonly BlockingCollection<LogInfo> Logs = new BlockingCollection<LogInfo>(int.MaxValue);
+        private static readonly BlockingCollection<BaseLogInfo> Logs = new BlockingCollection<BaseLogInfo>(int.MaxValue);
 
 
         static LogCollection()
@@ -29,7 +29,7 @@ namespace Wjire.Log
         /// </summary>
         internal static void WriteLog()
         {
-            foreach (LogInfo log in Logs.GetConsumingEnumerable())
+            foreach (BaseLogInfo log in Logs.GetConsumingEnumerable())
             {
                 WriteLog(log);
             }
@@ -39,24 +39,31 @@ namespace Wjire.Log
         /// <summary>
         /// 写日志
         /// </summary>
-        /// <param name="log"></param>
-        internal static void WriteLog(LogInfo log)
+        /// <param name="logInfo"></param>
+        internal static void WriteLog(BaseLogInfo logInfo)
         {
-            DateTime timeStamp = DateTime.Now;
-            string path = GetFileMainPath(log.Path, timeStamp);
-            FileInfo lastFile = GetLastAccessFile(path, timeStamp);
-            using (FileStream fileStream = GetFileStream(lastFile, path, timeStamp))
+            try
             {
-                if (fileStream == null)
+                DateTime timeStamp = DateTime.Now;
+                string path = GetFileMainPath(logInfo.AbsolutePath, timeStamp);
+                FileInfo lastFile = GetLastAccessFile(path, timeStamp);
+                using (FileStream fileStream = GetFileStream(lastFile, path, timeStamp))
                 {
-                    return;
+                    if (fileStream == null)
+                    {
+                        return;
+                    }
+                    using (StreamWriter sw = new StreamWriter(fileStream))
+                    {
+                        sw.BaseStream.Seek(0, SeekOrigin.End);
+                        sw.Write(logInfo.ToString());
+                        sw.Flush();
+                    }
                 }
-                using (StreamWriter sw = new StreamWriter(fileStream))
-                {
-                    sw.BaseStream.Seek(0, SeekOrigin.End);
-                    sw.Write(log.Info);
-                    sw.Flush();
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
 
@@ -64,11 +71,11 @@ namespace Wjire.Log
         /// <summary>
         /// 记录日志
         /// </summary>
-        /// <param name="log">日志</param>
+        /// <param name="baseLog">日志</param>
         /// <returns>bool</returns>
-        internal static void Add(LogInfo log)
+        internal static void Add(BaseLogInfo baseLog)
         {
-            Logs.Add(log);
+            Logs.Add(baseLog);
         }
 
 
@@ -106,14 +113,7 @@ namespace Wjire.Log
             FileStream result;
             if (fileInfo == null)
             {
-                try
-                {
-                    result = CreateFile(path, GetFileMainName(timeStamp));
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
+                result = CreateFile(path, GetFileMainName(timeStamp));
             }
             else if (IsOutOfTimeMaxLength(fileInfo.CreationTime, timeStamp))
             {
@@ -121,16 +121,8 @@ namespace Wjire.Log
             }
             else
             {
-                try
-                {
-                    result = fileInfo.OpenWrite();
-                }
-                catch
-                {
-                    result = CreateFile(path, GetFileMainName(timeStamp));
-                }
+                result = fileInfo.OpenWrite();
             }
-
             return result;
         }
 
@@ -165,7 +157,6 @@ namespace Wjire.Log
         {
             return Math.Abs((creationTime - timeStamp).TotalHours) >= 1;
         }
-
 
         /// <summary>
         /// 获取文件路径
