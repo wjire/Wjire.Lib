@@ -14,6 +14,9 @@ namespace Wjire.Log
     public static class LogService
     {
 
+
+
+
         /// <summary>
         /// 记录异常日志
         /// </summary>
@@ -22,7 +25,7 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="relativePath">路径</param>
-        public static void WriteException(Exception ex, string remark, object request = null, object response = null, string relativePath = null)
+        public static void WriteException(Exception ex, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
             var logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
             LogCollection.WriteLog(logInfo);
@@ -36,7 +39,7 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="relativePath">保存文件夹</param>
-        public static void WriteCall(string method, object request = null, object response = null, string relativePath = null)
+        public static void WriteCall(string method, object request = null, object response = null, string relativePath = "Logs/CallLog")
         {
             var logInfo = new CallLogInfo(method, request, response, relativePath);
             LogCollection.WriteLog(logInfo);
@@ -48,7 +51,7 @@ namespace Wjire.Log
         /// </summary>
         /// <param name="content">文本</param>
         /// <param name="relativePath">保存文件夹</param>
-        public static void WriteText(string content, string relativePath = null)
+        public static void WriteText(string content, string relativePath = "Logs/TextLog")
         {
             var logInfo = new TextLogInfo(content, relativePath);
             LogCollection.WriteLog(logInfo);
@@ -63,11 +66,10 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="relativePath">路径</param>
-        public static Task WriteExceptionAsync(Exception ex, string remark, object request = null, object response = null, string relativePath = null)
+        public static void WriteExceptionAsync(Exception ex, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
             var logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
             LogCollection.Add(logInfo);
-            return Task.CompletedTask;
         }
 
 
@@ -78,11 +80,10 @@ namespace Wjire.Log
         /// <param name="request">入参</param>
         /// <param name="response">返回值</param>
         /// <param name="relativePath">保存文件夹</param>
-        public static Task WriteCallAsync(string method, object request = null, object response = null, string relativePath = null)
+        public static void WriteCallAsync(string method, object request = null, object response = null, string relativePath = "Logs/CallLog")
         {
             var logInfo = new CallLogInfo(method, request, response, relativePath);
             LogCollection.Add(logInfo);
-            return Task.CompletedTask;
         }
 
 
@@ -91,11 +92,10 @@ namespace Wjire.Log
         /// </summary>
         /// <param name="content">文本</param>
         /// <param name="relativePath">保存文件夹</param>
-        public static Task WriteTextAsync(string content, string relativePath = null)
+        public static void WriteTextAsync(string content, string relativePath = "Logs/TextLog")
         {
             var logInfo = new TextLogInfo(content, relativePath);
             LogCollection.Add(logInfo);
-            return Task.CompletedTask;
         }
     }
 }

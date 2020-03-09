@@ -16,7 +16,7 @@ namespace Wjire.Log
             _method = method;
             _request = request;
             _response = response;
-            RelativePath = relativePath ?? "Logs/CallLog";
+            RelativePath = relativePath;
         }
 
 

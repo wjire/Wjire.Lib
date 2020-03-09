@@ -11,7 +11,7 @@ namespace Wjire.Log
         public TextLogInfo(string content, string relativePath)
         {
             _content = content;
-            RelativePath = relativePath ?? "Logs/TextLog";
+            RelativePath = relativePath;
         }
 
 

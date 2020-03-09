@@ -18,7 +18,7 @@ namespace Wjire.Log
             _remark = remark;
             _request = request;
             _response = response;
-            RelativePath = relativePath ?? "Logs/ExceptionLog";
+            RelativePath = relativePath;
         }
 
 
