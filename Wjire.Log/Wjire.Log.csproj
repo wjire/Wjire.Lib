@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>wjire</Company>
     <Authors>wjire</Authors>
-    <Version>1.0.4</Version>
-    <Description>简易的日志记录框架.2020.3.8优化接口</Description>
+    <Version>1.0.5</Version>
+    <Description>简易的日志记录框架.2020.3.10优化代码</Description>
     <Copyright>wjire</Copyright>
     <PackageId>Wjire.Log</PackageId>
     <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Log</PackageProjectUrl>
