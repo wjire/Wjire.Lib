@@ -20,6 +20,13 @@ namespace Wjire.Excel
             }
         }
 
+
+        public ExcelReadHandler(Stream stream)
+        {
+            _workbook = CreateWorkbook(stream);
+        }
+
+        
         /// <summary>
         /// 创建工作簿对象
         /// </summary>
