@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 
 namespace Wjire.Excel
@@ -22,5 +23,7 @@ namespace Wjire.Excel
         void CreateFile<T>(IEnumerable<T> sources, ICollection<string> exportFields, string path);
 
         void CreateFile<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName, string path);
+
+        void CreateFile(DataTable sources, string path);
     }
 }

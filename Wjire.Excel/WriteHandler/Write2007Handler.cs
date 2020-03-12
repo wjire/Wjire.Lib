@@ -92,6 +92,14 @@ namespace Wjire.Excel
             }
         }
 
+        public void CreateFile(DataTable sources, string path)
+        {
+            using (ExcelPackage pck = CreateExcelPackage(sources, path))
+            {
+                pck.Save();
+            }
+        }
+
 
         /// <summary>
         /// 创建ExcelPackage
@@ -102,9 +110,25 @@ namespace Wjire.Excel
         /// <returns></returns>
         private ExcelPackage CreateExcelPackage<T>(IEnumerable<T> sources, string path = null)
         {
-            (ExcelPackage, ExcelWorksheet) ee = GetExcelWorksheet(path);
             DataTable dt = CreateDataTable(sources);
-            ee.Item2.Cells["A1"].LoadFromDataTable(dt, true);
+            return CreateExcelPackage(dt, path);
+
+            //ee.Item2.Cells["A1"].LoadFromDataTable(dt, true);
+            //return ee.Item1;
+        }
+
+
+        /// <summary>
+        /// 创建ExcelPackage
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sources"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private ExcelPackage CreateExcelPackage(DataTable sources, string path = null)
+        {
+            (ExcelPackage, ExcelWorksheet) ee = GetExcelWorksheet(path);
+            ee.Item2.Cells["A1"].LoadFromDataTable(sources, true);
             return ee.Item1;
         }
 

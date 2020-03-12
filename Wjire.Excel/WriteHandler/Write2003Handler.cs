@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -115,7 +116,10 @@ namespace Wjire.Excel
             }
         }
 
-
+        public void CreateFile(DataTable sources, string path)
+        {
+            throw new Exception("not");
+        }
 
 
         /// <summary>
