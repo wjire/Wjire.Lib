@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
+using Dynamitey;
+using ImpromptuInterface;
 
 namespace Wjire.Excel.Test.Console
 {
@@ -9,90 +11,10 @@ namespace Wjire.Excel.Test.Console
     {
         static void Main(string[] args)
         {
-            DataTable tblDatas = new DataTable("Datas");
-            DataColumn dc = null;
-
-            dc = tblDatas.Columns.Add("ID", Type.GetType("System.Int32"));
-            dc.AutoIncrement = true;//自动增加
-            dc.AutoIncrementSeed = 1;//起始为1
-            dc.AutoIncrementStep = 1;//步长为1
-            dc.AllowDBNull = false;//
-
-            dc = tblDatas.Columns.Add("产品", Type.GetType("System.String"));
-            dc = tblDatas.Columns.Add("版本", Type.GetType("System.String"));
-            dc = tblDatas.Columns.Add("描述", Type.GetType("System.String"));
-
-            DataRow newRow = tblDatas.NewRow();
-            newRow["产品"] = "大话西游";
-            newRow["版本"] = "2.0";
-            newRow["描述"] = "我很喜欢";
-            tblDatas.Rows.Add(newRow);
-
-            newRow = tblDatas.NewRow();
-            newRow["产品"] = "梦幻西游";
-            newRow["版本"] = "3.0";
-            newRow["描述"] = "比大话更幼稚";
-            tblDatas.Rows.Add(newRow);
-
-            var obj = GetDynamicListBydt(tblDatas);
-            //foreach (var info in obj)
-            //{
-            //    foreach (var item in info)
-            //    {
-            //        System.Console.WriteLine(item.Key + ":" + item.Value);
-            //    }
-            //}
-
-            var path = @"C:\Users\Administrator\Desktop\1.xlsx";
-            ExcelWriteHelper.CreateFile(tblDatas, path);
+            DynamicTest.Test();
 
             System.Console.WriteLine("over");
             System.Console.ReadKey();
-        }
-
-
-        /// <summary>
-        /// 使用dynamic根据DataTable的列名自动添加属性并赋值
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns> 
-        public static ExpandoObject GetDynamicClassBydt(DataTable dt)
-        {
-            ExpandoObject d = new ExpandoObject();
-
-            //创建属性，并赋值。
-            foreach (DataColumn cl in dt.Columns)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    d.TryAdd(cl.ColumnName, row[cl.ColumnName].ToString());
-                }
-            }
-            return d;
-        }
-
-
-        /// <summary>
-        /// 使用dynamic根据DataTable的列名自动添加属性并赋值
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns> 
-        public static List<ExpandoObject> GetDynamicListBydt(DataTable dt)
-        {
-            List<ExpandoObject> list = new List<ExpandoObject>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                ExpandoObject d = new ExpandoObject();
-                //创建属性，并赋值。
-                foreach (DataColumn cl in dt.Columns)
-                {
-                    d.TryAdd(cl.ColumnName, row[cl.ColumnName].ToString());
-                }
-
-                list.Add(d);
-            }
-            return list;
         }
     }
 
@@ -101,5 +23,54 @@ namespace Wjire.Excel.Test.Console
     {
         public string Id { get; set; }
         public string Name { get; set; }
+    }
+
+
+    public class MyDynamic : DynamicObject
+    {
+        public string PropertyName { get; set; }
+
+        // The inner dictionary.
+        public Dictionary<string, object> DicProperty { get; } = new Dictionary<string, object>();
+
+
+        // This property returns the number of elements
+        // in the inner dictionary.
+        public int Count => DicProperty.Count;
+
+        // If you try to get a value of a property 
+        // not defined in the class, this method is called.
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            // Converting the property name to lowercase
+            // so that property names become case-insensitive.
+            string name = binder.Name;
+
+            // If the property name is found in a dictionary,
+            // set the result parameter to the property value and return true.
+            // Otherwise, return false.
+            return DicProperty.TryGetValue(name, out result);
+        }
+
+        // If you try to set a value of a property that is
+        // not defined in the class, this method is called.
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            // Converting the property name to lowercase
+            // so that property names become case-insensitive.
+            if (binder.Name == "PropertyValue")
+            {
+                DicProperty[PropertyName] = value;
+            }
+            else
+            {
+                DicProperty[binder.Name] = value;
+            }
+
+
+            // You can always add a value to a dictionary,
+            // so this method always returns true.
+            return true;
+        }
     }
 }
