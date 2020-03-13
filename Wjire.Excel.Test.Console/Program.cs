@@ -7,7 +7,17 @@ namespace Wjire.Excel.Test.Console
     {
         private static void Main(string[] args)
         {
-            DynamicTest.Test();
+            //            DynamicTest.Test();
+
+            System.Console.WriteLine(new Person().GetClassName());
+
+
+            //var path = @"C:\Users\Administrator\Desktop\1.xlsx";
+            //var dt = EPPlusHelper.WorksheetToTable(path);
+            //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
+
+            
+
 
             System.Console.WriteLine("over");
             System.Console.ReadKey();
@@ -18,6 +28,11 @@ namespace Wjire.Excel.Test.Console
     {
         public string Id { get; set; }
         public string Name { get; set; }
+
+        public string GetClassName()
+        {
+            return GetType().Name;
+        }
     }
 
 
@@ -66,6 +81,11 @@ namespace Wjire.Excel.Test.Console
             // You can always add a value to a dictionary,
             // so this method always returns true.
             return true;
+        }
+
+        public void Add(string name, object value)
+        {
+            DicProperty[name] = value;
         }
     }
 }
