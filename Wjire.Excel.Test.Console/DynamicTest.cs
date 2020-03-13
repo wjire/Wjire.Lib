@@ -23,8 +23,10 @@ namespace Wjire.Excel.Test.Console
 
             for (int i = 0; i < myList.Count; i++)
             {
-                dynamicModel.PropertyName = myList[i];
-                dynamicModel.PropertyValue = myValueList[i];
+                //dynamicModel.PropertyName = myList[i];
+                //dynamicModel.PropertyValue = myValueList[i];
+
+                dynamicModel.Add(myList[i], myValueList[i]);
             }
 
             dynamicModel.Id = 1;
@@ -34,7 +36,6 @@ namespace Wjire.Excel.Test.Console
             //System.Console.WriteLine($"Hobby: {dynamicModel.Hobby}");
 
             System.Console.WriteLine(dynamicModel.Count);
-
             foreach (var item in dynamicModel.DicProperty)
             {
                 System.Console.WriteLine(item.Key + ":" + item.Value);
