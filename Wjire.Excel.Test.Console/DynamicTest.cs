@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Wjire.Excel.Test.Console
 {
@@ -11,15 +8,19 @@ namespace Wjire.Excel.Test.Console
         {
             System.Console.WriteLine("动态为类型添加属性");
             dynamic dynamicModel = new MyDynamic();
-            List<string> myList = new List<string>();
-            myList.Add("Name");
-            myList.Add("Age");
-            myList.Add("Hobby");
+            List<string> myList = new List<string>
+            {
+                "Name",
+                "Age",
+                "Hobby"
+            };
 
-            List<string> myValueList = new List<string>();
-            myValueList.Add("Mary");
-            myValueList.Add("18");
-            myValueList.Add("Dance");
+            List<string> myValueList = new List<string>
+            {
+                "Mary",
+                "18",
+                "Dance"
+            };
 
             for (int i = 0; i < myList.Count; i++)
             {
@@ -28,14 +29,14 @@ namespace Wjire.Excel.Test.Console
             }
 
             dynamicModel.Id = 1;
-            
+
             //System.Console.WriteLine($"Name: {dynamicModel.Name}");
             //System.Console.WriteLine($"Age: {dynamicModel.Age}");
             //System.Console.WriteLine($"Hobby: {dynamicModel.Hobby}");
 
             System.Console.WriteLine(dynamicModel.Count);
 
-            foreach (var item in dynamicModel.DicProperty)
+            foreach (dynamic item in dynamicModel.DicProperty)
             {
                 System.Console.WriteLine(item.Key + ":" + item.Value);
             }

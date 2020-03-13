@@ -10,8 +10,6 @@ namespace Wjire.Excel
 
     internal class Write2003Handler : IWriteHandler
     {
-
-
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
         {
             HSSFWorkbook workbook = null;
@@ -118,7 +116,7 @@ namespace Wjire.Excel
 
         public void CreateFile(DataTable sources, string path)
         {
-            throw new Exception("not");
+            throw new NotImplementedException();
         }
 
 

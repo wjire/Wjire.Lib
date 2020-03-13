@@ -2,9 +2,9 @@
 
 namespace Wjire.Log.Test
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             LogService.WriteException(new Exception("test"), "测试日志记录");
             LogService.WriteCall("method");

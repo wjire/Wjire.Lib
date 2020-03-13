@@ -1,10 +1,5 @@
 ﻿
 using System;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Wjire.Log
 {
@@ -27,7 +22,7 @@ namespace Wjire.Log
         /// <param name="relativePath">路径</param>
         public static void WriteException(Exception ex, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
-            var logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
+            ExceptionLogInfo logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
             LogCollection.WriteLog(logInfo);
         }
 
@@ -41,7 +36,7 @@ namespace Wjire.Log
         /// <param name="relativePath">保存文件夹</param>
         public static void WriteCall(string method, object request = null, object response = null, string relativePath = "Logs/CallLog")
         {
-            var logInfo = new CallLogInfo(method, request, response, relativePath);
+            CallLogInfo logInfo = new CallLogInfo(method, request, response, relativePath);
             LogCollection.WriteLog(logInfo);
         }
 
@@ -53,7 +48,7 @@ namespace Wjire.Log
         /// <param name="relativePath">保存文件夹</param>
         public static void WriteText(string content, string relativePath = "Logs/TextLog")
         {
-            var logInfo = new TextLogInfo(content, relativePath);
+            TextLogInfo logInfo = new TextLogInfo(content, relativePath);
             LogCollection.WriteLog(logInfo);
         }
 
@@ -68,7 +63,7 @@ namespace Wjire.Log
         /// <param name="relativePath">路径</param>
         public static void WriteExceptionAsync(Exception ex, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
-            var logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
+            ExceptionLogInfo logInfo = new ExceptionLogInfo(ex, remark, request, response, relativePath);
             LogCollection.Add(logInfo);
         }
 
@@ -82,7 +77,7 @@ namespace Wjire.Log
         /// <param name="relativePath">保存文件夹</param>
         public static void WriteCallAsync(string method, object request = null, object response = null, string relativePath = "Logs/CallLog")
         {
-            var logInfo = new CallLogInfo(method, request, response, relativePath);
+            CallLogInfo logInfo = new CallLogInfo(method, request, response, relativePath);
             LogCollection.Add(logInfo);
         }
 
@@ -94,7 +89,7 @@ namespace Wjire.Log
         /// <param name="relativePath">保存文件夹</param>
         public static void WriteTextAsync(string content, string relativePath = "Logs/TextLog")
         {
-            var logInfo = new TextLogInfo(content, relativePath);
+            TextLogInfo logInfo = new TextLogInfo(content, relativePath);
             LogCollection.Add(logInfo);
         }
     }

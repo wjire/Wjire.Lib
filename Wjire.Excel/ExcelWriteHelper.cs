@@ -159,17 +159,15 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// 生成Excel文件
+        /// 生成Excel文件,暂时只支持 Excel2007
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="sources">数据源</param>
         /// <param name="path">文件路径</param>
-        /// <param name="version">excel版本,可不传,默认excel2007</param>
         /// <returns></returns>
-        public static void CreateFile(DataTable sources, string path, ExcelVersion version = ExcelVersion.Excel2007)
+        public static void CreateFile(DataTable sources, string path)
         {
             CheckPath(path);
-            WriteHandlerFactory.CreateHandler(version).CreateFile(sources, path);
+            WriteHandlerFactory.CreateHandler(ExcelVersion.Excel2007).CreateFile(sources, path);
         }
 
 

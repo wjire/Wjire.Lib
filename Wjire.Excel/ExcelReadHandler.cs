@@ -26,7 +26,7 @@ namespace Wjire.Excel
             _workbook = CreateWorkbook(stream);
         }
 
-        
+
         /// <summary>
         /// 创建工作簿对象
         /// </summary>

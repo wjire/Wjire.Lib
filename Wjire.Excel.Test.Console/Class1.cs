@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
-using System.Text;
 
 namespace Wjire.Excel.Test.Console
 {
-    class Class1
+    internal class Class1
     {
         public void Test()
         {
@@ -35,7 +34,7 @@ namespace Wjire.Excel.Test.Console
             //newRow["描述"] = "比大话更幼稚";
             //tblDatas.Rows.Add(newRow);
 
-            var obj = GetDynamicListBydt(tblDatas);
+            List<ExpandoObject> obj = GetDynamicListBydt(tblDatas);
 
 
 

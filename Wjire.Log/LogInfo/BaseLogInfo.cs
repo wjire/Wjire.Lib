@@ -15,7 +15,7 @@ namespace Wjire.Log
 
         public override string ToString()
         {
-            var result = DateTime.Now.ToString("日志时间:yyyy-MM-dd HH:mm:ss") + Environment.NewLine + ToContent() +
+            string result = DateTime.Now.ToString("日志时间:yyyy-MM-dd HH:mm:ss") + Environment.NewLine + ToContent() +
                          Environment.NewLine;
             return result;
         }

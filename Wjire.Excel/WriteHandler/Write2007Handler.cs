@@ -112,9 +112,6 @@ namespace Wjire.Excel
         {
             DataTable dt = CreateDataTable(sources);
             return CreateExcelPackage(dt, path);
-
-            //ee.Item2.Cells["A1"].LoadFromDataTable(dt, true);
-            //return ee.Item1;
         }
 
 

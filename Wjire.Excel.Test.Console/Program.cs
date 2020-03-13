@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Dynamic;
-using Dynamitey;
-using ImpromptuInterface;
 
 namespace Wjire.Excel.Test.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             DynamicTest.Test();
 
@@ -18,8 +14,7 @@ namespace Wjire.Excel.Test.Console
         }
     }
 
-
-    class Person
+    internal class Person
     {
         public string Id { get; set; }
         public string Name { get; set; }
