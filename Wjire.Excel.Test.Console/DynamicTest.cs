@@ -38,7 +38,7 @@ namespace Wjire.Excel.Test.Console
 
             System.Console.WriteLine(dynamicModel.Count);
 
-            foreach (var item in dynamicModel.DicProperty)
+            foreach (dynamic item in dynamicModel.DicProperty)
             {
                 System.Console.WriteLine(item.Key + ":" + item.Value);
             }

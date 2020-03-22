@@ -9,32 +9,24 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            System.Console.WriteLine(new Person().GetClassName());
-
-
-            //var path = @"C:\Users\Administrator\Desktop\1.xlsx";
+            string path = @"C:\Users\Administrator\Desktop\人员3.18.xlsx";
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
 
-            
 
-
+            ExcelReadHandler handler = new ExcelReadHandler(path);
+            //var persons = handler.Read<Person>(new[] { "Account", "Name" });
+            //var persons = handler.Read<Person>(new Dictionary<int, string>
+            //{
+            //    {1, "Account"},
+            //    {2, "Name"},
+            //    {7, "Role"},
+            //});
+            List<Person> persons = handler.Read<Person>(true);
             System.Console.WriteLine("over");
             System.Console.ReadKey();
         }
     }
-
-    internal class Person
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-
-        public string GetClassName()
-        {
-            return GetType().Name;
-        }
-    }
-
 
     public class MyDynamic : DynamicObject
     {

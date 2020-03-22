@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -12,9 +15,9 @@ namespace Wjire.Excel
 
         private readonly IWorkbook _workbook;
 
-        public ExcelReadHandler(string fileName)
+        public ExcelReadHandler(string filePath)
         {
-            using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 _workbook = CreateWorkbook(fileStream);
             }
@@ -24,6 +27,7 @@ namespace Wjire.Excel
         public ExcelReadHandler(Stream stream)
         {
             _workbook = CreateWorkbook(stream);
+            stream.Dispose();
         }
 
 
@@ -46,70 +50,86 @@ namespace Wjire.Excel
 
 
         /// <summary>
-        /// Excel中默认第一张Sheet导出到集合
+        /// Excel => List
         /// </summary>
         /// <param name="fields">Excel各个列，依次要转换成为的对象字段名称</param>
-        /// <param name="sheetIndex">第几张sheet,默认第一张</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <param name="rowIndex">从第几行开始读取,默认第2行,第1行为标题</param>
         /// <returns></returns>
-        public List<T> Read<T>(string[] fields, int sheetIndex = 1) where T : class, new()
+        public List<T> Read<T>(string[] fields, int sheetIndex = 1, int rowIndex = 2) where T : class, new()
         {
-            return ExportToList<T>(_workbook.GetSheetAt(sheetIndex - 1), fields);
+            return ReadFrom<T>(fields, _workbook.GetSheetAt(sheetIndex - 1), rowIndex - 1);
+        }
+
+
+
+        /// <summary>
+        /// Excel => List
+        /// </summary>
+        /// <param name="useCustomOrder">是否使用自定义顺序</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <param name="rowIndex">从第几行开始读取,默认第2行,第1行为标题</param>
+        /// <returns></returns>
+        public List<T> Read<T>(bool useCustomOrder = false, int sheetIndex = 1, int rowIndex = 2) where T : class, new()
+        {
+            Type type = typeof(T);
+            Dictionary<int, string> columnMaps = useCustomOrder ? GetReadingColumnsByCustomOrder(type) : GetReadingColumns(type);
+            return ReadFrom<T>(columnMaps, _workbook.GetSheetAt(sheetIndex - 1), rowIndex - 1);
         }
 
 
         /// <summary>
-        /// Sheet中的数据转换为List集合,从第2行开始计算数据,第一行默认为标题.
+        /// Excel => List
         /// </summary>
-        /// <param name="sheet"></param>
-        /// <param name="fields"></param>
+        /// <param name="columnMaps">需要读取的列及要转换成为的对象字段名称</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <param name="rowIndex">从第几行开始读取,默认第2行,第1行为标题</param>
         /// <returns></returns>
-        private List<T> ExportToList<T>(ISheet sheet, string[] fields) where T : class, new()
+        public List<T> Read<T>(Dictionary<int, string> columnMaps, int sheetIndex = 1, int rowIndex = 2) where T : class, new()
+        {
+            return ReadFrom<T>(columnMaps, _workbook.GetSheetAt(sheetIndex - 1), rowIndex - 1);
+        }
+
+
+
+        private List<T> ReadFrom<T>(Dictionary<int, string> columnMaps, ISheet sheet, int rowIndex) where T : class, new()
         {
             List<T> list = new List<T>();
             Type type = typeof(T);
             //遍历每一行数据
-            for (int i = sheet.FirstRowNum + 1, len = sheet.LastRowNum + 1; i < len; i++)
+            for (int i = rowIndex, len = sheet.LastRowNum + 1; i < len; i++)
+            {
+                T t = new T();
+                IRow row = sheet.GetRow(i);
+                foreach (KeyValuePair<int, string> column in columnMaps)
+                {
+                    ICell cell = row.GetCell(column.Key - 1);
+                    object cellValue = ConvertCellValue(cell);
+                    type.GetProperty(column.Value)?.SetValue(t, cellValue);
+                }
+                list.Add(t);
+            }
+            return list;
+        }
+
+
+        private List<T> ReadFrom<T>(string[] fields, ISheet sheet, int rowIndex) where T : class, new()
+        {
+            List<T> list = new List<T>();
+            Type type = typeof(T);
+            //遍历每一行数据
+            for (int i = rowIndex, len = sheet.LastRowNum + 1; i < len; i++)
             {
                 T t = new T();
                 IRow row = sheet.GetRow(i);
                 for (int j = 0, len2 = fields.Length; j < len2; j++)
                 {
-
                     ICell cell = row.GetCell(j);
-                    object cellValue = null;
-                    try
-                    {
-                        switch (cell.CellType)
-                        {
-                            case CellType.String: //文本
-                            case CellType.Formula:
-                                cellValue = cell.StringCellValue;
-                                break;
-                            case CellType.Numeric: //数值
-                                cellValue = cell.NumericCellValue.ToString();
-                                break;
-                            case CellType.Boolean: //bool
-                                cellValue = cell.BooleanCellValue;
-                                break;
-                            case CellType.Blank: //空白
-                                cellValue = "";
-                                break;
-                            default:
-                                cellValue = "***Error Format***";
-                                break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        cellValue = "";
-                        Console.WriteLine(e);
-                    }
-                    type.GetProperty(fields[j])?.SetValue(t, cellValue, null);
-
+                    object cellValue = ConvertCellValue(cell);
+                    type.GetProperty(fields[j])?.SetValue(t, cellValue);
                 }
                 list.Add(t);
             }
-
             return list;
         }
 
@@ -145,6 +165,65 @@ namespace Wjire.Excel
                 list.Add(row.GetCell(i).StringCellValue);//这里没有考虑数据格式转换，会出现bug
             }
             return list.ToArray();
+        }
+
+
+
+        private object ConvertCellValue(ICell cell)
+        {
+            if (cell == null)
+            {
+                throw new ArgumentNullException("未读取到单元格数据,可能是有隐藏的单元格");
+            }
+            try
+            {
+                switch (cell.CellType)
+                {
+                    case CellType.String: //文本
+                    case CellType.Formula:
+                        return cell.StringCellValue;
+                    case CellType.Numeric: //数值
+                        return cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
+                    case CellType.Boolean: //bool
+                        return cell.BooleanCellValue;
+                    case CellType.Blank: //空白
+                        return string.Empty;
+                    default:
+                        return "ERROR";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"读取第{cell.RowIndex + 1}行,第{cell.ColumnIndex + 1}时发生异常:" + ex);
+            }
+        }
+
+
+        private Dictionary<int, string> GetReadingColumnsByCustomOrder(Type type)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
+            foreach (PropertyInfo info in type.GetProperties())
+            {
+                DisplayAttribute displayAttribute = info.GetCustomAttribute<DisplayAttribute>();
+                if (displayAttribute == null)
+                {
+                    throw new Exception($"{info.Name} 属性未定义 DisplayAttribute");
+                }
+                result.Add(displayAttribute.Order, info.Name);
+            }
+            return result;
+        }
+
+
+        private Dictionary<int, string> GetReadingColumns(Type type)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
+            PropertyInfo[] pros = type.GetProperties();
+            for (int i = 0; i < pros.Length; i++)
+            {
+                result.Add(i + 1, pros[i].Name);
+            }
+            return result;
         }
     }
 }
