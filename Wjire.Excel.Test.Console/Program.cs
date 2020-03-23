@@ -9,20 +9,14 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            string path = @"C:\Users\Administrator\Desktop\人员3.18.xlsx";
+            string path = @"C:\Users\Administrator\Desktop\MaintainerSalary.xlsx";
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
 
 
             ExcelReadHandler handler = new ExcelReadHandler(path);
-            //var persons = handler.Read<Person>(new[] { "Account", "Name" });
-            //var persons = handler.Read<Person>(new Dictionary<int, string>
-            //{
-            //    {1, "Account"},
-            //    {2, "Name"},
-            //    {7, "Role"},
-            //});
-            List<Person> persons = handler.Read<Person>(true);
+
+            List<MaintainerSalarySource> persons = handler.Read<MaintainerSalarySource>();
             System.Console.WriteLine("over");
             System.Console.ReadKey();
         }

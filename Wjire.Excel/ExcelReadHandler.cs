@@ -96,6 +96,7 @@ namespace Wjire.Excel
         {
             List<T> list = new List<T>();
             Type type = typeof(T);
+            var pros = type.GetProperties();
             //遍历每一行数据
             for (int i = rowIndex, len = sheet.LastRowNum + 1; i < len; i++)
             {
@@ -104,8 +105,9 @@ namespace Wjire.Excel
                 foreach (KeyValuePair<int, string> column in columnMaps)
                 {
                     ICell cell = row.GetCell(column.Key - 1);
-                    object cellValue = ConvertCellValue(cell);
-                    type.GetProperty(column.Value)?.SetValue(t, cellValue);
+                    var pro = type.GetProperty(column.Value);
+                    object cellValue = ConvertCellValue(cell, pro.PropertyType);
+                    pro.SetValue(t, cellValue);
                 }
                 list.Add(t);
             }
@@ -125,8 +127,9 @@ namespace Wjire.Excel
                 for (int j = 0, len2 = fields.Length; j < len2; j++)
                 {
                     ICell cell = row.GetCell(j);
-                    object cellValue = ConvertCellValue(cell);
-                    type.GetProperty(fields[j])?.SetValue(t, cellValue);
+                    var pro = type.GetProperty(fields[j]);
+                    object cellValue = ConvertCellValue(cell, pro.PropertyType);
+                    pro.SetValue(t, cellValue);
                 }
                 list.Add(t);
             }
@@ -169,12 +172,51 @@ namespace Wjire.Excel
 
 
 
-        private object ConvertCellValue(ICell cell)
+        private object ConvertCellValue(ICell cell, Type type)
         {
             if (cell == null)
             {
                 throw new ArgumentNullException("未读取到单元格数据,可能是有隐藏的单元格");
             }
+            try
+            {
+                object result;
+                switch (cell.CellType)
+                {
+                    case CellType.String: //文本
+                    case CellType.Formula:
+                        result = cell.StringCellValue;
+                        break;
+                    case CellType.Numeric: //数值
+                        result = cell.NumericCellValue;
+                        break;
+                    case CellType.Boolean: //bool
+                        result = cell.BooleanCellValue;
+                        break;
+                    case CellType.Blank: //空白
+                        result = null;
+                        break;
+                    default:
+                        result = "ERROR"; 
+                        break;
+                }
+
+                result = Convert(result, type);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"读取第{cell.RowIndex + 1}行,第{cell.ColumnIndex + 1}列时发生异常:" + ex);
+            }
+        }
+
+        private object ConvertCellValue2(ICell cell)
+        {
+            if (cell == null)
+            {
+                throw new ArgumentNullException("未读取到单元格数据,可能是有隐藏的单元格");
+            }
+
             try
             {
                 switch (cell.CellType)
@@ -183,11 +225,12 @@ namespace Wjire.Excel
                     case CellType.Formula:
                         return cell.StringCellValue;
                     case CellType.Numeric: //数值
-                        return cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
+                        //return cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
+                        return cell.NumericCellValue;
                     case CellType.Boolean: //bool
                         return cell.BooleanCellValue;
                     case CellType.Blank: //空白
-                        return string.Empty;
+                        return null;
                     default:
                         return "ERROR";
                 }
@@ -197,6 +240,7 @@ namespace Wjire.Excel
                 throw new Exception($"读取第{cell.RowIndex + 1}行,第{cell.ColumnIndex + 1}时发生异常:" + ex);
             }
         }
+
 
 
         private Dictionary<int, string> GetReadingColumnsByCustomOrder(Type type)
@@ -224,6 +268,36 @@ namespace Wjire.Excel
                 result.Add(i + 1, pros[i].Name);
             }
             return result;
+        }
+
+        public object Convert(object value, Type conversionType)
+        {
+            Type underlyingType = Nullable.GetUnderlyingType(conversionType);
+            if (underlyingType != null)
+            {
+                if (value == DBNull.Value)
+                {
+                    return null;
+                }
+
+                if (underlyingType.IsEnum)
+                {
+                    value = Enum.Parse(underlyingType, value.ToString());
+                }
+
+                return System.Convert.ChangeType(value, underlyingType);
+            }
+            if (conversionType.IsEnum)
+            {
+                return Enum.Parse(conversionType, value.ToString());
+            }
+
+            if (value==null && typeof(ValueType) .IsAssignableFrom(conversionType))
+            {
+                return Activator.CreateInstance(conversionType);
+            }
+
+            return System.Convert.ChangeType(value, conversionType);
         }
     }
 }
