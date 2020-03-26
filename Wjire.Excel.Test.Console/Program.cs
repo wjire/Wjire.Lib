@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Dynamitey.DynamicObjects;
 
 namespace Wjire.Excel.Test.Console
 {
@@ -9,14 +10,18 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            string path = @"C:\Users\Administrator\Desktop\MaintainerSalary.xlsx";
+            string path = @"C:\Users\Administrator\Desktop\人员3.18.xlsx";
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
 
 
             ExcelReadHandler handler = new ExcelReadHandler(path);
 
-            List<MaintainerSalarySource> persons = handler.Read<MaintainerSalarySource>();
+            var columns = handler.GetCells(1);
+            System.Console.WriteLine(string.Join(",", columns));
+
+            List<Person> persons = handler.Read<Person>();
+
             System.Console.WriteLine("over");
             System.Console.ReadKey();
         }
