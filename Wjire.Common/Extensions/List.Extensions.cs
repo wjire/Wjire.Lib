@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Wjire.Common.Extension
+namespace Wjire.Common
 {
 
     /// <summary>
     /// List 扩展方法
     /// </summary>
-    public static partial class ObjectExtension
+    public static partial class ObjectExtensions
     {
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Wjire.Common.Extension
         {
             if (entities == null || entities.Count == 0)
             {
-                throw new ArgumentNullException("entities is null or empty");
+                throw new ArgumentNullException(nameof(entities));
             }
 
             Type type = typeof(T);
@@ -37,7 +37,7 @@ namespace Wjire.Common.Extension
                 object[] objArray = new object[properties.Length];
                 for (int index = 0; index < properties.Length; ++index)
                 {
-                    objArray[index] = properties[index].GetValue(obj, null);
+                    objArray[index] = properties[index].GetValue(obj);
                 }
 
                 dataTable.Rows.Add(objArray);

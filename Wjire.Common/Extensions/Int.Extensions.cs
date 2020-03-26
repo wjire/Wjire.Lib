@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Wjire.Common.Extension
+namespace Wjire.Common
 {
 
-	public static partial class ObjectExtension
+	public static partial class ObjectExtensions
 	{
 		public static int ToInt(this object obj)
 		{
@@ -27,6 +27,12 @@ namespace Wjire.Common.Extension
         public static decimal ToInt64(this object obj)
         {
             return Convert.ToInt64(obj);
+        }
+
+
+        public static string If(this int data, Predicate<int> predicate, string str)
+        {
+            return predicate(data) ? str : null;
         }
     }
 }
