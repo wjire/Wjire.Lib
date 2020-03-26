@@ -12,6 +12,11 @@ namespace Wjire.Common
     public static class JsonExtension
     {
 
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings()
+        {
+            DateFormatString = "yyyy-MM-dd HH:mm:ss"
+        };
+
         /// <summary>
         /// 序列化
         /// </summary>
@@ -21,19 +26,21 @@ namespace Wjire.Common
         /// <returns></returns>
         public static string SerializeObject(this object obj, string[] props = null, bool retain = true)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings()
-            {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss"
-            };
             //settings.NullValueHandling = NullValueHandling.Ignore;
             //settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
             if (props == null)
             {
-                return JsonConvert.SerializeObject(obj, settings);
+                return JsonConvert.SerializeObject(obj, Settings);
             }
-            settings.ContractResolver = new LimitPropsContractResolver(props, retain);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                ContractResolver = new LimitPropsContractResolver(props, retain)
+            };
             return JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         }
+
 
         /// <summary>
         /// 反序列化
@@ -71,9 +78,9 @@ namespace Wjire.Common
 
         private class LimitPropsContractResolver : DefaultContractResolver
         {
-            private readonly string[] props;
+            private readonly string[] _props;
 
-            private readonly bool retain;
+            private readonly bool _retain;
 
             /// <summary>
             /// 构造函数
@@ -83,9 +90,9 @@ namespace Wjire.Common
             public LimitPropsContractResolver(string[] props, bool retain = true)
             {
                 //指定要序列化属性的清单
-                this.props = props;
+                this._props = props;
 
-                this.retain = retain;
+                this._retain = retain;
             }
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -93,15 +100,12 @@ namespace Wjire.Common
                 IList<JsonProperty> list = base.CreateProperties(type, memberSerialization);
 
                 //只序列化清单列出的属性
-                if (retain)
+                if (_retain)
                 {
-                    return list.Where(p => props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
+                    return list.Where(p => _props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
                 }
                 //过滤掉清单列出的属性
-                else
-                {
-                    return list.Where(p => !props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
-                }
+                return list.Where(p => !_props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
             }
         }
     }
