@@ -13,7 +13,6 @@ namespace Wjire.Excel
     /// </summary>
     internal static class ColumnInfoContainer
     {
-        private static readonly Dictionary<Type, PropertyInfo[]> PropertyInfoContainer = new Dictionary<Type, PropertyInfo[]>();
         private static readonly Dictionary<Type, ColumnInfo[]> ColumnInfosMap = new Dictionary<Type, ColumnInfo[]>();
 
         /// <summary>
@@ -30,7 +29,6 @@ namespace Wjire.Excel
 
             PropertyInfo[] properties = sourceType
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            PropertyInfoContainer.Add(sourceType, properties);
 
             columnInfos = properties
                 .Where(propertyInfo => propertyInfo.GetCustomAttribute<DisplayAttribute>(true) != null)
