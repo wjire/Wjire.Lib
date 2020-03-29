@@ -46,20 +46,22 @@ namespace Wjire.Common
             ParameterExpression parameter = Expression.Parameter(sourceType, "source");
 
             List<MemberBinding> memberBindingList = new List<MemberBinding>();
-            foreach (PropertyInfo resultProperty in resultType.GetProperties())
+            foreach (PropertyInfo sourceProperty in sourceType.GetProperties())
             {
-                //过滤返回类型的只读属性和泛型属性
-                if (!resultProperty.CanWrite || resultProperty.PropertyType.IsGenericType)
+
+                //检查是否映射了属性名称
+                MapAttribute customAttribute = sourceProperty.GetCustomAttribute<MapAttribute>();
+                //MapAttribute customAttribute = resultProperty.GetCustomAttribute<MapAttribute>();
+                PropertyInfo resultProperty = resultType.GetProperty(customAttribute == null ? sourceProperty.Name : customAttribute.Name);
+
+                //过滤返回类型没有的属性
+                if (resultProperty == null)
                 {
                     continue;
                 }
 
-                //检查是否映射了属性名称
-                MapAttribute customAttribute = resultProperty.GetCustomAttribute<MapAttribute>();
-                PropertyInfo sourceProperty = sourceType.GetProperty(customAttribute == null ? resultProperty.Name : customAttribute.Name);
-
-                //过滤源类型没有的属性
-                if (sourceProperty == null)
+                //过滤返回类型的只读属性和泛型属性
+                if (!resultProperty.CanWrite || resultProperty.PropertyType.IsGenericType)
                 {
                     continue;
                 }

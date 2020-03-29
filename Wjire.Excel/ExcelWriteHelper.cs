@@ -157,7 +157,6 @@ namespace Wjire.Excel
         }
 
 
-
         /// <summary>
         /// 生成Excel文件,暂时只支持 Excel2007
         /// </summary>
@@ -168,6 +167,17 @@ namespace Wjire.Excel
         {
             CheckPath(path);
             WriteHandlerFactory.CreateHandler(ExcelVersion.Excel2007).CreateFile(sources, path);
+        }
+
+
+        /// <summary>
+        /// 生成Excel文件,暂时只支持 Excel2007
+        /// </summary>
+        /// <param name="sources">数据源</param>
+        /// <returns></returns>
+        public static byte[] CreateBytes(DataTable sources)
+        {
+            return WriteHandlerFactory.CreateHandler(ExcelVersion.Excel2007).CreateBytes(sources);
         }
 
 

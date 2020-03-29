@@ -25,5 +25,6 @@ namespace Wjire.Excel
         void CreateFile<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName, string path);
 
         void CreateFile(DataTable sources, string path);
+        byte[] CreateBytes(DataTable sources);
     }
 }

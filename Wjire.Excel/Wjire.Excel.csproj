@@ -6,7 +6,7 @@
     <Authors>wjire</Authors>
     <Description>导出/读取Excel,内置NPOI,EPPlus,CsvHelper</Description>
     <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Excel</PackageProjectUrl>
-    <Version>1.0.3</Version>
+    <Version>1.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>

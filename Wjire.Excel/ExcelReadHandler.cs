@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using NPOI.HSSF.UserModel;
@@ -96,7 +95,7 @@ namespace Wjire.Excel
         {
             List<T> list = new List<T>();
             Type type = typeof(T);
-            var pros = type.GetProperties();
+            PropertyInfo[] pros = type.GetProperties();
             //遍历每一行数据
             for (int i = rowIndex, len = sheet.LastRowNum + 1; i < len; i++)
             {
@@ -105,7 +104,7 @@ namespace Wjire.Excel
                 foreach (KeyValuePair<int, string> column in columnMaps)
                 {
                     ICell cell = row.GetCell(column.Key - 1);
-                    var pro = type.GetProperty(column.Value);
+                    PropertyInfo pro = type.GetProperty(column.Value);
                     object cellValue = ConvertCellValue(cell, pro.PropertyType);
                     pro.SetValue(t, cellValue);
                 }
@@ -127,7 +126,7 @@ namespace Wjire.Excel
                 for (int j = 0, len2 = fields.Length; j < len2; j++)
                 {
                     ICell cell = row.GetCell(j);
-                    var pro = type.GetProperty(fields[j]);
+                    PropertyInfo pro = type.GetProperty(fields[j]);
                     object cellValue = ConvertCellValue(cell, pro.PropertyType);
                     pro.SetValue(t, cellValue);
                 }
@@ -197,7 +196,7 @@ namespace Wjire.Excel
                         result = null;
                         break;
                     default:
-                        result = "ERROR"; 
+                        result = "ERROR";
                         break;
                 }
 
@@ -292,7 +291,7 @@ namespace Wjire.Excel
                 return Enum.Parse(conversionType, value.ToString());
             }
 
-            if (value==null && typeof(ValueType) .IsAssignableFrom(conversionType))
+            if (value == null && typeof(ValueType).IsAssignableFrom(conversionType))
             {
                 return Activator.CreateInstance(conversionType);
             }

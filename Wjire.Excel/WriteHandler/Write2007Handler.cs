@@ -100,6 +100,14 @@ namespace Wjire.Excel
             }
         }
 
+        public byte[] CreateBytes(DataTable sources)
+        {
+            using (ExcelPackage pck = CreateExcelPackage(sources))
+            {
+                return pck.GetAsByteArray();
+            }
+        }
+
 
         /// <summary>
         /// 创建ExcelPackage
@@ -251,12 +259,16 @@ namespace Wjire.Excel
         private DataTable CreateDataTable<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName)
         {
             Type type = typeof(T);
-            ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName.Keys);
+            ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName.Keys, false);
             DataTable dataTable = new DataTable();
             foreach (ColumnInfo col in cols)
             {
                 dataTable.Columns.Add(exportFieldsWithName[col.PropertyInfo.Name]);
             }
+            //foreach (var keyValue in exportFieldsWithName)
+            //{
+            //    dataTable.Columns.Add(keyValue.Value);
+            //}
             FillDataTable(dataTable, sources, cols);
             return dataTable;
         }

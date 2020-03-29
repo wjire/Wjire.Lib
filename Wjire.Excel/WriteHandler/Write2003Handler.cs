@@ -119,6 +119,11 @@ namespace Wjire.Excel
             throw new NotImplementedException();
         }
 
+        public byte[] CreateBytes(DataTable sources)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// 生成流
