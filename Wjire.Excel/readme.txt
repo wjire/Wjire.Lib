@@ -13,12 +13,12 @@
 	ExcelHelper.CreateFile(datas);
 
 
-只有加了 [DisplayName] 特性的属性才有可能导出
+只有加了 [Display] 特性的属性才有可能导出
 
         /// <summary>
         /// 主键
         /// </summary>
-        [DisplayName("编号")]
+        [DisplayName(Name="编号",Order=1)]
         public long ID { get; set; }
 
 
