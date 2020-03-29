@@ -11,5 +11,7 @@ namespace Wjire.Excel
         internal PropertyInfo PropertyInfo { get; set; }
 
         internal string DisplayName { get; set; }
+
+        internal int Order { get; set; }
     }
 }

@@ -259,16 +259,12 @@ namespace Wjire.Excel
         private DataTable CreateDataTable<T>(IEnumerable<T> sources, Dictionary<string, string> exportFieldsWithName)
         {
             Type type = typeof(T);
-            ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName.Keys, false);
+            ColumnInfo[] cols = ColumnInfoContainer.GetColumnInfos(type, exportFieldsWithName);
             DataTable dataTable = new DataTable();
             foreach (ColumnInfo col in cols)
             {
-                dataTable.Columns.Add(exportFieldsWithName[col.PropertyInfo.Name]);
+                dataTable.Columns.Add(col.DisplayName);
             }
-            //foreach (var keyValue in exportFieldsWithName)
-            //{
-            //    dataTable.Columns.Add(keyValue.Value);
-            //}
             FillDataTable(dataTable, sources, cols);
             return dataTable;
         }

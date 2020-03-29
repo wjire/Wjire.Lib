@@ -90,9 +90,9 @@ namespace Wjire.Common
             public LimitPropsContractResolver(string[] props, bool retain = true)
             {
                 //指定要序列化属性的清单
-                this._props = props;
+                _props = props;
 
-                this._retain = retain;
+                _retain = retain;
             }
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)

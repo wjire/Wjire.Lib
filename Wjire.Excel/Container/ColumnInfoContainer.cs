@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -13,46 +13,42 @@ namespace Wjire.Excel
     /// </summary>
     internal static class ColumnInfoContainer
     {
-
-        private static readonly Dictionary<Type, ColumnInfo[]> ColContainer = new Dictionary<Type, ColumnInfo[]>();
-
+        private static readonly Dictionary<Type, PropertyInfo[]> PropertyInfoContainer = new Dictionary<Type, PropertyInfo[]>();
+        private static readonly Dictionary<Type, ColumnInfo[]> ColumnInfosMap = new Dictionary<Type, ColumnInfo[]>();
 
         /// <summary>
         /// 获取数据源列信息
         /// </summary>
         /// <param name="sourceType">数据源类类型</param>
-        /// <param name="ignoreDisplayName">是否忽略 DisplayNameAttribute</param>
         /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, bool ignoreDisplayName = false)
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType)
         {
-            //if (ColContainer.TryGetValue(sourceType, out ColumnInfo[] infos))
-            //{
-            //    return infos;
-            //}
-            IEnumerable<PropertyInfo> propertyInfos = sourceType
+            if (ColumnInfosMap.TryGetValue(sourceType, out ColumnInfo[] columnInfos))
+            {
+                return columnInfos;
+            }
+
+            PropertyInfo[] properties = sourceType
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            ColumnInfo[] cols;
-            if (ignoreDisplayName == false)
-            {
-                cols = propertyInfos
-                    .Where(propertyInfo => propertyInfo.GetCustomAttribute<DisplayNameAttribute>(true) != null)
-                    .Select(propertyInfo => new ColumnInfo
+            PropertyInfoContainer.Add(sourceType, properties);
+
+            columnInfos = properties
+                .Where(propertyInfo => propertyInfo.GetCustomAttribute<DisplayAttribute>(true) != null)
+                .Select(propertyInfo =>
+                {
+                    DisplayAttribute displayAttribute = propertyInfo.GetCustomAttribute<DisplayAttribute>();
+                    ColumnInfo col = new ColumnInfo
                     {
                         PropertyInfo = propertyInfo,
-                        DisplayName = propertyInfo.GetCustomAttribute<DisplayNameAttribute>().DisplayName,
-                    }).ToArray();
-            }
-            else
-            {
-                cols = propertyInfos
-                    .Select(propertyInfo => new ColumnInfo
-                    {
-                        PropertyInfo = propertyInfo,
-                        DisplayName = propertyInfo.Name,
-                    }).ToArray();
-            }
-            return cols;
-            //ColContainer.Add(sourceType, infos);
+                        DisplayName = string.IsNullOrWhiteSpace(displayAttribute.Name) ? propertyInfo.Name : displayAttribute.Name,
+                        Order = displayAttribute.Order
+                    };
+                    return col;
+                })
+                .OrderBy(o => o.Order)
+                .ToArray();
+            ColumnInfosMap.Add(sourceType, columnInfos);
+            return columnInfos;
         }
 
 
@@ -61,11 +57,10 @@ namespace Wjire.Excel
         /// </summary>
         /// <param name="sourceType"></param>
         /// <param name="exportFields"></param>
-        /// <param name="ignoreDisplayName"></param>
         /// <returns></returns>
-        internal static ColumnInfo[] GetColumnInfos(Type sourceType, ICollection<string> exportFields, bool ignoreDisplayName = false)
+        internal static ColumnInfo[] GetColumnInfos(Type sourceType, ICollection<string> exportFields)
         {
-            IEnumerable<ColumnInfo> cols = GetColumnInfos(sourceType, ignoreDisplayName);
+            IEnumerable<ColumnInfo> cols = GetColumnInfos(sourceType);
             if (exportFields?.Count > 0)
             {
                 cols = cols.Where(w => exportFields.Contains(w.PropertyInfo.Name));
@@ -83,29 +78,12 @@ namespace Wjire.Excel
         /// <returns></returns>
         internal static ColumnInfo[] GetColumnInfos(Type sourceType, Dictionary<string, string> exportFieldsWithName)
         {
-            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFieldsWithName.Keys, true);
-            //ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
-            //{
-            //    PropertyInfo = s.PropertyInfo,
-            //    DisplayName = exportFieldsWithName[s.PropertyInfo.Name],
-            //}).ToArray();
-
-            List<ColumnInfo> newCols = new List<ColumnInfo>(exportFieldsWithName.Count);
-            foreach (KeyValuePair<string, string> keyValue in exportFieldsWithName)
+            ColumnInfo[] cols = GetColumnInfos(sourceType, exportFieldsWithName.Keys);
+            foreach (ColumnInfo col in cols)
             {
-                ColumnInfo col = cols.First(f => f.DisplayName == keyValue.Key);
-                newCols.Add(new ColumnInfo
-                {
-                    DisplayName = keyValue.Value,
-                    PropertyInfo = col.PropertyInfo
-                });
+                col.DisplayName = exportFieldsWithName[col.PropertyInfo.Name];
             }
-            //ColumnInfo[] newCols = cols.Select(s => new ColumnInfo
-            //{
-            //    PropertyInfo = s.PropertyInfo,
-            //    DisplayName = exportFieldsWithName[s.PropertyInfo.Name],
-            //}).ToArray();
-            return newCols.ToArray();
+            return cols;
         }
     }
 }

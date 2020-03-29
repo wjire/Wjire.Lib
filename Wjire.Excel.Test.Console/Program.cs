@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using Dynamitey.DynamicObjects;
 
 namespace Wjire.Excel.Test.Console
 {
@@ -10,17 +9,45 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            string path = @"C:\Users\Administrator\Desktop\人员3.18.xlsx";
+            string path = @"C:\Users\Administrator\Desktop\testexcel.xlsx";
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
 
 
-            ExcelReadHandler handler = new ExcelReadHandler(path);
+            //ExcelReadHandler handler = new ExcelReadHandler(path);
 
-            var columns = handler.GetCells(1);
-            System.Console.WriteLine(string.Join(",", columns));
+            //var columns = handler.GetCells(1);
+            //System.Console.WriteLine(string.Join(",", columns));
 
-            List<Person> persons = handler.Read<Person>();
+            //List<Person> persons = handler.Read<Person>();
+
+            List<Person> persons = new List<Person>
+            {
+                new Person
+                {
+                    Account = "wjire",
+                    Name = "wjire",
+                    Address = "1",
+                    Age = 15,
+                    CompanyName = "wjireCompanyName"
+                },
+                new Person
+                {
+                    Account = "wjire",
+                    Name = "wjire",
+                    Address = "1",
+                    Age = 15,
+                    CompanyName = "wjireCompanyName"
+                }
+            };
+
+            Dictionary<string, string> dic = new Dictionary<string, string>
+            {
+                {"Account", "登录账号"},
+                {"Age", "芳龄"}
+            };
+            ExcelWriteHelper.CreateFile<Person>(persons, path, dic);
+
 
             System.Console.WriteLine("over");
             System.Console.ReadKey();
