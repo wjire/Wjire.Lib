@@ -8,7 +8,7 @@ using NPOI.SS.UserModel;
 namespace Wjire.Excel
 {
 
-    internal class Write2003Handler : IWriteHandler
+    internal class Excel2003WriteHandler : IWriteHandler
     {
         public MemoryStream CreateMemoryStream<T>(IEnumerable<T> sources)
         {

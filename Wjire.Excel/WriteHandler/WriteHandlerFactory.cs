@@ -21,7 +21,7 @@ namespace Wjire.Excel
                 case ExcelVersion.Excel2007:
                     return new Excel2007WriteHandler();
                 case ExcelVersion.Excel2003:
-                    return new Write2003Handler();
+                    return new Excel2003WriteHandler();
                 default:
                     throw new ArgumentException("the excel version is invalid");
             }
