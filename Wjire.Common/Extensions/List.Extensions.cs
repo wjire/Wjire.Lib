@@ -11,6 +11,12 @@ namespace Wjire.Common
     public static partial class ObjectExtensions
     {
 
+        public static bool IsNullOrEmpty<T>(this List<T> source)
+        {
+            return source == null || source.Count == 0;
+        }
+
+
         /// <summary>
         /// List 转 DataTable
         /// </summary>
@@ -43,12 +49,6 @@ namespace Wjire.Common
                 dataTable.Rows.Add(objArray);
             }
             return dataTable;
-        }
-
-
-        public static bool IsEmpty<T>(this List<T> source)
-        {
-            return source == null || source.Count == 0;
         }
     }
 }

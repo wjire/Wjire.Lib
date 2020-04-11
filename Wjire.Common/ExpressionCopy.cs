@@ -23,7 +23,7 @@ namespace Wjire.Common
         {
             /*
              * 注释部分以下面的代码作为例子
-             * Person p = new Person() { Id = 1, Age = 18, Name = "wjire" };
+             * Person p = new Person() { Id = 1, Age = 18, Name = "SCMCC.Salary.Common" };
              * Expression<Func<Person, Student>> exp = source => new Student() { Id = source.Id, Name = source.Name };
              * Func<Person, Student> func = exp.Complie();
              * result = func(p);
@@ -50,9 +50,9 @@ namespace Wjire.Common
             {
 
                 //检查是否映射了属性名称
-                MapAttribute customAttribute = sourceProperty.GetCustomAttribute<MapAttribute>();
-                //MapAttribute customAttribute = resultProperty.GetCustomAttribute<MapAttribute>();
-                PropertyInfo resultProperty = resultType.GetProperty(customAttribute == null ? sourceProperty.Name : customAttribute.Name);
+                MapNameAttribute customNameAttribute = sourceProperty.GetCustomAttribute<MapNameAttribute>();
+                //MapNameAttribute customNameAttribute = resultProperty.GetCustomAttribute<MapNameAttribute>();
+                PropertyInfo resultProperty = resultType.GetProperty(customNameAttribute == null ? sourceProperty.Name : customNameAttribute.Name);
 
                 //过滤返回类型没有的属性
                 if (resultProperty == null)
@@ -108,11 +108,11 @@ namespace Wjire.Common
     /// <summary>
     /// 映射属性名称
     /// </summary>
-    public class MapAttribute : Attribute
+    public class MapNameAttribute : Attribute
     {
         public string Name { get; set; }
 
-        public MapAttribute(string name)
+        public MapNameAttribute(string name)
         {
             Name = name;
         }

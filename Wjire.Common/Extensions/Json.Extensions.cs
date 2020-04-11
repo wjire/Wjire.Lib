@@ -9,7 +9,7 @@ namespace Wjire.Common
     /// <summary>
     /// Newtonsoft.Json序列化
     /// </summary>
-    public static class JsonExtension
+    public static partial class ObjectExtensions
     {
 
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings()
@@ -24,7 +24,7 @@ namespace Wjire.Common
         /// <param name="props">传入的属性数组</param>
         /// <param name="retain">true:表示props是需要保留的字段(默认)  false：表示props是要排除的字段</param>
         /// <returns></returns>
-        public static string SerializeObject(this object obj, string[] props = null, bool retain = true)
+        public static string ToJson(this object obj, string[] props = null, bool retain = true)
         {
             //settings.NullValueHandling = NullValueHandling.Ignore;
             //settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
@@ -41,14 +41,13 @@ namespace Wjire.Common
             return JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         }
 
-
         /// <summary>
         /// 反序列化
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static T DeserializeObject<T>(this string json)
+        public static T ToObject<T>(this string json)
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
@@ -58,7 +57,7 @@ namespace Wjire.Common
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static object DeserializeObject(this string json)
+        public static object ToObject(this string json)
         {
             return JsonConvert.DeserializeObject(json);
         }
@@ -70,7 +69,7 @@ namespace Wjire.Common
         /// <param name="json"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static object DeserializeObject(this string json, Type type)
+        public static object ToObject(this string json, Type type)
         {
             return JsonConvert.DeserializeObject(json, type);
         }
@@ -105,7 +104,10 @@ namespace Wjire.Common
                     return list.Where(p => _props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
                 }
                 //过滤掉清单列出的属性
-                return list.Where(p => !_props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
+                else
+                {
+                    return list.Where(p => !_props.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
+                }
             }
         }
     }

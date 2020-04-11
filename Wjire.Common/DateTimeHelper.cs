@@ -3,9 +3,9 @@
 namespace Wjire.Common
 {
     /// <summary>
-    /// DateTimeHelper
+    /// 时间helper
     /// </summary>
-    public static class DateTimeHelper
+    public class DateTimeHelper
     {
 
         /// <summary>
@@ -13,7 +13,7 @@ namespace Wjire.Common
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static long ToTimeStamp(this DateTime time)
+        public static long ConvertToTimeStamp(DateTime time)
         {
             DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return (long)(time.AddHours(-8) - dt).TotalMilliseconds;
@@ -56,6 +56,30 @@ namespace Wjire.Common
             }
             int day = seconds % 86400;
             return seconds / 86400 + "天" + (day == 0 ? null : ConvertSecondsToString(day));
+        }
+
+
+        /// <summary>
+        /// 判断是否是同一天
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <returns></returns>
+        public static bool IsSameDay(DateTime date1, DateTime date2)
+        {
+            if (date1.Day != date2.Day)
+            {
+                return false;
+            }
+            if (date1.Month != date2.Month)
+            {
+                return false;
+            }
+            if (date1.Year != date2.Year)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
