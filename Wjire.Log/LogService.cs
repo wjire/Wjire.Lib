@@ -70,6 +70,21 @@ namespace Wjire.Log
         /// <summary>
         /// 记录异常日志
         /// </summary>
+        /// <param name="exceptionMessage">异常消息</param>
+        /// <param name="remark">备注,通常是业务描述或者方法名</param>
+        /// <param name="request">入参</param>
+        /// <param name="response">返回值</param>
+        /// <param name="relativePath">路径</param>
+        public static void WriteExceptionAsync(string exceptionMessage, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
+        {
+            var ex = new Exception(exceptionMessage);
+            WriteExceptionAsync(ex, remark, request, response, relativePath);
+        }
+
+
+        /// <summary>
+        /// 记录异常日志
+        /// </summary>
         /// <param name="ex">异常</param>
         /// <param name="remark">备注,通常是业务描述或者方法名</param>
         /// <param name="request">入参</param>
