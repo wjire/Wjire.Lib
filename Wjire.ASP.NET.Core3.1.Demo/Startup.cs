@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Wjire.ASP.NET.Core3._1.Demo.Extensions;
 using Wjire.ASP.NET.Core3._1.Demo.Logics;
+using Wjire.ASP.NET.Core3._1.Demo.Middlewares;
 using Wjire.ASP.NET.Core3._1.Demo.Utils;
 using Wjire.Dapper;
 using Wjire.Dapper.SqlServer;
@@ -193,6 +194,10 @@ namespace Wjire.ASP.NET.Core3._1.Demo
             app.EnableRequestBuffering();
             app.UseRouting();
             app.UseAuthorization();
+
+            //使用自定义的中间件
+            app.UseMyMiddleware();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

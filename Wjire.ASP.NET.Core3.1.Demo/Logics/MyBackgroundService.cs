@@ -5,9 +5,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace Wjire.ASP.NET.Core3._1.Demo.Logics
 {
+    /// <summary>
+    /// 自定义后台定时服务
+    /// </summary>
     public class MyBackgroundService : BackgroundService
     {
-        private readonly TimeSpan _delay = TimeSpan.FromSeconds(1);
+        private readonly TimeSpan _delay = TimeSpan.FromSeconds(10);
 
         /// <summary>
         /// This method is called when the <see cref="T:Microsoft.Extensions.Hosting.IHostedService" /> starts. The implementation should return a task that represents

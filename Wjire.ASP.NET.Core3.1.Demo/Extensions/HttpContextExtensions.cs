@@ -31,6 +31,7 @@ namespace Wjire.ASP.NET.Core3._1.Demo.Extensions
             if (request.Method.ToLower() == "post" && (contentType == "json" || contentType == "application/json"))
             {
                 request.Body.Seek(0, SeekOrigin.Begin);
+               var r = await request.BodyReader.ReadAsync();
                 using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8))
                 {
                     await reader.ReadToEndAsync();
