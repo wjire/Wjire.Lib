@@ -20,7 +20,7 @@ namespace Wjire.Log
         /// <param name="relativePath">路径</param>
         public static void WriteException(string exceptionMessage, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
-            var ex = new Exception(exceptionMessage);
+            Exception ex = new Exception(exceptionMessage);
             WriteException(ex, remark, request, response, relativePath);
         }
 
@@ -77,7 +77,7 @@ namespace Wjire.Log
         /// <param name="relativePath">路径</param>
         public static void WriteExceptionAsync(string exceptionMessage, string remark, object request = null, object response = null, string relativePath = "Logs/ExceptionLog")
         {
-            var ex = new Exception(exceptionMessage);
+            Exception ex = new Exception(exceptionMessage);
             WriteExceptionAsync(ex, remark, request, response, relativePath);
         }
 
