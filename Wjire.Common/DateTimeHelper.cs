@@ -81,5 +81,19 @@ namespace Wjire.Common
             }
             return true;
         }
+
+
+        /// <summary>
+        /// 计算两个日期相差的自然天数
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static int DaysDiff(DateTime start, DateTime end)
+        {
+            start = Convert.ToDateTime(start.ToShortDateString());
+            end = Convert.ToDateTime(end.ToShortDateString());
+            return (end - start).Days;
+        }
     }
 }
