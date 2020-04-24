@@ -14,9 +14,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Savorboard.CAP.InMemoryMessageQueue;
 using Wjire.ASP.NET.Core3._1.Demo.Extensions;
 using Wjire.ASP.NET.Core3._1.Demo.Logics;
 using Wjire.ASP.NET.Core3._1.Demo.Middlewares;
+using Wjire.ASP.NET.Core3._1.Demo.Models;
 using Wjire.ASP.NET.Core3._1.Demo.Utils;
 using Wjire.Dapper;
 using Wjire.Dapper.SqlServer;
@@ -53,6 +55,16 @@ namespace Wjire.ASP.NET.Core3._1.Demo
             //允许异步读取请求body和返回body
             services.Configure<KestrelServerOptions>(x => x.AllowSynchronousIO = true)
                 .Configure<IISServerOptions>(x => x.AllowSynchronousIO = true);
+
+            #region CAP
+
+            services.AddCap(x =>
+            {
+                x.UseInMemoryStorage();
+                x.UseInMemoryMessageQueue();
+            });
+
+            #endregion
 
             #region 数据库
 
@@ -175,7 +187,8 @@ namespace Wjire.ASP.NET.Core3._1.Demo
             services.AddSingleton<IHostedService, MyBackgroundService>();
             services.AddSingleton<UploadedFileCheck>();
             services.AddSingleton<OperationLogAttribute>();
-            services.AddLogics();
+            //services.AddLogics();
+            services.AddSingleton<Person>();
 
             #endregion
         }

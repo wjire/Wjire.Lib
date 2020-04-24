@@ -39,7 +39,7 @@ namespace Wjire.ASP.NET.Core3._1.Demo
                 object okValue = okObjectResult.Value;
                 operationLog.ResponseInfo = okValue.ToJson();
             }
-            _capBus.PublishAsync("OperationLog", operationLog);
+            await _capBus.PublishAsync("OperationLog", operationLog);
         }
     }
 }

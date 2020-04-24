@@ -9,6 +9,13 @@ namespace Wjire.ASP.NET.Core3._1.Demo.Controllers
     public class TestController : ControllerBase
     {
 
+        [HttpGet]
+        public string Values()
+        {
+            return "hello world";
+        }
+
+
         [HttpPost]
         [ServiceFilter(typeof(OperationLogAttribute))]
         public string Person(Person person)
