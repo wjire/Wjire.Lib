@@ -81,14 +81,24 @@ namespace Wjire.ASP.NET.Core3._1.Demo
 
             #region 跨域
 
-            string[] allowOrigins = _configuration.GetSection("AllowOrigins").Get<string[]>();
+            //string[] allowOrigins = _configuration.GetSection("AllowOrigins").Get<string[]>();
+            //services.AddCors(options =>
+            //    options.AddPolicy("Default",
+            //        builder => builder.WithOrigins(allowOrigins)
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader()
+            //            //.AllowAnyOrigin()
+            //            .AllowCredentials()
+            //    )
+            //);
+
+
             services.AddCors(options =>
                 options.AddPolicy("Default",
-                    builder => builder.WithOrigins(allowOrigins)
+                    builder => builder
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        //.AllowAnyOrigin()
-                        .AllowCredentials()
+                        .AllowAnyOrigin()
                 )
             );
 
@@ -203,10 +213,10 @@ namespace Wjire.ASP.NET.Core3._1.Demo
 
             app.UseCors("Default");
             app.UseIpRateLimiting();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.EnableRequestBuffering();
             app.UseRouting();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             //使用自定义的中间件
             app.UseMyMiddleware();

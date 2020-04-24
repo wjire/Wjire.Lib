@@ -116,8 +116,7 @@ namespace Wjire.Common
         /// <returns>参数1=公钥，参数2=私钥</returns>
         public static Tuple<string, string> CreateRSAKey()
         {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048);
-
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
             string priKey = rsa.ToXmlString(true);
             string pubKey = rsa.ToXmlString(false);
             return new Tuple<string, string>(pubKey, priKey);

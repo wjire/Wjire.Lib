@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+    <script src='jsencrypt.min.js'></script>
+</head>
+
+<body>
+
+    <button onclick="test()"> 点我</button>
+
+</body>
+<script>
+    function test() {
+        
+        var name = "wjire";
+        var key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUfP6Cu785zTLlQBtLGFBvRomDrE0/0AehIGjdIfLK5rG4SuK1V2vEP7A3Kbwllka1dUWDTw85oxhHKi/6ewwuOQ0IhRMZRD0slpt64LCd3Nc6IJ4C8K8G4hMLmWgocd0pkTZ8dV1d9/LMiefkeHdj267BHH9LKy5zYiJKxVxs+wIDAQAB";
+        let encrypt = new JSEncrypt();
+        encrypt.setPublicKey(key);
+        let encrypted = encrypt.encrypt(name);
+        console.log(encrypted);
+        var data = { "Name": encrypted };
+        $.ajax({
+            url: "http://localhost:5000/test/person",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    }
+
+</script>
+
+</html>

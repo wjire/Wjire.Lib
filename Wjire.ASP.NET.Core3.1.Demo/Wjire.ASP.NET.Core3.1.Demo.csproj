@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
+    <ProjectReference Include="..\Wjire.Encrypt\Wjire.Encrypt.csproj" />
     <ProjectReference Include="..\Wjire.Log\Wjire.Log.csproj" />
   </ItemGroup>
 
