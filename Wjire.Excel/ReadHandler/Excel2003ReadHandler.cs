@@ -7,7 +7,7 @@ using NPOI.SS.UserModel;
 
 namespace Wjire.Excel
 {
-    public class Excel2003ReadHandler : IReadHandler
+    public class Excel2003ReadHandler : BaseReadHandler,IReadHandler
     {
         private readonly IWorkbook _workbook;
 
@@ -23,17 +23,31 @@ namespace Wjire.Excel
         /// <summary>
         /// Excel => List
         /// </summary>
-        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
-        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认true</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
         /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
         /// <returns></returns>
-        public List<T> Read<T>(Dictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = true, int sheetIndex = 1) where T : class, new()
+        public List<T> Read<T>(bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1) where T : class, new()
+        {
+            var columnMaps = GetColumnMaps(typeof(T));
+            return Read<T>(columnMaps, throwExceptionIfCellValueIsNull, sheetIndex);
+        }
+
+
+        /// <summary>
+        /// Excel => List
+        /// </summary>
+        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <returns></returns>
+        public List<T> Read<T>(IDictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1) where T : class, new()
         {
             ISheet sheet = _workbook.GetSheetAt(sheetIndex - 1);
             return Read<T>(columnMaps, throwExceptionIfCellValueIsNull, sheet);
         }
+        
 
-        private List<T> Read<T>(Dictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull, ISheet sheet) where T : class, new()
+        private List<T> Read<T>(IDictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull, ISheet sheet) where T : class, new()
         {
             List<T> list = new List<T>();
             Type type = typeof(T);
@@ -122,13 +136,12 @@ namespace Wjire.Excel
             }
             return columns;
         }
-
-
+        
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
-            _workbook?.Dispose();
+            //NPOI 没有实现该方法
         }
     }
 }

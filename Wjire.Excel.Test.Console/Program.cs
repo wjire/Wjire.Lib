@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Wjire.Common;
 
 namespace Wjire.Excel.Test.Console
 {
@@ -9,7 +10,18 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            string path = @"C:\Users\Administrator\Desktop\testexcel.xlsx";
+            string path = @"C:\Users\Administrator\Desktop\test.xls";
+            using (var handler = ReadHandlerFactory.CreateHandler(path))
+            {
+                var data = handler.Read<Person>();
+                foreach (var person in data)
+                {
+                    System.Console.WriteLine(person.ToJson());
+                }
+            }
+
+
+
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");
 
@@ -21,32 +33,32 @@ namespace Wjire.Excel.Test.Console
 
             //List<Person> persons = handler.Read<Person>();
 
-            List<Person> persons = new List<Person>
-            {
-                new Person
-                {
-                    Account = "wjire",
-                    Name = "wjire",
-                    Address = "1",
-                    Age = 15,
-                    CompanyName = "wjireCompanyName"
-                },
-                new Person
-                {
-                    Account = "wjire",
-                    Name = "wjire",
-                    Address = "1",
-                    Age = 15,
-                    CompanyName = "wjireCompanyName"
-                }
-            };
-
-            Dictionary<string, string> dic = new Dictionary<string, string>
-            {
-                {"Account", "登录账号"},
-                {"Age", "芳龄"}
-            };
-            ExcelWriteHelper.CreateFile<Person>(persons, path, dic);
+            //            List<Person> persons = new List<Person>
+            //            {
+            //                new Person
+            //                {
+            //                    Account = "wjire",
+            //                    Name = "wjire",
+            //                    Address = "1",
+            //                    Age = 15,
+            //                    CompanyName = "wjireCompanyName"
+            //                },
+            //                new Person
+            //                {
+            //                    Account = "wjire",
+            //                    Name = "wjire",
+            //                    Address = "1",
+            //                    Age = 15,
+            //                    CompanyName = "wjireCompanyName"
+            //                }
+            //            };
+            //
+            //            Dictionary<string, string> dic = new Dictionary<string, string>
+            //            {
+            //                {"Account", "登录账号"},
+            //                {"Age", "芳龄"}
+            //            };
+            //            ExcelWriteHelper.CreateFile<Person>(persons, path, dic);
 
 
             System.Console.WriteLine("over");

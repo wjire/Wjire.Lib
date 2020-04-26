@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
     <ProjectReference Include="..\Wjire.Excel\Wjire.Excel.csproj" />
   </ItemGroup>
 

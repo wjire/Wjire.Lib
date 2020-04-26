@@ -18,11 +18,20 @@ namespace Wjire.Excel
         /// <summary>
         /// Excel => List
         /// </summary>
-        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
-        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认true</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
         /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
         /// <returns></returns>
-        List<T> Read<T>(Dictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = true, int sheetIndex = 1)
+        List<T> Read<T>(bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1) where T : class, new();
+
+
+        /// <summary>
+        /// Excel => List
+        /// </summary>
+        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <returns></returns>
+        List<T> Read<T>(IDictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1)
             where T : class, new();
     }
 }

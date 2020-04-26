@@ -6,7 +6,7 @@ using OfficeOpenXml;
 
 namespace Wjire.Excel
 {
-    public class Excel2007ReadHandler : IReadHandler
+    public class Excel2007ReadHandler : BaseReadHandler,IReadHandler
     {
 
         private readonly ExcelPackage _package;
@@ -28,17 +28,31 @@ namespace Wjire.Excel
         /// <summary>
         /// Excel => List
         /// </summary>
-        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
-        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认true</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
         /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
         /// <returns></returns>
-        public List<T> Read<T>(Dictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = true, int sheetIndex = 1) where T : class, new()
+        public List<T> Read<T>(bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1) where T : class, new()
+        {
+            var columnMaps = GetColumnMaps(typeof(T));
+            return Read<T>(columnMaps, throwExceptionIfCellValueIsNull, sheetIndex);
+        }
+
+
+        /// <summary>
+        /// Excel => List
+        /// </summary>
+        /// <param name="columnMaps">需要读取的列及要转换成的对象字段名称</param>
+        /// <param name="throwExceptionIfCellValueIsNull">当单元格无值时,是否抛出异常,默认 false</param>
+        /// <param name="sheetIndex">读取第几张sheet,默认第1张</param>
+        /// <returns></returns>
+        public List<T> Read<T>(IDictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull = false, int sheetIndex = 1) where T : class, new()
         {
             ExcelWorksheet sheet = _package.Workbook.Worksheets[sheetIndex - 1];
             return Read<T>(columnMaps, throwExceptionIfCellValueIsNull, sheet);
         }
+      
 
-        private List<T> Read<T>(Dictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull, ExcelWorksheet sheet)
+        private List<T> Read<T>(IDictionary<int, string> columnMaps, bool throwExceptionIfCellValueIsNull, ExcelWorksheet sheet)
             where T : class, new()
         {
             List<T> result = new List<T>();
