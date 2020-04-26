@@ -52,7 +52,7 @@ namespace Wjire.Excel
                     System.Reflection.PropertyInfo property = type.GetProperty(column.Value);
                     if (property == null)
                     {
-                        throw new Exception($"{type.Name} 没有 {column.Value} 属性");
+                        throw new Exception($"{type.Name} 类没有 {column.Value} 属性");
                     }
                     switch (obj)
                     {

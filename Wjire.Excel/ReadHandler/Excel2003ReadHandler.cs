@@ -46,6 +46,10 @@ namespace Wjire.Excel
                 {
                     ICell cell = row.GetCell(column.Key - 1);
                     PropertyInfo property = type.GetProperty(column.Value);
+                    if (property == null)
+                    {
+                        throw new Exception($"{type.Name} 类没有 {column.Value} 属性");
+                    }
                     switch (cell)
                     {
                         case null when throwExceptionIfCellValueIsNull:
@@ -124,7 +128,7 @@ namespace Wjire.Excel
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
-
+            _workbook?.Dispose();
         }
     }
 }

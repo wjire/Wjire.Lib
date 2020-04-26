@@ -10,7 +10,7 @@ namespace Wjire.Excel
         /// 获取一行的所有数据,并统一转换为 string ,因此可能会抛出异常 . rowIndex = 1 为第一行
         /// </summary>
         /// <param name="rowIndex">第 rowIndex 行</param>
-        /// <param name="sheetIndex">第几张sheet</param>
+        /// <param name="sheetIndex">第几张sheet,默认第一张</param>
         /// <returns></returns>
         List<string> GetCells(int rowIndex, int sheetIndex = 1);
 
