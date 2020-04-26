@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Wjire.Common
+namespace Wjire.Encrypt
 {
     /// <summary>
     /// MD5Helper
