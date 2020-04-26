@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
@@ -18,25 +18,25 @@ namespace Wjire.Encrypt
         /// 生成密钥
         /// </summary>
         /// <returns>(公,私)</returns>
-        public static (string,string) GetKey(int strength = 1024)
+        public static (string, string) GetKey(int strength = 1024)
         {
-            Org.BouncyCastle.Crypto.Generators.RsaKeyPairGenerator g = new Org.BouncyCastle.Crypto.Generators.RsaKeyPairGenerator();
+            RsaKeyPairGenerator g = new RsaKeyPairGenerator();
             g.Init(new KeyGenerationParameters(new SecureRandom(), strength));
-            var pair = g.GenerateKeyPair();
+            AsymmetricCipherKeyPair pair = g.GenerateKeyPair();
 
-            TextWriter textWriter = new StringWriter();
-            PemWriter pemWriter = new PemWriter(textWriter);
-            pemWriter.WriteObject(pair.Private);
-            pemWriter.Writer.Flush();
-            string privateKey = textWriter.ToString();
+            TextWriter textPrivateWriter = new StringWriter();
+            PemWriter pemPrivateWriter = new PemWriter(textPrivateWriter);
+            pemPrivateWriter.WriteObject(pair.Private);
+            pemPrivateWriter.Writer.Flush();
+            string privateKey = textPrivateWriter.ToString();
 
-            TextWriter textPubWriter = new StringWriter();
-            PemWriter pemPubWriter = new PemWriter(textPubWriter);
-            pemPubWriter.WriteObject(pair.Public);
-            pemPubWriter.Writer.Flush();
-            string publicKey = textPubWriter.ToString();
+            TextWriter textPublicWriter = new StringWriter();
+            PemWriter pemPublicWriter = new PemWriter(textPublicWriter);
+            pemPublicWriter.WriteObject(pair.Public);
+            pemPublicWriter.Writer.Flush();
+            string publicKey = textPublicWriter.ToString();
 
-            return (publicKey,privateKey);
+            return (publicKey, privateKey);
         }
 
 
@@ -46,17 +46,39 @@ namespace Wjire.Encrypt
         /// <param name="data">待加密数据</param>
         /// <param name="publicKey">公钥</param>
         /// <returns></returns>
-        public static string EncryptWithPublicKey(object data,string publicKey)
+        public static string EncryptWithPublicKey(string data, string publicKey)
         {
-            var bytesToEncrypt = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
+            byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(data);
 
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
-            using (var txtReader = new StringReader(publicKey))
+            Pkcs1Encoding encryptEngine = new Pkcs1Encoding(new RsaEngine());
+            using (StringReader txtReader = new StringReader(publicKey))
             {
-                var keyParameter = (AsymmetricKeyParameter)new PemReader(txtReader).ReadObject();
+                AsymmetricKeyParameter keyParameter = (AsymmetricKeyParameter)new PemReader(txtReader).ReadObject();
                 encryptEngine.Init(true, keyParameter);
             }
-            var encryptedText = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
+            string encryptedText = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
+
+            return encryptedText;
+        }
+
+
+        /// <summary>
+        /// 公钥加密
+        /// </summary>
+        /// <param name="data">待加密数据</param>
+        /// <param name="publicKey">公钥</param>
+        /// <returns></returns>
+        public static string EncryptWithPublicKey(object data, string publicKey)
+        {
+            byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
+
+            Pkcs1Encoding encryptEngine = new Pkcs1Encoding(new RsaEngine());
+            using (StringReader txtReader = new StringReader(publicKey))
+            {
+                AsymmetricKeyParameter keyParameter = (AsymmetricKeyParameter)new PemReader(txtReader).ReadObject();
+                encryptEngine.Init(true, keyParameter);
+            }
+            string encryptedText = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
 
             return encryptedText;
         }
@@ -65,49 +87,50 @@ namespace Wjire.Encrypt
         /// <summary>
         /// 私钥解密
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="dataToDecrypt">待解密数据</param>
         /// <param name="privateKey">私钥</param>
         /// <returns></returns>
-        public static T DecryptWithPrivateKey<T>(string dataToDecrypt, string privateKey)
+        public static string DecryptWithPrivateKey(string dataToDecrypt, string privateKey)
         {
-            var bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
+            byte[] bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
 
-            var stringReader = new StringReader(privateKey);
-            var pemReader = new PemReader(stringReader);
-            var keyPair = (AsymmetricCipherKeyPair)pemReader.ReadObject();
-            var keyParameter = keyPair.Private;
-
+            AsymmetricCipherKeyPair keyPair;
+            using (StringReader stringReader = new StringReader(privateKey))
+            {
+                PemReader pemReader = new PemReader(stringReader);
+                keyPair = (AsymmetricCipherKeyPair)pemReader.ReadObject();
+            }
+            AsymmetricKeyParameter keyParameter = keyPair.Private;
             IBufferedCipher cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1Padding");
             cipher.Init(false, keyParameter);
-            var decipheredBytes = cipher.DoFinal(bytesToDecrypt);
-            var decipheredText = Encoding.UTF8.GetString(decipheredBytes);
-
-            var result = JsonConvert.DeserializeObject<T>(decipheredText);
-            return result;
+            byte[] decipheredBytes = cipher.DoFinal(bytesToDecrypt);
+            string decipheredText = Encoding.UTF8.GetString(decipheredBytes);
+            return decipheredText;
         }
-
 
 
         /// <summary>
         /// 私钥解密
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="dataToDecrypt">待解密数据</param>
         /// <param name="privateKey">私钥</param>
         /// <returns></returns>
-        public static T DecryptWithPrivateKey2<T>(string dataToDecrypt, string privateKey)
+        public static T DecryptWithPrivateKeyAndDeserialize<T>(string dataToDecrypt, string privateKey)
         {
-            var bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
-            var rsa = RSA.Create();
-            rsa.ImportParameters(CreateRsaFromPrivateKey(privateKey));
-            byte[] bytes = rsa.Decrypt(bytesToDecrypt, RSAEncryptionPadding.Pkcs1);
-            var decipheredText = Encoding.UTF8.GetString(bytes);
-
-            var result = JsonConvert.DeserializeObject<T>(decipheredText);
-            return result;
+            byte[] bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
+            AsymmetricCipherKeyPair keyPair;
+            using (StringReader stringReader = new StringReader(privateKey))
+            {
+                PemReader pemReader = new PemReader(stringReader);
+                keyPair = (AsymmetricCipherKeyPair)pemReader.ReadObject();
+            }
+            AsymmetricKeyParameter keyParameter = keyPair.Private;
+            IBufferedCipher cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1Padding");
+            cipher.Init(false, keyParameter);
+            byte[] decipheredBytes = cipher.DoFinal(bytesToDecrypt);
+            string decipheredText = Encoding.UTF8.GetString(decipheredBytes);
+            return JsonConvert.DeserializeObject<T>(decipheredText);
         }
-
 
 
         /// <summary>
@@ -118,14 +141,14 @@ namespace Wjire.Encrypt
         /// <returns></returns>
         public static string EncryptWithPrivateKey(object data, string privateKey)
         {
-            var bytesToEncrypt = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
-            using (var txtReader = new StringReader(privateKey))
+            byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
+            Pkcs1Encoding encryptEngine = new Pkcs1Encoding(new RsaEngine());
+            using (StringReader txtReader = new StringReader(privateKey))
             {
-                var keyPair = (AsymmetricCipherKeyPair)new PemReader(txtReader).ReadObject();
+                AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair)new PemReader(txtReader).ReadObject();
                 encryptEngine.Init(true, keyPair.Private);
             }
-            var encryptedText = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
+            string encryptedText = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
 
             return encryptedText;
         }
@@ -139,93 +162,48 @@ namespace Wjire.Encrypt
         /// <param name="dataToDecrypt">待解密数据</param>
         /// <param name="publicKey">公钥</param>
         /// <returns></returns>
-        public static T DecryptWithPublicKey<T>(string dataToDecrypt,string publicKey)
+        public static string DecryptWithPublicKey(string dataToDecrypt, string publicKey)
         {
-            var bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
+            byte[] bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
 
-            var stringReader = new StringReader(publicKey);
-            var pemReader = new PemReader(stringReader);
-            var keyParameter = (AsymmetricKeyParameter)pemReader.ReadObject();
-
+            AsymmetricKeyParameter keyParameter;
+            using (StringReader stringReader = new StringReader(publicKey))
+            {
+                PemReader pemReader = new PemReader(stringReader);
+                keyParameter = (AsymmetricKeyParameter)pemReader.ReadObject();
+            }
             IBufferedCipher cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1Padding");
             cipher.Init(false, keyParameter);
-            var decipheredBytes = cipher.DoFinal(bytesToDecrypt);
-            var decipheredText = Encoding.UTF8.GetString(decipheredBytes);
+            byte[] decipheredBytes = cipher.DoFinal(bytesToDecrypt);
+            string decipheredText = Encoding.UTF8.GetString(decipheredBytes);
 
-            var result = JsonConvert.DeserializeObject<T>(decipheredText);
-            return result;
+            return decipheredText;
         }
 
-        private static RSAParameters CreateRsaFromPrivateKey(string privateKey)
+
+        /// <summary>
+        /// 公钥解密
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataToDecrypt">待解密数据</param>
+        /// <param name="publicKey">公钥</param>
+        /// <returns></returns>
+        public static T DecryptWithPublicKeyAndDeserialize<T>(string dataToDecrypt, string publicKey)
         {
-            string tmp = privateKey.Replace("\r\n", "").Replace("-----END RSA PRIVATE KEY-----", "").Replace("-----BEGIN RSA PRIVATE KEY-----", "");
-            var privateKeyBits = System.Convert.FromBase64String(tmp);
-            var RSAparams = new RSAParameters();
+            byte[] bytesToDecrypt = Convert.FromBase64String(dataToDecrypt);
 
-            using (var binr = new BinaryReader(new MemoryStream(privateKeyBits)))
+            AsymmetricKeyParameter keyParameter;
+            using (StringReader stringReader = new StringReader(publicKey))
             {
-                byte bt = 0;
-                ushort twobytes = 0;
-                twobytes = binr.ReadUInt16();
-                if (twobytes == 0x8130)
-                    binr.ReadByte();
-                else if (twobytes == 0x8230)
-                    binr.ReadInt16();
-                else
-                    throw new Exception("Unexpected value read binr.ReadUInt16()");
-
-                twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102)
-                    throw new Exception("Unexpected version");
-
-                bt = binr.ReadByte();
-                if (bt != 0x00)
-                    throw new Exception("Unexpected value read binr.ReadByte()");
-
-                RSAparams.Modulus = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.Exponent = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.D = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.P = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.Q = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.DP = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.DQ = binr.ReadBytes(GetIntegerSize(binr));
-                RSAparams.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
+                PemReader pemReader = new PemReader(stringReader);
+                keyParameter = (AsymmetricKeyParameter)pemReader.ReadObject();
             }
-            return RSAparams;
-        }
+            IBufferedCipher cipher = CipherUtilities.GetCipher("RSA/ECB/PKCS1Padding");
+            cipher.Init(false, keyParameter);
+            byte[] decipheredBytes = cipher.DoFinal(bytesToDecrypt);
+            string decipheredText = Encoding.UTF8.GetString(decipheredBytes);
 
-        private static int GetIntegerSize(BinaryReader binr)
-        {
-            byte bt = 0;
-            byte lowbyte = 0x00;
-            byte highbyte = 0x00;
-            int count = 0;
-            bt = binr.ReadByte();
-            if (bt != 0x02)
-                return 0;
-            bt = binr.ReadByte();
-
-            if (bt == 0x81)
-                count = binr.ReadByte();
-            else
-                if (bt == 0x82)
-            {
-                highbyte = binr.ReadByte();
-                lowbyte = binr.ReadByte();
-                byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
-                count = BitConverter.ToInt32(modint, 0);
-            }
-            else
-            {
-                count = bt;
-            }
-
-            while (binr.ReadByte() == 0x00)
-            {
-                count -= 1;
-            }
-            binr.BaseStream.Seek(-1, SeekOrigin.Current);
-            return count;
+            return JsonConvert.DeserializeObject<T>(decipheredText);
         }
     }
 }

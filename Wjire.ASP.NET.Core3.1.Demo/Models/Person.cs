@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Wjire.ASP.NET.Core3._1.Demo.Models
+﻿namespace Wjire.ASP.NET.Core3._1.Demo.Models
 {
     public class Person
     {

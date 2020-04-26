@@ -1,8 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wjire.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Wjire.Common.Tests
 {
@@ -24,10 +21,10 @@ namespace Wjire.Common.Tests
         [TestMethod()]
         public void CreateRSAKeyTest()
         {
-            var path = @"C:\Users\Administrator\Desktop\";
-           var keyTuple =  RSAHelper.CreateRSAKey();
-           FileHelper.WriteString(path + "public.txt", keyTuple.Item1);
-           FileHelper.WriteString(path + "private.txt", keyTuple.Item2);
+            string path = @"C:\Users\Administrator\Desktop\";
+            Tuple<string, string> keyTuple = RSAHelper.CreateRSAKey();
+            FileHelper.WriteString(path + "public.txt", keyTuple.Item1);
+            FileHelper.WriteString(path + "private.txt", keyTuple.Item2);
         }
 
         [TestMethod()]
