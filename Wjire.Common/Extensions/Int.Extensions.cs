@@ -24,7 +24,7 @@ namespace Wjire.Common
         }
 
 
-        public static decimal ToDouble(this object obj)
+        public static double ToDouble(this object obj)
         {
             return Convert.ToDouble(obj);
         }

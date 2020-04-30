@@ -201,6 +201,12 @@ namespace Wjire.ASP.NET.Core3._1.Demo
             services.AddSingleton<Person>();
 
             #endregion
+
+            #region »º´æ
+
+            services.AddMemoryCache();
+
+            #endregion
         }
 
 

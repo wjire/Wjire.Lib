@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using Wjire.Common;
 
@@ -10,17 +11,16 @@ namespace Wjire.Excel.Test.Console
         {
             //            DynamicTest.Test();
 
-            string path = @"C:\Users\Administrator\Desktop\test.xls";
-            using (var handler = ReadHandlerFactory.CreateHandler(path))
+            var list = new List<Person>();
+            for (int i = 0; i < 88; i++)
             {
-                var data = handler.Read<Person>();
-                foreach (var person in data)
+                list.Add(new Person
                 {
-                    System.Console.WriteLine(person.ToJson());
-                }
+                    Name = Guid.NewGuid().ToString("N")
+                });
             }
-
-
+            string path = @"C:\Users\Administrator\Desktop\guid.xlsx";
+            ExcelWriteHelper.CreateFile(list, path);
 
             //var dt = EPPlusHelper.WorksheetToTable(path);
             //ExcelWriteHelper.CreateFile(dt, @"C:\Users\Administrator\Desktop\11.xlsx");

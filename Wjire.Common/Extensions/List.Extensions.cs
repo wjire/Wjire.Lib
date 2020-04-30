@@ -27,7 +27,7 @@ namespace Wjire.Common
         {
             if (entities == null || entities.Count == 0)
             {
-                throw new ArgumentNullException(nameof(entities));
+                return new DataTable();
             }
 
             Type type = typeof(T);
