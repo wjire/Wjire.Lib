@@ -101,11 +101,7 @@ namespace Wjire.Log.Test
         {
             if (human.Children == null || human.Children.Count == 0)
             {
-                if (human.Id == id)
-                {
-                    return true;
-                }
-                return false;
+                return human.Id == id;
             }
 
             foreach (var child in human.Children)
