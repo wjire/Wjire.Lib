@@ -1,5 +1,4 @@
-﻿using Acb.AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -45,7 +44,7 @@ namespace Wjire.Log.Test
                           Id = 11,
                           Children = new List<Human>
                           {
-                              new Human{Id=111}
+                              new Human{Id=198}
                           }
                       },
                       new Human
@@ -53,37 +52,75 @@ namespace Wjire.Log.Test
                           Id = 12,
                           Children = new List<Human>
                           {
-                              new Human{Id=222}
+                              new Human
+                              {
+                                  Id=222,
+                                   Children = new List<Human>
+                                   {
+                                       new Human{ Id = 98}
+                                   }
+                              }
+                          }
+                      },
+                      new Human
+                      {
+                      Id = 13,
+                      Children = new List<Human>
+                      {
+                          new Human
+                          {
+                              Id=221,
+                              Children = new List<Human>
+                              {
+                                  new Human{ Id = 198}
+                              }
                           }
                       }
                   }
+                  }
             };
-            FindChild(human, 222);
+            var result = FindChild(human, 198);
         }
 
 
-        static void FindChild(Human human, int id, out Human man)
+        static Human FindChild(Human human, int id)
+        {
+            var result = new Human() { Children = new List<Human>() };
+            foreach (var child in human.Children)
+            {
+                var contains = FindChild2(child, id);
+                if (contains)
+                {
+                    result.Children.Add(child);
+                }
+            }
+            return result;
+        }
+
+        static bool FindChild2(Human human, int id)
         {
             if (human.Children == null || human.Children.Count == 0)
             {
-                if (human.Id != id)
+                if (human.Id == id)
                 {
-                    man = null;
+                    return true;
                 }
-                else
-                {
-                    man = human;
-                }
-                return;
+                return false;
             }
 
             foreach (var child in human.Children)
             {
-                if (human.Id != id)
+                if (child.Id == id)
                 {
-                    FindChild(child, id, out var man1);
+                    return true;
+                }
+                var contains = FindChild2(child, id);
+                if (contains == true)
+                {
+                    return true;
                 }
             }
+            return false;
         }
     }
 
