@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Acb.AutoMapper;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Wjire.Log.Test
@@ -27,12 +29,74 @@ namespace Wjire.Log.Test
             //var s1 = "成都市新都区龙桥镇杏田路1号蓉?北尚城";
             //var s2 = "成都市新都区龙桥镇杏田路1号蓉垚北尚城";
 
-            string s1 = "哈?哈";
-            string s2 = "哈犇哈";
-            s1 = s1.Replace("?", "\\w?");
-            Regex regex = new Regex(s1, RegexOptions.None);
-            Console.WriteLine(regex.IsMatch(s2));//true
-            Console.ReadKey();
+            //string s1 = "哈?哈";
+            //string s2 = "哈犇哈";
+            //s1 = s1.Replace("?", "\\w?");
+            //Regex regex = new Regex(s1, RegexOptions.None);
+            //Console.WriteLine(regex.IsMatch(s2));//true
+
+            var human = new Human
+            {
+                Id = 1,
+                Children = new List<Human>
+                  {
+                      new Human
+                      {
+                          Id = 11,
+                          Children = new List<Human>
+                          {
+                              new Human{Id=111}
+                          }
+                      },
+                      new Human
+                      {
+                          Id = 12,
+                          Children = new List<Human>
+                          {
+                              new Human{Id=222}
+                          }
+                      }
+                  }
+            };
+            FindChild(human, 222);
         }
+
+
+        static void FindChild(Human human, int id, out Human man)
+        {
+            if (human.Children == null || human.Children.Count == 0)
+            {
+                if (human.Id != id)
+                {
+                    man = null;
+                }
+                else
+                {
+                    man = human;
+                }
+                return;
+            }
+
+            foreach (var child in human.Children)
+            {
+                if (human.Id != id)
+                {
+                    FindChild(child, id, out var man1);
+                }
+            }
+        }
+    }
+
+
+    public class Human
+    {
+        public int Id { get; set; }
+
+        public List<Human> Children { get; set; }
+    }
+
+    public class Student : Human
+    {
+        public string Name { get; set; } = "wjire";
     }
 }
