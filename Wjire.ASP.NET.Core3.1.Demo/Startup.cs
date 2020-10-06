@@ -81,26 +81,26 @@ namespace Wjire.ASP.NET.Core3._1.Demo
 
             #region øÁ”Ú
 
-            //string[] allowOrigins = _configuration.GetSection("AllowOrigins").Get<string[]>();
-            //services.AddCors(options =>
-            //    options.AddPolicy("Default",
-            //        builder => builder.WithOrigins(allowOrigins)
-            //            .AllowAnyMethod()
-            //            .AllowAnyHeader()
-            //            //.AllowAnyOrigin()
-            //            .AllowCredentials()
-            //    )
-            //);
-
-
+            string[] allowOrigins = _configuration.GetSection("AllowOrigins").Get<string[]>();
             services.AddCors(options =>
                 options.AddPolicy("Default",
-                    builder => builder
+                    builder => builder.WithOrigins(allowOrigins)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowAnyOrigin()
+                        //.AllowAnyOrigin()
+                        .AllowCredentials()
                 )
             );
+
+
+            //services.AddCors(options =>
+            //    options.AddPolicy("Default",
+            //        builder => builder
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader()
+            //            .AllowAnyOrigin()
+            //    )
+            //);
 
             #endregion
 

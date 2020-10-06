@@ -1,135 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Wjire.Log.Test
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            //LogService.WriteException(new Exception("test"), "测试日志记录");
-            //LogService.WriteCall("method");
-            //LogService.WriteText("测试日志记录");
+            //var source = Enumerable.Range(1, 10);
+            // await foreach (var i in Get(source))
+            //{
+            //    Console.WriteLine(i);
+            //}
 
-            //LogService.WriteExceptionAsync(new Exception("test"), "测试日志记录异步");
-            //LogService.WriteCallAsync("method asc");
-            //LogService.WriteTextAsync("测试日志记录异步");
-
-            //var start = new DateTime(2020, 3, 16, 12, 53, 0);
-            //var end = new DateTime(2020, 3, 18, 9, 2, 0);
-
-            //var start1 = Convert.ToDateTime(start.ToShortDateString());
-            //var end1 = Convert.ToDateTime(end.ToShortDateString());
-
-            //Console.WriteLine(end1.Subtract(start1).Days);
-            //Console.WriteLine((end1-start1).Days);
-
-            //var s1 = "成都市新都区龙桥镇杏田路1号蓉?北尚城";
-            //var s2 = "成都市新都区龙桥镇杏田路1号蓉垚北尚城";
-
-            //string s1 = "哈?哈";
-            //string s2 = "哈犇哈";
-            //s1 = s1.Replace("?", "\\w?");
-            //Regex regex = new Regex(s1, RegexOptions.None);
-            //Console.WriteLine(regex.IsMatch(s2));//true
-
-            var human = new Human
-            {
-                Id = 1,
-                Children = new List<Human>
-                  {
-                      new Human
-                      {
-                          Id = 11,
-                          Children = new List<Human>
-                          {
-                              new Human{Id=198}
-                          }
-                      },
-                      new Human
-                      {
-                          Id = 12,
-                          Children = new List<Human>
-                          {
-                              new Human
-                              {
-                                  Id=222,
-                                   Children = new List<Human>
-                                   {
-                                       new Human{ Id = 98}
-                                   }
-                              }
-                          }
-                      },
-                      new Human
-                      {
-                      Id = 13,
-                      Children = new List<Human>
-                      {
-                          new Human
-                          {
-                              Id=221,
-                              Children = new List<Human>
-                              {
-                                  new Human{ Id = 198}
-                              }
-                          }
-                      }
-                  }
-                  }
-            };
-            var result = FindChild(human, 198);
+            await SumFromOneToCountAsyncYield();
         }
 
+        //static async IAsyncEnumerable<int> Get(IEnumerable<int> source)
+        //{
+        //    foreach (var item in source)
+        //    {
+        //        yield return item;
+        //    }
+        //}
 
-        static Human FindChild(Human human, int id)
+        /// <summary>
+        /// in this function, the result was splited by servral results and displayed in the consle.
+        /// this is the benifit of yield feature. we can get some of the result before we get the whole result.
+        /// but we can also see, the producter's logic still block the main thread.
+        /// </summary>
+        public static async Task SumFromOneToCountAsyncYield()
         {
-            var result = new Human() { Children = new List<Human>() };
-            foreach (var child in human.Children)
+            const int count = 5;
+            Console.WriteLine("Sum with yield starting.");
+            await foreach (var i in SumFromOneToCountAsyncYield(count))
             {
-                var contains = FindChild2(child, id);
-                if (contains)
-                {
-                    result.Children.Add(child);
-                }
+                Console.WriteLine($"thread id: {System.Threading.Thread.GetCurrentProcessorId()},  current time: {DateTime.Now}");
+                Console.WriteLine($"Yield sum: {i}");
+                Console.WriteLine();
             }
-            return result;
+            Console.WriteLine("Sum with yield completed.");
+
+            Console.WriteLine("################################################");
+            Console.WriteLine(Environment.NewLine);
         }
 
-        static bool FindChild2(Human human, int id)
+        /// <summary>
+        /// 1. make this method to be an async method.
+        /// 2. create task.delay to intent a long work for get the sum result.
+        /// 3. use yield return to return the temp sum value to customer.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async static IAsyncEnumerable<int> SumFromOneToCountAsyncYield(int count)
         {
-            if (human.Children == null || human.Children.Count == 0)
+            Console.WriteLine("SumFromOneToCountYield called!");
+            var sum = 0;
+            for (var i = 0; i <= count; i++)
             {
-                return human.Id == id;
+                sum = sum + i;
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                yield return sum;
             }
-
-            foreach (var child in human.Children)
-            {
-                if (child.Id == id)
-                {
-                    return true;
-                }
-                var contains = FindChild2(child, id);
-                if (contains == true)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
-    }
-
-
-    public class Human
-    {
-        public int Id { get; set; }
-
-        public List<Human> Children { get; set; }
-    }
-
-    public class Student : Human
-    {
-        public string Name { get; set; } = "wjire";
     }
 }
