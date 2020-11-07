@@ -26,14 +26,14 @@ namespace Wjire.Test
             };
 
 
-            var dto = ExpressionCopy<Order, OrderDto>.From(order);
+            var dto = order.ExpressionDeepCopyTo<Order, OrderDto>();
             Console.WriteLine(JsonConvert.SerializeObject(order));
             Console.WriteLine();
             Console.WriteLine(JsonConvert.SerializeObject(dto));
             Console.WriteLine("===========================================");
             order.Products.FirstOrDefault().Name = "ppppp";
             dto = new OrderDto();
-            CopyProperties<Order, OrderDto>.From(order, dto);
+            order.ExpressionCopyPropertyTo(dto);
             Console.WriteLine(JsonConvert.SerializeObject(order));
             Console.WriteLine();
             Console.WriteLine(JsonConvert.SerializeObject(dto));
@@ -41,7 +41,7 @@ namespace Wjire.Test
 
 
             //{
-            //    var newOrder = ExpressionCopy<Order>.From(order);
+            //    var newOrder = ExpressionCopy<Order>.DeepCopyFrom(order);
             //    Console.WriteLine(object.ReferenceEquals(order, newOrder));
 
             //    Console.WriteLine(JsonConvert.SerializeObject(order));
@@ -70,7 +70,7 @@ namespace Wjire.Test
             //    //Console.WriteLine(order.Id + "_" + order.Name);
             //    //Console.WriteLine(newOrder.Id + "_" + newOrder.Name);
 
-            //    CopyProperties<Order, Order>.From(order, newOrder);
+            //    ExpressionCopyProperties<Order, Order>.DeepCopyFrom(order, newOrder);
             //    Console.WriteLine();
             //    Console.WriteLine(JsonConvert.SerializeObject(order));
             //    Console.WriteLine();
