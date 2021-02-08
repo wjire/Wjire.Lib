@@ -7,7 +7,8 @@ namespace Wjire.Common
 {
 
     /// <summary>
-    /// 利用表达式树实现深拷贝,不支持复杂类型的属性
+    /// 利用表达式树实现深拷贝
+    /// 如果属性是引用类型,则该属性仍然是浅拷贝
     /// </summary>
     /// <typeparam name="TSource">源类型</typeparam>
     /// <typeparam name="TResult">返回类型</typeparam>
