@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acb.Core" Version="1.9.1" />
+    <PackageReference Include="itext7" Version="7.1.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wjire.Common\Wjire.Common.csproj" />
     <ProjectReference Include="..\Wjire.Log\Wjire.Log.csproj" />
   </ItemGroup>
 
