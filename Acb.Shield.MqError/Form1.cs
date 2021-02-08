@@ -132,6 +132,7 @@ namespace Acb.Shield.MqError
         {
             try
             {
+                ClearTextBox();
                 dataGridView1.DataSource = null;
                 //ClearTextBox();
                 var result = await HttpHelper.Get();
