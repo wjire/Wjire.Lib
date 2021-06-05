@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Wjire.CommonTests")]
 
 namespace Wjire.Common
 {
@@ -65,7 +68,7 @@ namespace Wjire.Common
         /// <param name="date1"></param>
         /// <param name="date2"></param>
         /// <returns></returns>
-        public static bool IsSameDay(DateTime date1, DateTime date2)
+        internal static bool IsSameDay(DateTime date1, DateTime date2)
         {
             if (date1.Day != date2.Day)
             {

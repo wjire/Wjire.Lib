@@ -7,6 +7,7 @@
     <Description>导出/读取Excel,内置NPOI,EPPlus,CsvHelper</Description>
     <PackageProjectUrl>https://github.com/wjire/Wjire.Lib/tree/master/Wjire.Excel</PackageProjectUrl>
     <Version>1.0.6</Version>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
