@@ -1,71 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
+using Acb.Core.Helper.Http;
+using Acb.Core.Serialize;
+using Microsoft.Extensions.DependencyInjection;
+using Wjire.Common;
+using iText;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
+using Acb.Core.Extensions;
+using iText.Pdfa;
+using iText.Kernel.Pdf.Canvas.Parser.Util;
 
 namespace Wjire.Log.Test
 {
     internal class Program
     {
-        private static async Task Main(string[] args)
+
+        private static ServiceProvider provider;
+
+        private static void Main(string[] args)
         {
-            //var source = Enumerable.Range(1, 10);
-            // await foreach (var i in Get(source))
-            //{
-            //    Console.WriteLine(i);
-            //}
-
-            await SumFromOneToCountAsyncYield();
-        }
-
-        //static async IAsyncEnumerable<int> Get(IEnumerable<int> source)
-        //{
-        //    foreach (var item in source)
-        //    {
-        //        yield return item;
-        //    }
-        //}
-
-        /// <summary>
-        /// in this function, the result was splited by servral results and displayed in the consle.
-        /// this is the benifit of yield feature. we can get some of the result before we get the whole result.
-        /// but we can also see, the producter's logic still block the main thread.
-        /// </summary>
-        public static async Task SumFromOneToCountAsyncYield()
-        {
-            const int count = 5;
-            Console.WriteLine("Sum with yield starting.");
-            await foreach (var i in SumFromOneToCountAsyncYield(count))
-            {
-                Console.WriteLine($"thread id: {System.Threading.Thread.GetCurrentProcessorId()},  current time: {DateTime.Now}");
-                Console.WriteLine($"Yield sum: {i}");
-                Console.WriteLine();
-            }
-            Console.WriteLine("Sum with yield completed.");
-
-            Console.WriteLine("################################################");
-            Console.WriteLine(Environment.NewLine);
-        }
-
-        /// <summary>
-        /// 1. make this method to be an async method.
-        /// 2. create task.delay to intent a long work for get the sum result.
-        /// 3. use yield return to return the temp sum value to customer.
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        public async static IAsyncEnumerable<int> SumFromOneToCountAsyncYield(int count)
-        {
-            Console.WriteLine("SumFromOneToCountYield called!");
-            var sum = 0;
-            for (var i = 0; i <= count; i++)
-            {
-                sum = sum + i;
-                await Task.Delay(TimeSpan.FromSeconds(5));
-                yield return sum;
-            }
+            var s1 = State1.woman;
+            var s2 = Enum.Parse(typeof(State2), s1.ToString());
+            Console.WriteLine(s1);
+            Console.WriteLine((State2)s2);
         }
     }
+
+    public enum State1
+    {
+        man = 1,
+        woman = 2,
+    }
+
+    public enum State2
+    {
+        man = 2,
+        woman = 3
+    }
+
+    public class Person
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+
+        public string Address1 { get; set; }
+
+
+        public string Address2 { get; set; }
+
+        public string[] GetPropertyNames<T>()
+        {
+            return typeof(T).GetProperties().Select(s => s.Name).ToArray();
+        }
+
+        public virtual void SetPerson(Person person)
+        {
+
+        }
+    }
+
+    public class PersonB : Person
+    {
+        public override void SetPerson(Person person)
+        {
+            person.Id = 1;
+        }
+    }
+
+    public class PersonA : Person
+    {
+        public override void SetPerson(Person person)
+        {
+            person.Name = "name";
+        }
+    }
+
+    public class PersonC : Person
+    {
+        public override void SetPerson(Person person)
+        {
+            person.Address = "address";
+        }
+    }
+
+    public class PersonC1 : Person
+    {
+        public override void SetPerson(Person person)
+        {
+            person.Address1 = "address1";
+        }
+    }
+
+    public class PersonC2 : Person
+    {
+        public override void SetPerson(Person person)
+        {
+            person.Address2 = "address2";
+        }
+    }
+
+    public class Animal
+    {
+        public int Age { get; set; }
+    }
 }
+
+
