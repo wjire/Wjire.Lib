@@ -1,9 +1,7 @@
-using System;
-
 namespace Wjire.Common
 {
     /// <summary>
-    /// Hello World helper
+    /// 问候消息助手
     /// </summary>
     public class HelloWorldHelper
     {
